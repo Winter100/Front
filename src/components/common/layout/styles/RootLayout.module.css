@@ -1,8 +1,11 @@
 .container {
+  height: 100%;
+
   display: flex;
   flex-direction: column;
-  background-color: white;
-  height: 100dvh;
-  color: white;
-  background-color: #202123;
+  justify-content: center;
+}
+
+.content {
+  background-color: black;
 }
