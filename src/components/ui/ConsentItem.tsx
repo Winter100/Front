@@ -1,6 +1,11 @@
 import React from 'react';
 import styles from './styles/consenItem.module.css';
-const ConsentItem = ({ text, des }: { text: string; des: string }) => {
+
+type Props = {
+  text: string;
+  des: string;
+};
+const ConsentItem: React.FC<Props> = ({ text, des }) => {
   return (
     <li className={styles.consentItem}>
       <div>

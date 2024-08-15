@@ -3,7 +3,7 @@ import ConsentItem from '../../components/ui/ConsentItem';
 import MainButton from '../../components/ui/MainButton';
 import styles from './styles/signup.module.css';
 import { useNavigate } from 'react-router-dom';
-const Signup = () => {
+const Signup: React.FC = () => {
   const nav = useNavigate();
 
   return (
@@ -24,7 +24,7 @@ const Signup = () => {
           type="button"
           text="약관에 동의합니다"
           onClickFn={() => {
-            nav('/signup/userdata');
+            nav('/signup/credential');
           }}
         />
       </div>

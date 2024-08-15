@@ -1,22 +1,21 @@
 import React, { FormEvent, useRef } from 'react';
 import MainButton from '../../components/ui/MainButton';
 import { useNavigate } from 'react-router-dom';
-import styles from './styles/userData.module.css';
-const UserData = () => {
+import styles from './styles/authCredential.module.css';
+const AuthCredential: React.FC = () => {
   const nav = useNavigate();
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const nicknameRef = useRef<HTMLInputElement>(null);
 
   const signupSubmit = (e: FormEvent) => {
     e.preventDefault();
+
     const user = {
       email: emailRef.current!.value,
       password: passwordRef.current!.value,
-      nickname: nicknameRef.current!.value,
     };
     console.log(user);
-    nav('/signup/InterestChoice');
+    nav('/signup/gender');
   };
 
   return (
@@ -31,10 +30,9 @@ const UserData = () => {
             <label htmlFor="password">비밀번호</label>
             <input type="password" id="password" ref={passwordRef} />
           </div>
-
           <div>
-            <label htmlFor="nickname">닉네임</label>
-            <input type="text" id="nickname" ref={nicknameRef} />
+            <label htmlFor="passwordDoubleCheck">비밀번호 확인</label>
+            <input type="password" id="passwordDoubleCheck" ref={passwordRef} />
           </div>
         </div>
         <div className={styles.btnWrapper}>
@@ -45,4 +43,4 @@ const UserData = () => {
   );
 };
 
-export default UserData;
+export default AuthCredential;

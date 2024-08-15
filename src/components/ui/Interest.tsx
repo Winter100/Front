@@ -4,7 +4,7 @@ type Props = {
   text: string;
   isClick: boolean;
 };
-const Interest = ({ text, isClick }: Props) => {
+const Interest: React.FC<Props> = ({ text, isClick }) => {
   return (
     <div
       className={styles.interest}
