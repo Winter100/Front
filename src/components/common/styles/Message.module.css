@@ -1,0 +1,15 @@
+.container {
+  margin: 0px;
+  display: inline-block;
+  padding: 0.7rem;
+  max-width: 15rem;
+}
+
+.me {
+  background-color: rgb(20, 122, 255);
+  border-radius: 15px 15px 5px 15px;
+}
+.you {
+  background-color: #202123;
+  border-radius: 15px 15px 15px 5px;
+}

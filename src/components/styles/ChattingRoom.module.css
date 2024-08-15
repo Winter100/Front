@@ -1,0 +1,24 @@
+.container {
+  /*삭제용 마진*/
+  padding: 0 2rem;
+  margin: 0;
+  margin-top: 3rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  font-size: 0.8rem;
+}
+
+.container > li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.me {
+  align-self: flex-end;
+}
+.you {
+  align-self: flex-start;
+}

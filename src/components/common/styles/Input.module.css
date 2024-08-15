@@ -1,0 +1,21 @@
+/* .container {
+  height: 3.5rem;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid gray;
+  border-bottom: 1px solid gray;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+} */
+.input {
+  border: none;
+  outline: none;
+  background-color: inherit;
+  width: inherit;
+  height: inherit;
+
+  margin: 0 1rem;
+  color: white;
+}

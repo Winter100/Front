@@ -1,4 +1,4 @@
-/* .container {
+.container {
   list-style: none;
   display: flex;
   align-items: center;
@@ -11,7 +11,7 @@
 
   color: gray;
   height: 100%;
-} */
+}
 
 /* .container > li {
   cursor: pointer;
@@ -19,9 +19,7 @@
   align-items: center;
   justify-content: center;
 } */
-a {
-  display: flex;
-}
-.active {
+
+/* .active {
   color: rgb(253, 70, 70);
-}
+} */
