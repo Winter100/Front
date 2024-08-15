@@ -1,0 +1,9 @@
+.container {
+  background-color: gray;
+  border: 1px solid gray;
+  border-color: white;
+  border-radius: 20px;
+  padding: 0.2rem 0.6rem;
+  color: white;
+  font-size: 0.7rem;
+}

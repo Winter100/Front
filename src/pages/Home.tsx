@@ -1,9 +1,20 @@
+import AddressForm from '../components/AddressForm';
+import Footer from '../components/common/layout/Footer';
+import Header from '../components/common/layout/Header';
+import MainSection from '../components/common/layout/MainSection';
+import MatchingMenu from '../components/MatchingMenu';
+
 const Home = () => {
   return (
-    <div>
-      <h2>Welcome To ...</h2>
-      <p>메뉴</p>
-    </div>
+    <>
+      <Header></Header>
+      <MainSection>
+        <AddressForm />
+      </MainSection>
+      <Footer>
+        <MatchingMenu />
+      </Footer>
+    </>
   );
 };
 

@@ -1,0 +1,8 @@
+.container > img {
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
+
+  object-fit: cover;
+}
