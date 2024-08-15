@@ -8,6 +8,14 @@ import Messages from './pages/Messages';
 import MatchLayout from './components/common/layout/MatchLayout';
 import Chatting from './pages/Chatting';
 import ChattingLayout from './components/common/layout/ChattingLayout';
+import Login from './pages/Login';
+import Signup from './pages/signup/Signup';
+import InterestChoice from './pages/signup/InterestChoice';
+import ProfileImageUploader from './pages/signup/ProfileImageUploader';
+import Profile from './pages/signup/Profile';
+import AuthCredential from './pages/signup/AuthCredential';
+import Gender from './pages/signup/Gender';
+import SignupLayout from './components/common/layout/SignupLayout';
 
 const router = createBrowserRouter([
   {
@@ -15,7 +23,18 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { index: true, element: <Home /> },
-
+      {
+        path: 'signup',
+        element: <SignupLayout />,
+        children: [
+          { index: true, element: <Signup /> },
+          { path: 'credential', element: <AuthCredential /> },
+          { path: 'gender', element: <Gender /> },
+          { path: 'interestChoice', element: <InterestChoice /> },
+          { path: 'profile', element: <Profile /> },
+          { path: 'profileImageUploader', element: <ProfileImageUploader /> },
+        ],
+      },
       {
         path: 'match',
         element: <MatchLayout />,
@@ -32,6 +51,7 @@ const router = createBrowserRouter([
         element: <ChattingLayout />,
         children: [{ index: true, element: <Chatting /> }],
       },
+      { path: 'login', element: <Login /> },
     ],
   },
 ]);
