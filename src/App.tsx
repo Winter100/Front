@@ -35,6 +35,7 @@ const router = createBrowserRouter([
           { path: 'profileImageUploader', element: <ProfileImageUploader /> },
         ],
       },
+      { path: 'login', element: <Login /> },
       {
         path: 'match',
         element: <MatchLayout />,
@@ -51,7 +52,6 @@ const router = createBrowserRouter([
         element: <ChattingLayout />,
         children: [{ index: true, element: <Chatting /> }],
       },
-      { path: 'login', element: <Login /> },
     ],
   },
 ]);

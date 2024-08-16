@@ -3,11 +3,31 @@
   padding: 0 2rem;
   margin: 0;
   margin-top: 3rem;
-
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
   font-size: 0.8rem;
+  height: 850px;
+
+  overflow-y: auto;
+}
+
+.container::-webkit-scrollbar {
+  width: 8px; /* 스크롤바의 너비 */
+}
+
+.container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 트랙의 배경색 */
+  border-radius: 10px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: #888; /* 스크롤바의 색상 */
+  border-radius: 10px;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 호버 시 스크롤바 색상 */
 }
 
 .container > li {

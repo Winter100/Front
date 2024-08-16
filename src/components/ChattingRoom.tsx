@@ -9,6 +9,20 @@ const DUMMY = [
   { isMe: true, content: '걍 심심해서?', date: '2024-12-12' },
   { isMe: true, content: '저녁 ㄱㄱ?', date: '2024-12-12' },
   { isMe: true, content: '대답', date: '2024-12-12' },
+  { isMe: true, content: '대답', date: '2024-12-12' },
+  { isMe: true, content: '대답', date: '2024-12-12' },
+  { isMe: true, content: '대답', date: '2024-12-12' },
+  { isMe: true, content: '대답', date: '2024-12-12' },
+  { isMe: true, content: '대답', date: '2024-12-12' },
+  { isMe: true, content: '대답', date: '2024-12-12' },
+  { isMe: true, content: '대답', date: '2024-12-12' },
+  { isMe: true, content: '대답', date: '2024-12-12' },
+  { isMe: true, content: '대답', date: '2024-12-12' },
+  { isMe: true, content: '대답', date: '2024-12-12' },
+  { isMe: true, content: '대답', date: '2024-12-12' },
+  { isMe: true, content: '대답', date: '2024-12-12' },
+  { isMe: true, content: '대답', date: '2024-12-12' },
+  { isMe: true, content: '대답', date: '2024-12-12' },
   {
     isMe: false,
     content:
@@ -20,9 +34,9 @@ const DUMMY = [
 const ChattingRoom = () => {
   return (
     <ul className={styles.container}>
-      {DUMMY.map((message) => (
+      {DUMMY.map((message, i) => (
         <li
-          key={message.content}
+          key={message.content + i}
           className={message.isMe ? styles.me : styles.you}
         >
           {!message.isMe && <UserImage src="/public/3.jpg" size="M" />}
