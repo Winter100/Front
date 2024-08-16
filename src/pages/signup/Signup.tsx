@@ -4,7 +4,6 @@ import MainButton from '../../components/ui/MainButton';
 import styles from './styles/signup.module.css';
 import { useNavigate } from 'react-router-dom';
 import MainSection from '../../components/common/layout/MainSection';
-import Footer from '../../components/common/layout/Footer';
 const Signup: React.FC = () => {
   const nav = useNavigate();
 

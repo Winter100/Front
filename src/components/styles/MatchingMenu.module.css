@@ -1,24 +1,3 @@
-/* .container {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  margin: 0px;
-  padding: 0px;
-  font-size: 2rem;
-
-  background-color: #202123;
-
-  color: gray;
-  height: 100%;
-} */
-
-/* .container > li {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-} */
 a {
   display: flex;
 }

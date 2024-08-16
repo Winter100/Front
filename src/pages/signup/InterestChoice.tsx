@@ -5,6 +5,7 @@ import styles from './styles/interestChoice.module.css';
 import { useNavigate } from 'react-router-dom';
 import useProfile from '../../zustand/useProfile';
 import MainSection from '../../components/common/layout/MainSection';
+import Badge from '../../components/common/Badge';
 const InterestChoice: React.FC = () => {
   const nav = useNavigate();
   const [selectedArr, setSelectedArr] = useState<string[]>([]);
@@ -61,7 +62,15 @@ const InterestChoice: React.FC = () => {
                     toggleInterest(e);
                   }}
                 >
-                  <Interest text={e} isClick={selectedArr.includes(e)} />
+                  {/* <Interest text={e} isClick={selectedArr.includes(e)} /> */}
+                  <Badge
+                    description={e}
+                    style={{
+                      backgroundColor: selectedArr.includes(e)
+                        ? '#dddddd80'
+                        : 'inherit',
+                    }}
+                  />
                 </li>
               );
             })}

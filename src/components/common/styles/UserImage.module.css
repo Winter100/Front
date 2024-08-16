@@ -1,5 +1,5 @@
 .container > img {
-  position: absolute;
+  /* position: absolute; */
   width: inherit;
   height: inherit;
   border-radius: 50%;
