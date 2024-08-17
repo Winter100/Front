@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
-import MainButton from '../../components/ui/MainButton';
+import MainButton from '../../../components/ui/MainButton';
 import { useNavigate } from 'react-router-dom';
 import styles from './styles/profile.module.css';
-import useProfile from '../../zustand/useProfile';
-import MainSection from '../../components/common/layout/MainSection';
+import useProfile from '../../../zustand/useProfile';
+import MainSection from '../../../components/common/layout/MainSection';
 const Profile: React.FC = () => {
   const nav = useNavigate();
   const nicknameRef = useRef<HTMLInputElement>(null);
@@ -30,7 +30,7 @@ const Profile: React.FC = () => {
                 nickname: nicknameRef.current!.value,
                 introduce: introduceRef.current!.value,
               });
-              nav('/signup/interestChoice');
+              nav('/signup/setting/interestChoice');
             }}
           />
         </div>

@@ -1,10 +1,10 @@
 import React from 'react';
-import ImageInput from '../../components/ui/ImageInput';
 import styles from './styles/profileImageUploader.module.css';
-import MainButton from '../../components/ui/MainButton';
-import useProfile from '../../zustand/useProfile';
-import MainSection from '../../components/common/layout/MainSection';
 import { useNavigate } from 'react-router-dom';
+import useProfile from '../../../zustand/useProfile';
+import ImageInput from '../../../components/ui/ImageInput';
+import MainSection from '../../../components/common/layout/MainSection';
+import MainButton from '../../../components/ui/MainButton';
 const ProfileImageUploader: React.FC = () => {
   const { profile } = useProfile();
   const navigate = useNavigate();

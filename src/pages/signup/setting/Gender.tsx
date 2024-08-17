@@ -1,10 +1,9 @@
 import React from 'react';
 import styles from './styles/gender.module.css';
 import { useNavigate } from 'react-router-dom';
-import useProfile from '../../zustand/useProfile';
-import MainSection from '../../components/common/layout/MainSection';
-import Footer from '../../components/common/layout/Footer';
-import Header from '../../components/common/layout/Header';
+import useProfile from '../../../zustand/useProfile';
+import MainSection from '../../../components/common/layout/MainSection';
+
 const Gender: React.FC = () => {
   const nav = useNavigate();
   const { profile, setProfile } = useProfile();
@@ -20,7 +19,7 @@ const Gender: React.FC = () => {
             <button
               onClick={() => {
                 setProfile({ ...profile, gender: 'male' });
-                nav('/signup/profile');
+                nav('/signup/setting/profile');
               }}
             >
               남자
@@ -28,7 +27,7 @@ const Gender: React.FC = () => {
             <button
               onClick={() => {
                 setProfile({ ...profile, gender: 'female' });
-                nav('/signup/profile');
+                nav('/signup/setting/profile');
               }}
             >
               여자
