@@ -9,16 +9,27 @@ const Profile: React.FC = () => {
   const nicknameRef = useRef<HTMLInputElement>(null);
   const introduceRef = useRef<HTMLTextAreaElement>(null);
   const { profile, setProfile } = useProfile();
+  const { nickname, introduce } = profile;
   return (
     <MainSection>
       <div className={styles.container}>
         <div className={styles.inputContainer}>
           <label htmlFor="nickname">닉네임</label>
-          <input type="text" id="nickname" ref={nicknameRef} />
+          <input
+            type="text"
+            id="nickname"
+            ref={nicknameRef}
+            defaultValue={nickname}
+          />
         </div>
         <div className={styles.inputContainer}>
           <label htmlFor="introduce">자기소개</label>
-          <textarea name="introduce" id="introduce" ref={introduceRef} />
+          <textarea
+            name="introduce"
+            id="introduce"
+            ref={introduceRef}
+            defaultValue={introduce}
+          />
         </div>
         <div className={styles.btnWrapper}>
           <MainButton

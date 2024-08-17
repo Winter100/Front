@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MainButton from '../../../components/ui/MainButton';
 import styles from './styles/interestChoice.module.css';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,7 @@ const InterestChoice: React.FC = () => {
   const nav = useNavigate();
   const [selectedArr, setSelectedArr] = useState<string[]>([]);
   const { profile, setProfile } = useProfile();
+  const { interest } = profile;
   const interestList = [
     '노래',
     '운동',
@@ -28,6 +29,11 @@ const InterestChoice: React.FC = () => {
     '스포티파이',
     '뛰기',
   ];
+
+  //이전에 선택된 관심사가 있으면 표시
+  useEffect(() => {
+    setSelectedArr(interest);
+  }, [interest]);
 
   // 관심사를 클릭하면 배열에 최대 5개를 저장하고 다시 클릭하면 제외되는 함수
   const toggleInterest = (interest: string) => {
