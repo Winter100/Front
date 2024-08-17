@@ -1,7 +1,6 @@
 import React from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import styles from './styles/signupLayout.module.css';
-import Footer from './Footer';
 import Header from './Header';
 
 const SignupLayout: React.FC = () => {
@@ -34,7 +33,6 @@ const SignupLayout: React.FC = () => {
         }
       ></Header>
       <Outlet />
-      <Footer>메뉴</Footer>
     </>
   );
 };
