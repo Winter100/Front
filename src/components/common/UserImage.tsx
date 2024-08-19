@@ -1,11 +1,12 @@
+import { convertRemToSize } from '../../util/convertRemToSize';
 import styles from './styles/UserImage.module.css';
 
 interface UserImageProps {
   src: string;
-  size: 'M' | 'L';
+  size: 'M' | 'L' | 'XL';
 }
 const UserImage = ({ src = '/public/3.jpg', size = 'M' }: UserImageProps) => {
-  const sizeValue = size === 'M' ? '2.7rem' : '3.5rem';
+  const sizeValue = convertRemToSize(size);
   return (
     <div
       className={styles.container}
