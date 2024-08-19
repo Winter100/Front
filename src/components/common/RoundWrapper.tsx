@@ -1,13 +1,13 @@
 import { ComponentProps } from 'react';
 
-import styles from './styles/RoundButtonWrapper.module.css';
+import styles from './styles/RoundWrapper.module.css';
 
-interface BtnProps extends ComponentProps<'button'> {
+interface BtnProps extends ComponentProps<'div'> {
   fontSize?: string;
   style?: React.CSSProperties;
 }
 
-const RoundButtonWrapper = ({
+const RoundWrapper = ({
   children,
   fontSize,
   style = {},
@@ -18,10 +18,10 @@ const RoundButtonWrapper = ({
     ...style,
   };
   return (
-    <button style={dynamicStyles} className={styles.button_wrapper} {...props}>
+    <div style={dynamicStyles} className={styles.div_wrapper} {...props}>
       {children}
-    </button>
+    </div>
   );
 };
 
-export default RoundButtonWrapper;
+export default RoundWrapper;
