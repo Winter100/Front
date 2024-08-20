@@ -16,6 +16,7 @@ import Profile from './pages/signup/Profile';
 import AuthCredential from './pages/signup/AuthCredential';
 import Gender from './pages/signup/Gender';
 import SignupLayout from './components/common/layout/SignupLayout';
+import My from './pages/My';
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,7 @@ const router = createBrowserRouter([
             path: 'messages',
             element: <Messages />,
           },
+          { path: 'my', element: <My /> },
         ],
       },
       {
