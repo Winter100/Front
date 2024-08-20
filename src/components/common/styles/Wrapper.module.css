@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  font-size: 0.9rem;
+  color: #bebebe;
+  gap: 0.5rem;
+  cursor: default;
+}
