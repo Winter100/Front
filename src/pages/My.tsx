@@ -8,6 +8,7 @@ import UserImage from '../components/common/UserImage';
 import RoundWrapper from '../components/common/RoundWrapper';
 import AbsoluteBox from '../components/common/AbsoluteBox';
 import Button from '../components/common/Button';
+import Wrapper from '../components/common/Wrapper';
 
 const My = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const My = () => {
     <>
       <div className={styles.container}>
         <div className={styles.profile_box}>
-          <div className={styles.profile_image}>
+          <Wrapper>
             <RoundWrapper
               style={{
                 position: 'relative',
@@ -48,38 +49,47 @@ const My = () => {
                 </RoundWrapper>
               </AbsoluteBox>
             </RoundWrapper>
-          </div>
-          <div className={styles.user_info}>
+          </Wrapper>
+
+          <Wrapper fontSize="2rem" flexDirection="row">
             {/* 유저 데이터 가져와서 보여주기 */}
             <p>올리버</p>
             <p>26</p>
-          </div>
+          </Wrapper>
           <div className={styles.btn_box}>
-            <RoundWrapper>
-              <Button
-                onClick={() => navigate('setting')}
-                style={{
-                  fontSize: '2rem',
-                  color: 'white',
-                }}
-              >
-                <CiSettings />
-              </Button>
-            </RoundWrapper>
-            <RoundWrapper>
-              <Button
-                onClick={() => navigate('profile')}
-                style={{
-                  fontSize: '1.2rem',
-                  color: 'white',
-                }}
-              >
-                <FaPen />
-              </Button>
-            </RoundWrapper>
+            <Wrapper fontSize="0.8rem">
+              <RoundWrapper>
+                <Button
+                  onClick={() => navigate('setting')}
+                  style={{
+                    fontSize: '2rem',
+                    color: 'white',
+                  }}
+                >
+                  <CiSettings />
+                </Button>
+              </RoundWrapper>
+              <p>세팅</p>
+            </Wrapper>
+
+            <Wrapper fontSize="0.8rem">
+              <RoundWrapper>
+                <Button
+                  onClick={() => navigate('profile')}
+                  style={{
+                    fontSize: '1.2rem',
+                    color: 'white',
+                  }}
+                >
+                  <FaPen />
+                </Button>
+              </RoundWrapper>
+              <p>프로필 수정</p>
+            </Wrapper>
           </div>
         </div>
-        <div className={styles.description_box}>
+
+        <Wrapper gap="1rem" flexGrow={1}>
           <p>...설명</p>
           <p>...............</p>
           <RoundWrapper
@@ -92,7 +102,7 @@ const My = () => {
           >
             <Button>테스트 버튼2</Button>
           </RoundWrapper>
-        </div>
+        </Wrapper>
       </div>
     </>
   );

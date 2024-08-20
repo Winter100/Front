@@ -10,37 +10,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background-color: #202123; */
-  border-bottom-left-radius: 4rem;
-  border-bottom-right-radius: 4rem;
   height: 70%;
 
   gap: 3rem;
-}
-
-.profile_image {
-  display: flex;
-  justify-content: center;
-}
-
-.user_info {
-  display: flex;
-  gap: 1rem;
-  color: rgb(192, 192, 192);
-  font-size: 2rem;
 }
 
 .btn_box {
   width: 100%;
   display: flex;
   justify-content: space-evenly;
-}
-
-.description_box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  flex-grow: 1;
 }
