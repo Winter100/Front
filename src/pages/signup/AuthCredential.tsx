@@ -47,6 +47,9 @@ const AuthCredential: React.FC = () => {
     <>
       <MainSection>
         <div className={styles.container}>
+          <header className={styles.headerWrapper}>
+            <h2>회원가입</h2>
+          </header>
           <form onSubmit={handleSubmit(onSubmit, onError)}>
             <div className={styles.inputContainer}>
               <div>
@@ -84,6 +87,10 @@ const AuthCredential: React.FC = () => {
                     },
                   })}
                 />
+                <p>
+                  비밀번호는 6~16자 사이이며 특수문자와 숫자가 최소 하나씩
+                  포함되어야 합니다.
+                </p>
               </div>
               <div>
                 <label htmlFor="confirmPassword">비밀번호 확인</label>

@@ -6,7 +6,7 @@ import Header from './Header';
 const SignupLayout: React.FC = () => {
   const nav = useNavigate();
   return (
-    <>
+    <div className={styles.signupLayout}>
       <Header
         left={
           <header className={styles.header}>
@@ -33,7 +33,7 @@ const SignupLayout: React.FC = () => {
         }
       ></Header>
       <Outlet />
-    </>
+    </div>
   );
 };
 

@@ -3,6 +3,7 @@ import styles from './styles/gender.module.css';
 import { useNavigate } from 'react-router-dom';
 import useProfile from '../../../zustand/useProfile';
 import MainSection from '../../../components/common/layout/MainSection';
+import MainButton from '../../../components/ui/MainButton';
 
 const Gender: React.FC = () => {
   const nav = useNavigate();
@@ -16,22 +17,22 @@ const Gender: React.FC = () => {
             <h2>성별이 무엇입니까?</h2>
           </div>
           <div className={styles.btnContainer}>
-            <button
-              onClick={() => {
+            <MainButton
+              type="button"
+              text="남자"
+              onClickFn={() => {
                 setProfile({ ...profile, gender: 'male' });
                 nav('/signup/setting/profile');
               }}
-            >
-              남자
-            </button>
-            <button
-              onClick={() => {
+            />
+            <MainButton
+              type="button"
+              text="여자"
+              onClickFn={() => {
                 setProfile({ ...profile, gender: 'female' });
                 nav('/signup/setting/profile');
               }}
-            >
-              여자
-            </button>
+            />
           </div>
         </div>
       </MainSection>

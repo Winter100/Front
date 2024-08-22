@@ -18,25 +18,29 @@
 }
 .headerContainer h2 {
   font-size: 25px;
+  font-weight: 700;
 }
 .interestListWrapper ul {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
 }
-
+.interestListWrapper li > div {
+  padding: 5px 10px;
+}
 .btnWrapper {
   width: 100%;
   border-top: 1px solid #ffffff80;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* position: fixed; */
+  position: fixed;
   height: 80px;
   bottom: 0;
-  background-color: white;
-  /* background-color: black; */
+
+  background-color: black;
 }
 .btnWrapper > div {
+  max-width: 700px;
   width: 80%;
 }

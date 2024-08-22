@@ -7,10 +7,15 @@
   align-items: center;
   gap: 10px;
 }
-
+.consentItem div:first-child {
+  height: 100%;
+}
+.consentItem path {
+  color: white;
+}
 .consentItem div:last-child {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 10px;
+  gap: 15px;
 }

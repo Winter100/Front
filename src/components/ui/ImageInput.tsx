@@ -26,12 +26,15 @@ const ImageInput: React.FC<Props> = ({ index }) => {
     }
   };
   const deleteHandler = () => {
-    if (imgRef.current?.files?.[0]) {
-      const file = imgRef.current.files[0];
-      removeImage(file);
-      if (imgRef.current) imgRef.current.value = '';
+    const fileToDelete = profile.image[index];
+
+    if (fileToDelete) {
+      removeImage(fileToDelete);
+      if (imgRef.current) {
+        imgRef.current.value = '';
+      }
     } else {
-      console.error('삭제 에러');
+      console.error('삭제할 파일이 없습니다.');
     }
   };
 
@@ -44,7 +47,7 @@ const ImageInput: React.FC<Props> = ({ index }) => {
               deleteHandler();
             }}
           >
-            X
+            ×
           </button>
         </div>
       )}

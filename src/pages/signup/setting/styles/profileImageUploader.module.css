@@ -3,18 +3,38 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
+
+  gap: 20px;
+}
+.headerWrapper h2 {
+  width: 100%;
+  margin: 20px 0;
+  font-size: 25px;
+  font-weight: 700;
 }
 .imgInputContainer {
   width: 100%;
-  height: 100%;
+  height: 50%;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
   gap: 10px;
 }
+.imgInputContainer > div:nth-child(1),
+.imgInputContainer > div:nth-child(2),
+.imgInputContainer > div:nth-child(3) {
+  border: 2px solid red;
+}
+.imgInputContainer > div {
+  border: 1px solid white;
+}
 .btnWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btnWrapper > div {
   width: 80%;
 }

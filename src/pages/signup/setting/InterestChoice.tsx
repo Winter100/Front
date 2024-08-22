@@ -85,7 +85,11 @@ const InterestChoice: React.FC = () => {
         </div>
         <div className={styles.btnWrapper}>
           <MainButton
-            text={`다음으로 ( ${selectedArr.length} / 5)`}
+            text={
+              selectedArr.length === 0
+                ? `스킵하기 ( ${selectedArr.length} / 5)`
+                : `다음으로 ( ${selectedArr.length} / 5)`
+            }
             type="button"
             onClickFn={() => {
               btnHandler();

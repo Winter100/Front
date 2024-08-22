@@ -25,7 +25,7 @@ const Login = () => {
           </div>
           <div className={styles.formWrapper}>
             <form onSubmit={loginHandler}>
-              <input type="text" />
+              <input type="email" />
               <input type="password" />
               <MainButton text="로그인" type="submit" />
             </form>

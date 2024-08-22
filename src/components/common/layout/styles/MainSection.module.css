@@ -1,7 +1,5 @@
 .container {
   position: relative;
   padding: 0.5rem;
-
-  height: 1000px;
-  max-height: 1000px;
+  height: calc(100dvh - 60px);
 }

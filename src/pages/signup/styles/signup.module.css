@@ -20,6 +20,10 @@
 
 .title h2 {
   font-size: 20px;
+  font-weight: 700;
+}
+.title h3 {
+  font-size: 16px;
 }
 .consentList {
   width: 100%;
