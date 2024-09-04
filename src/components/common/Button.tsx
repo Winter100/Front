@@ -1,11 +1,15 @@
 import { ComponentProps } from 'react';
 import styles from './styles/Button.module.css';
 
-type ButtonProps = ComponentProps<'button'>;
+interface ButtonProps extends ComponentProps<'button'> {
+  style?: React.CSSProperties;
+}
 
-const Button = ({ children, className, ...props }: ButtonProps) => {
+const Button = ({ children, style, ...props }: ButtonProps) => {
+  const combinedStyle = style ? { ...style } : undefined;
+
   return (
-    <button className={`${styles.button} ${className}`} {...props}>
+    <button style={combinedStyle} className={`${styles.button} `} {...props}>
       {children}
     </button>
   );

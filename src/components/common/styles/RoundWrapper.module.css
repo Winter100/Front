@@ -1,0 +1,15 @@
+.div_wrapper {
+  width: 60px;
+  height: 60px;
+
+  border: 1px solid gray;
+  border-radius: 50%;
+
+  font-size: 1.5rem;
+  color: white;
+  background-color: inherit;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
