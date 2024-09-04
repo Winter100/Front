@@ -12,7 +12,7 @@ const Signup: React.FC = () => {
       <MainSection>
         <div className={styles.container}>
           <div className={styles.title}>
-            <h2>TINDER에 오신 걸 환영합니다</h2>
+            <h2>Tinder에 오신 걸 환영합니다</h2>
             <h3>아래 항목들을 확인해주세요</h3>
           </div>
           <ul className={styles.consentList}>

@@ -1,50 +1,65 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styles from './styles/ImageInput.module.css';
 import useProfile from '../../zustand/useProfile';
-
-const ImageInput: React.FC = () => {
-  const { addImage, removeImage } = useProfile();
-  const [img, setImg] = useState<string | null>(null);
+type Props = {
+  index: number;
+};
+const ImageInput: React.FC<Props> = ({ index }) => {
+  const { profile, addImage, removeImage } = useProfile();
+  const { image } = profile;
   const imgRef = useRef<HTMLInputElement>(null);
 
   const uniqueId = useRef(
     `profileImg-${Math.random().toString(36).substr(2, 9)}`
   ).current;
 
+  useEffect(() => {
+    if (imgRef.current) {
+      imgRef.current.value = '';
+    }
+  }, [image, index]);
+
   const imgHandler = () => {
     const file = imgRef.current?.files?.[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setImg(imageUrl);
       addImage(file);
     }
   };
   const deleteHandler = () => {
-    if (imgRef.current?.files?.[0]) {
-      const file = imgRef.current.files[0];
-      setImg(null);
-      removeImage(file);
-      if (imgRef.current) imgRef.current.value = '';
+    const fileToDelete = profile.image[index];
+
+    if (fileToDelete) {
+      removeImage(fileToDelete);
+      if (imgRef.current) {
+        imgRef.current.value = '';
+      }
     } else {
-      console.error('No file to delete');
+      console.error('삭제할 파일이 없습니다.');
     }
   };
 
   return (
     <div className={styles.container}>
-      {img && (
+      {image[index] && (
         <div className={styles.deleteBtnWrapper}>
           <button
             onClick={() => {
               deleteHandler();
             }}
           >
-            X
+            ×
           </button>
         </div>
       )}
-      {img && <img src={img} alt="userProfileImg" width={200} height={300} />}
-      {!img && <label htmlFor={uniqueId}>+</label>}
+      {image[index] && (
+        <img
+          src={URL.createObjectURL(image[index])}
+          alt="userProfileImg"
+          width={200}
+          height={300}
+        />
+      )}
+      {!image[index] && <label htmlFor={uniqueId}>+</label>}
       <input
         type="file"
         accept="image/*"

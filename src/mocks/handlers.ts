@@ -22,6 +22,9 @@ export const handlers = [
     ]);
   }),
   http.post('/api/login', () => {
-    return HttpResponse.json([]);
+    return HttpResponse.json('login success');
+  }),
+  http.post('/api/signup', async () => {
+    return HttpResponse.json(`signup success`);
   }),
 ];

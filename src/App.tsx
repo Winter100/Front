@@ -10,11 +10,11 @@ import Chatting from './pages/Chatting';
 import ChattingLayout from './components/common/layout/ChattingLayout';
 import Login from './pages/Login';
 import Signup from './pages/signup/Signup';
-import InterestChoice from './pages/signup/InterestChoice';
-import ProfileImageUploader from './pages/signup/ProfileImageUploader';
-import Profile from './pages/signup/Profile';
+import InterestChoice from './pages/signup/setting/InterestChoice';
+import ProfileImageUploader from './pages/signup/setting/ProfileImageUploader';
+import Profile from './pages/signup/setting/Profile';
 import AuthCredential from './pages/signup/AuthCredential';
-import Gender from './pages/signup/Gender';
+import Gender from './pages/signup/setting/Gender';
 import SignupLayout from './components/common/layout/SignupLayout';
 import My from './pages/My';
 
@@ -30,12 +30,21 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <Signup /> },
           { path: 'credential', element: <AuthCredential /> },
-          { path: 'gender', element: <Gender /> },
-          { path: 'interestChoice', element: <InterestChoice /> },
-          { path: 'profile', element: <Profile /> },
-          { path: 'profileImageUploader', element: <ProfileImageUploader /> },
+          {
+            path: 'setting',
+            children: [
+              { path: 'gender', element: <Gender /> },
+              { path: 'interestChoice', element: <InterestChoice /> },
+              { path: 'profile', element: <Profile /> },
+              {
+                path: 'profileImageUploader',
+                element: <ProfileImageUploader />,
+              },
+            ],
+          },
         ],
       },
+
       { path: 'login', element: <Login /> },
       {
         path: 'match',

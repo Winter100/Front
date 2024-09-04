@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
-import MainButton from '../../components/ui/MainButton';
-import Interest from '../../components/ui/Interest';
+import React, { useEffect, useState } from 'react';
+import MainButton from '../../../components/ui/MainButton';
 import styles from './styles/interestChoice.module.css';
 import { useNavigate } from 'react-router-dom';
-import useProfile from '../../zustand/useProfile';
-import MainSection from '../../components/common/layout/MainSection';
-import Badge from '../../components/common/Badge';
+import useProfile from '../../../zustand/useProfile';
+import MainSection from '../../../components/common/layout/MainSection';
+import Badge from '../../../components/common/Badge';
+import { errorToast } from '../../../components/toast/toast';
 const InterestChoice: React.FC = () => {
   const nav = useNavigate();
   const [selectedArr, setSelectedArr] = useState<string[]>([]);
   const { profile, setProfile } = useProfile();
+  const { interest } = profile;
   const interestList = [
     '노래',
     '운동',
@@ -29,20 +30,27 @@ const InterestChoice: React.FC = () => {
     '뛰기',
   ];
 
-  // 관심사를 클릭하면 배열에 저장하고 만약 한번 더 누르면 배열에서 제외되는 함수
+  //이전에 선택된 관심사가 있으면 표시
+  useEffect(() => {
+    setSelectedArr(interest);
+  }, [interest]);
+
+  // 관심사를 클릭하면 배열에 최대 5개를 저장하고 다시 클릭하면 제외되는 함수
   const toggleInterest = (interest: string) => {
-    if (selectedArr.length >= 5) {
-      console.log('최대 5개까지만 등록가능');
-      return;
+    const isSelected = selectedArr.includes(interest);
+
+    if (isSelected) {
+      setSelectedArr(selectedArr.filter((item) => item !== interest));
+    } else if (selectedArr.length >= 5) {
+      errorToast('관심사는 최대 5개만 등록가능합니다.', 1000);
+    } else {
+      setSelectedArr([...selectedArr, interest]);
     }
-    selectedArr.includes(interest)
-      ? setSelectedArr(selectedArr.filter((item) => item !== interest))
-      : setSelectedArr([...selectedArr, interest]);
   };
 
   const btnHandler = () => {
     setProfile({ ...profile, interest: selectedArr });
-    nav('/signup/profileImageUploader');
+    nav('/signup/setting/profileImageUploader');
   };
 
   return (
@@ -62,7 +70,6 @@ const InterestChoice: React.FC = () => {
                     toggleInterest(e);
                   }}
                 >
-                  {/* <Interest text={e} isClick={selectedArr.includes(e)} /> */}
                   <Badge
                     description={e}
                     style={{
@@ -78,7 +85,11 @@ const InterestChoice: React.FC = () => {
         </div>
         <div className={styles.btnWrapper}>
           <MainButton
-            text={`다음으로 ( ${selectedArr.length} / 5)`}
+            text={
+              selectedArr.length === 0
+                ? `스킵하기 ( ${selectedArr.length} / 5)`
+                : `다음으로 ( ${selectedArr.length} / 5)`
+            }
             type="button"
             onClickFn={() => {
               btnHandler();
