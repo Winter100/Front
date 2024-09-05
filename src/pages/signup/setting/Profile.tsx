@@ -18,7 +18,6 @@ const Profile: React.FC = () => {
       return;
     }
     if (!introduceRef.current?.value) {
-      console.log(!introduceRef.current!.value);
       errorToast('자기소개를 작성해주세요.', 1000);
       return;
     }

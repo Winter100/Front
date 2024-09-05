@@ -4,11 +4,21 @@ import MainButton from '../components/ui/MainButton';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/common/layout/Header';
 import MainSection from '../components/common/layout/MainSection';
-import Footer from '../components/common/layout/Footer';
+import axios from 'axios';
+
 const Login = () => {
   const nav = useNavigate();
   const loginHandler = (e: React.FormEvent) => {
-    e.preventDefault();
+    const projectUrl = import.meta.env.VITE_PROJECT_URL as string;
+    axios.post(
+      `${projectUrl}/api/v1/auth`,
+      {},
+      {
+        headers: {
+          Authorization: `token`,
+        },
+      }
+    );
     nav('/');
   };
 
@@ -41,7 +51,6 @@ const Login = () => {
           </div>
         </article>
       </MainSection>
-      <Footer>1234</Footer>
     </>
   );
 };

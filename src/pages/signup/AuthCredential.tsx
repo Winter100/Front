@@ -25,7 +25,8 @@ const AuthCredential: React.FC = () => {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const projectUrl = import.meta.env.VITE_PROJECT_URL as string;
     const res = await axios.post(`${projectUrl}/api/signup`, {
-      data,
+      email: data.email,
+      password: data.password,
     });
     console.log(res);
     nav('/signup/setting/gender');

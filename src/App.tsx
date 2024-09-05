@@ -16,6 +16,8 @@ import Profile from './pages/signup/setting/Profile';
 import AuthCredential from './pages/signup/AuthCredential';
 import Gender from './pages/signup/setting/Gender';
 import SignupLayout from './components/common/layout/SignupLayout';
+import Edit from './pages/profile/edit/Edit';
+import ProfileEditLayout from './components/common/layout/ProfileEditLayout';
 
 const router = createBrowserRouter([
   {
@@ -60,6 +62,11 @@ const router = createBrowserRouter([
         path: 'chatting/:id',
         element: <ChattingLayout />,
         children: [{ index: true, element: <Chatting /> }],
+      },
+      {
+        path: 'profile-edit',
+        element: <ProfileEditLayout />,
+        children: [{ index: true, element: <Edit /> }],
       },
     ],
   },

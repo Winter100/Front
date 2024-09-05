@@ -22,7 +22,10 @@ export const handlers = [
     ]);
   }),
   http.post('/api/login', () => {
-    return HttpResponse.json('login success');
+    return HttpResponse.json({
+      token:
+        'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzIzMTYyNDcyLCJleHAiOjE3MjM1MjI0NzJ9.RsuO7_CL6IALDx7ZarjJOhnpmNNqGluAt2-XeyHrKS4',
+    });
   }),
   http.post('/api/signup', async () => {
     return HttpResponse.json(`signup success`);

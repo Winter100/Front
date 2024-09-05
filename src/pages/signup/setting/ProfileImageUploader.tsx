@@ -1,18 +1,20 @@
 import React from 'react';
 import styles from './styles/profileImageUploader.module.css';
 import { useNavigate } from 'react-router-dom';
-import ImageInput from '../../../components/ui/ImageInput';
+
 import MainSection from '../../../components/common/layout/MainSection';
 import MainButton from '../../../components/ui/MainButton';
 import useProfile from '../../../zustand/useProfile';
 import { errorToast } from '../../../components/toast/toast';
+import ProfileImageEditComponent from '../../../components/common/profile/ProfileImageEditComponent';
 const ProfileImageUploader: React.FC = () => {
   const { profile } = useProfile();
   const navigate = useNavigate();
-  const imageInputs = Array.from({ length: 6 }, (_, index) => index);
+
   const saveHandler = () => {
     if (profile.image.length >= 3) {
-      navigate('/match');
+      console.log(profile);
+      navigate('/profile-edit');
     } else {
       errorToast('이미지는 최소 3장이 필요합니다.', 2000);
     }
@@ -23,12 +25,7 @@ const ProfileImageUploader: React.FC = () => {
         <div className={styles.headerWrapper}>
           <h2>프로필 이미지 등록</h2>
         </div>
-        <div className={styles.imgInputContainer}>
-          {imageInputs.map((e, i) => {
-            return <ImageInput key={`imageInput${e}`} index={i} />;
-          })}
-        </div>
-
+        <ProfileImageEditComponent />
         <div>
           <span>이미지는 최소 3장이상 필요합니다.</span>
         </div>
