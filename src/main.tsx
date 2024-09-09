@@ -4,8 +4,9 @@ import App from './App.tsx';
 import './index.css';
 import TanstackProvider from './providers/TanstackProvider.tsx';
 import ContextProvider from './providers/ContextProvider.tsx';
-import { ToastContainer } from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.css';
+import { ToastProvider } from './providers/ToastProvider.tsx';
 
 const enableMocking = async () => {
   if (process.env.NODE_ENV !== 'development') {
@@ -21,10 +22,11 @@ enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <TanstackProvider>
-        <ContextProvider>
-          <App />
-          <ToastContainer />
-        </ContextProvider>
+        <ToastProvider>
+          <ContextProvider>
+            <App />
+          </ContextProvider>
+        </ToastProvider>
       </TanstackProvider>
     </React.StrictMode>
   );

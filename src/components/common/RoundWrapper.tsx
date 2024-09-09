@@ -18,7 +18,7 @@ const RoundWrapper = ({
     ...style,
   };
   return (
-    <div style={dynamicStyles} className={styles.div_wrapper} {...props}>
+    <div style={dynamicStyles} className={`${styles.div_wrapper}`} {...props}>
       {children}
     </div>
   );

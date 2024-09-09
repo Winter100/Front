@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import styles from './styles/ImageInput.module.css';
-import useProfile from '../../zustand/useProfile';
+import useProfileStore from '../../store/useProfileStore';
+
 type Props = {
   index: number;
 };
 const ImageInput: React.FC<Props> = ({ index }) => {
-  const { profile, addImage, removeImage } = useProfile();
+  const { profile, addImage, removeImage } = useProfileStore();
   const { image } = profile;
   const imgRef = useRef<HTMLInputElement>(null);
 

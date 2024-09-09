@@ -7,8 +7,10 @@ interface AbsoluteBox extends ComponentProps<'div'> {
 const AbsoluteBox = ({ children, style, ...props }: AbsoluteBox) => {
   const combinedStyle = style ? { ...style } : undefined;
   return (
-    <div style={combinedStyle} className={styles.container} {...props}>
-      {children}
+    <div style={{ position: 'relative', flex: '1 1 0' }}>
+      <div style={combinedStyle} className={styles.container} {...props}>
+        {children}
+      </div>
     </div>
   );
 };
