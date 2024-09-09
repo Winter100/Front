@@ -2,8 +2,8 @@ import { convertRemToSize } from '../../util/convertRemToSize';
 import styles from './styles/UserImage.module.css';
 
 interface UserImageProps {
-  src: string;
-  size: 'M' | 'L' | 'XL';
+  src?: string;
+  size?: 'M' | 'L' | 'XL';
 }
 const UserImage = ({ src = '/public/3.jpg', size = 'M' }: UserImageProps) => {
   const sizeValue = convertRemToSize(size);
