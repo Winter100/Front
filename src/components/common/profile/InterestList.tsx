@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { errorToast } from '../../toast/toast';
-import useProfile from '../../../zustand/useProfile';
 import Badge from '../Badge';
 import styles from './styles/interestList.module.css';
+import useProfileStore from '../../../store/useProfileStore';
+import { toast } from 'react-toastify';
 
 const InterestList: React.FC = () => {
   const [selectedArr, setSelectedArr] = useState<string[]>([]);
-  const { profile, setProfile } = useProfile();
+  const { profile, setProfile } = useProfileStore();
   const { interest } = profile;
   const interestList = [
     '노래',
@@ -41,7 +41,7 @@ const InterestList: React.FC = () => {
       setSelectedArr(newSelectedArr);
       setProfile({ ...profile, interest: newSelectedArr });
     } else if (selectedArr.length >= 5) {
-      errorToast('관심사는 최대 5개만 등록가능합니다.', 1000);
+      toast.error('관심사는 최대 5개만 등록가능합니다.');
     } else {
       setSelectedArr([...selectedArr, selectedInterest]);
       setProfile({ ...profile, interest: [...selectedArr] });

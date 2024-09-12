@@ -17,6 +17,8 @@ import Gender from './pages/signup/setting/gender/Gender';
 import InterestChoice from './pages/signup/setting/interestChoice/InterestChoice';
 import Profile from './pages/signup/setting/profile/Profile';
 import ProfileImageUploader from './pages/signup/setting/profileImageUploader/ProfileImageUploader';
+import ProfileEditLayout from './components/layout/ProfileEditLayout';
+import Edit from './pages/profile/edit/Edit';
 
 const router = createBrowserRouter([
   {
@@ -63,6 +65,11 @@ const router = createBrowserRouter([
         ],
       },
       { path: 'login', element: <Login /> },
+      {
+        path: 'profile-edit',
+        element: <ProfileEditLayout />,
+        children: [{ index: true, element: <Edit /> }],
+      },
     ],
   },
 ]);

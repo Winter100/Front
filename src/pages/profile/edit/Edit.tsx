@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import styles from './styles/edit.module.css';
 import ProfileImageEditComponent from '../../../components/common/profile/ProfileImageEditComponent';
-import useProfile from '../../../zustand/useProfile';
+
 import { useNavigate } from 'react-router-dom';
-import Header from '../../../components/common/layout/Header';
+
 import Badge from '../../../components/common/Badge';
 import EditContentComponent from '../../../components/common/profile/EditContentComponent';
 import InterestList from '../../../components/common/profile/InterestList';
 import MainButton from '../../../components/ui/MainButton';
+import useProfileStore from '../../../store/useProfileStore';
 
 const Edit: React.FC = () => {
-  const { profile, setProfile } = useProfile();
+  const { profile, setProfile } = useProfileStore();
   const nav = useNavigate();
   const [mbti, setMbti] = useState('');
   const mbtiTypes = [
@@ -40,10 +41,10 @@ const Edit: React.FC = () => {
 
   const editButtonHandler = () => {
     console.log(profile);
+    nav('/profile');
   };
   return (
     <div className={styles.container}>
-      <Header></Header>
       <div className={styles.editContainer}>
         <EditContentComponent title="프로필 이미지">
           <ProfileImageEditComponent />
