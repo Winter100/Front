@@ -19,6 +19,9 @@ import Profile from './pages/signup/setting/profile/Profile';
 import ProfileImageUploader from './pages/signup/setting/profileImageUploader/ProfileImageUploader';
 import ProfileEditLayout from './components/layout/ProfileEditLayout';
 import Edit from './pages/profile/edit/Edit';
+import LoginLayout from './components/layout/LoginLayout';
+import Callback from './pages/callback/Callback';
+import CallbackLayout from './components/layout/CallbackLayout';
 
 const router = createBrowserRouter([
   {
@@ -64,11 +67,20 @@ const router = createBrowserRouter([
           },
         ],
       },
-      { path: 'login', element: <Login /> },
+      {
+        path: 'login',
+        element: <LoginLayout />,
+        children: [{ index: true, element: <Login /> }],
+      },
       {
         path: 'profile-edit',
         element: <ProfileEditLayout />,
         children: [{ index: true, element: <Edit /> }],
+      },
+      {
+        path: 'callback',
+        element: <CallbackLayout />,
+        children: [{ index: true, element: <Callback /> }],
       },
     ],
   },

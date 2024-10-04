@@ -1,7 +1,0 @@
-.container {
-  position: relative;
-  padding: 0.5rem;
-  flex: 1 1 0%;
-  min-height: calc(100dvh - 120px);
-  border: 1px solid yellow;
-}
