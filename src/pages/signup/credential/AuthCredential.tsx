@@ -19,12 +19,14 @@ const AuthCredential = () => {
   const [emailVerification, setEmailVerification] = useState(false);
   const [emailCheckingState, setEmailCheckingState] = useState(false);
   const nav = useNavigate();
+
   const { register, handleSubmit, watch } = useForm<Inputs>({
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
   });
-  const projectURL = import.meta.env.VITE_PROJECT_URL as string;
-  // const projectURL = import.meta.env.VITE_PROJECT_SERVER_URL as string;
+
+  // const projectURL = import.meta.env.VITE_PROJECT_URL as string;
+  const projectURL = import.meta.env.VITE_PROJECT_SERVER_URL as string;
 
   //입력된 유저정보
   const userName = watch('userName');
@@ -35,15 +37,28 @@ const AuthCredential = () => {
   //회원가입 함수
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      const response = await axios.post(`${projectURL}/api/signup`, {
-        username: data.userName,
-        password: data.password,
-        email: data.email,
-      });
-      console.log(response.data);
+      const response = await axios.post(
+        `${projectURL}/api/v1/auth/sign-up`,
+        {
+          username: data.userName,
+          password: data.password,
+          email: data.email,
+          certificationNumber: data.certificationNumber,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      console.log(response.status);
       nav('/signup/setting/gender');
     } catch (error) {
-      console.error('signupError', error);
+      if (axios.isAxiosError(error) && error.response) {
+        console.error('signinError', error.response.data);
+      } else {
+        console.error('signinError', error);
+      }
     }
   };
 
@@ -68,16 +83,18 @@ const AuthCredential = () => {
   //인증번호 요청 함수
   const getVerificationBtnHanddler = async () => {
     try {
-      const response = await axios.post(
-        `${projectURL}/api/v1/auth/email-certification`,
-        {
-          username: userName,
-          email,
-        }
-      );
+      if (userName.length >= 6) {
+        const response = await axios.post(
+          `${projectURL}/api/v1/auth/email-certification`,
+          {
+            username: userName,
+            email,
+          }
+        );
 
-      console.log(response.data);
-      setEmailCheckingState(!emailCheckingState);
+        console.log(response.data);
+        setEmailCheckingState(!emailCheckingState);
+      }
     } catch (error) {
       console.error('error', error);
     }
@@ -193,28 +210,23 @@ const AuthCredential = () => {
                 style={{
                   backgroundColor: !emailVerification ? '#4c4c4c' : undefined,
                 }}
+                maxLength={13}
                 {...register('password', {
                   required: '비밀번호를 입력해주세요.',
                   minLength: {
-                    value: 6,
-                    message: '비밀번호는 최소 6자 이상이어야 합니다.',
+                    value: 8,
+                    message: '비밀번호는 최소 8자 이상이어야 합니다.',
                   },
                   validate: {
-                    hasNumber: (value) =>
-                      /\d/.test(value) ||
-                      '비밀번호에 숫자가 포함되어야 합니다.',
-                    hasLowercase: (value) =>
-                      /[a-z]/.test(value) ||
-                      '비밀번호에 문자가 포함되어야 합니다.',
-                    hasSpecialChar: (value) =>
-                      /[!@#$%^&*(),.?":{}|<>]/.test(value) ||
-                      '비밀번호에 특수문자가 포함되어야 합니다.',
+                    isValid: (value) =>
+                      /^[a-zA-Z0-9]+$/.test(value) ||
+                      '비밀번호에는 영어와 숫자만 포함되어야 하며, 특수문자나 공백은 사용할 수 없습니다.',
                   },
                 })}
               />
               <p>
-                비밀번호는 6~16자 사이이며 특수문자와 숫자가 최소 하나씩
-                포함되어야 합니다.
+                비밀번호는 8~13자 사이이며 영어와 숫자만 포함되어야 하며,
+                특수문자는 사용할 수 없습니다.
               </p>
             </div>
             <div>
@@ -225,6 +237,7 @@ const AuthCredential = () => {
                 style={{
                   backgroundColor: emailVerification ? 'black' : '#4c4c4c',
                 }}
+                maxLength={13}
                 {...register('confirmPassword', {
                   required: '비밀번호를 확인해주세요.',
                   validate: (value) =>
