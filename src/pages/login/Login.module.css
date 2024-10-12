@@ -34,7 +34,7 @@
   padding: 25px 10px;
   background-color: black;
   color: white;
-  font-size: 20px;
+  font-size: 14px;
 }
 .signupContainer {
   width: 100%;
@@ -43,20 +43,6 @@
   justify-content: center;
   align-items: center;
   gap: 20px;
-}
-/* 자동완성 관련 css */
-.formWrapper form > input :-webkit-autofill {
-  -webkit-box-shadow:
-    0 0 0 1000px black inset,
-    0 0 0 1px rgb(64, 64, 64) !important;
-  -webkit-text-fill-color: white !important;
-}
-
-.formWrapper form > input :-webkit-autofill:focus {
-  -webkit-box-shadow:
-    0 0 0 1000px black inset,
-    0 0 0 1px rgb(64, 64, 64) !important;
-  -webkit-text-fill-color: white !important;
 }
 
 .socialLoginBtnContainer {

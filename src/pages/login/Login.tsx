@@ -1,20 +1,50 @@
 import styles from './Login.module.css';
 import { useNavigate } from 'react-router-dom';
 import MainButton from '../../components/ui/MainButton';
+import { FieldErrors, SubmitHandler, useForm } from 'react-hook-form';
+import axios from 'axios';
 
+type Inputs = {
+  username: string;
+  password: string;
+};
 const Login = () => {
   const nav = useNavigate();
-  const loginHandler = (e: React.FormEvent) => {
-    e.preventDefault();
-    nav('/');
+  const { register, handleSubmit } = useForm<Inputs>({
+    mode: 'onSubmit',
+    reValidateMode: 'onSubmit',
+  });
+  const requestURL = import.meta.env.VITE_PROJECT_SERVER_URL;
+  const loginHandler: SubmitHandler<Inputs> = async (data) => {
+    try {
+      const response = await axios.post(`${requestURL}/api/v1/auth/sign-in`, {
+        username: data.username,
+        password: data.password,
+      });
+      console.log(response);
+      if (response.data.accessToken && response.data.refreshToken) {
+        sessionStorage.setItem('accessToken', response.data.accessToken);
+        sessionStorage.setItem('refreshToken', response.data.refreshToken);
+        response.data.hasProfile
+          ? nav('/match')
+          : nav('/signup/setting/gender');
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        console.error('signinError', error.response.data);
+      } else {
+        console.error('signinError', error);
+      }
+    }
   };
-
+  const errorHandler = (errors: FieldErrors<Inputs>) => {
+    console.log(errors);
+  };
   const signupHandler = () => {
     nav('/signup');
   };
   const kakaoLoginHandler = () => {
-    const serverURL = import.meta.env.VITE_PROJECT_SERVER_URL;
-    window.location.href = `${serverURL}/api/v1/auth`;
+    window.location.href = `${requestURL}/api/v1/auth`;
   };
   return (
     <>
@@ -23,9 +53,9 @@ const Login = () => {
           <h2>tinder</h2>
         </div>
         <div className={styles.formWrapper}>
-          <form onSubmit={loginHandler}>
-            <input type="email" />
-            <input type="password" />
+          <form onSubmit={handleSubmit(loginHandler, errorHandler)}>
+            <input type="text" autoComplete="off" {...register('username')} />
+            <input type="password" {...register('password')} />
             <MainButton text="로그인" type="submit" />
             <div className={styles.socialLoginBtnContainer}>
               <button type="button" onClick={kakaoLoginHandler}>
