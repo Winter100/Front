@@ -155,3 +155,10 @@ a {
 button:hover {
   cursor: pointer;
 }
+
+button:disabled {
+  cursor: not-allowed;
+}
+button:disabled:hover {
+  cursor: not-allowed;
+}

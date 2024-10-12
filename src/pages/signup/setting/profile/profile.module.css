@@ -39,15 +39,6 @@
   background-color: black;
   color: white;
 }
-.inputContainer input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0 1000px black inset;
-  -webkit-text-fill-color: white !important;
-}
-
-.inputContainer input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 1000px black inset;
-  -webkit-text-fill-color: white !important;
-}
 .textareaContainer {
   width: 80%;
   height: 20%;
