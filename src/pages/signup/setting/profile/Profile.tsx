@@ -44,6 +44,7 @@ const Profile = () => {
               id="nickname"
               ref={nicknameRef}
               defaultValue={nickname}
+              autoComplete="off"
             />
           </div>
           <div className={styles.textareaContainer}>
@@ -53,6 +54,7 @@ const Profile = () => {
               id="introduce"
               ref={introduceRef}
               defaultValue={introduce}
+              autoComplete="off"
             />
           </div>
           <div className={styles.btnWrapper}>
