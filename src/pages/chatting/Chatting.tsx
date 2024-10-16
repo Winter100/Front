@@ -1,14 +1,35 @@
 import { useNavigate } from 'react-router-dom';
-
 import { IoIosArrowBack } from 'react-icons/io';
+
+import styles from './chatting.module.css';
 import Header from '../../components/layout/Header';
 import UserImage from '../../components/common/UserImage';
 import ChattingRoom from './components/ChattingRoom';
 import InputContainer from '../../components/common/InputContainer';
 import Input from '../../components/common/Input';
+import { useChattingStore } from '../../store/useChattingStore';
+import { useState } from 'react';
+import { MessageType } from '../../types/message';
 
 const Chatting = () => {
   const navigate = useNavigate();
+  const addChattingMessages = useChattingStore(
+    (state) => state.addChattingMessages
+  );
+
+  const [message, setMessage] = useState('');
+
+  const sendMessageHandler = (e: React.FormEvent) => {
+    e.preventDefault();
+    const messageData: MessageType = {
+      isMe: true,
+      content: message,
+      date: '2024-12-12',
+    };
+    addChattingMessages(messageData);
+    setMessage('');
+  };
+
   return (
     <>
       <Header
@@ -38,8 +59,14 @@ const Chatting = () => {
 
       <ChattingRoom />
       <InputContainer>
-        <Input />
-        <button>보내기</button>
+        <Input value={message} onChange={(e) => setMessage(e.target.value)} />
+        <button
+          type="submit"
+          onClick={sendMessageHandler}
+          className={styles.sendBtn}
+        >
+          보내기
+        </button>
       </InputContainer>
     </>
   );

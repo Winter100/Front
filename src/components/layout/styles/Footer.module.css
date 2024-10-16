@@ -1,6 +1,4 @@
 .container {
   height: 60px;
-
-  border: 3px red solid;
   z-index: 10;
 }

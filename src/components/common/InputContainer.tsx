@@ -1,6 +1,6 @@
 import styles from './styles/InputContainer.module.css';
 const InputContainer = ({ children }: { children: React.ReactNode }) => {
-  return <div className={styles.container}>{children}</div>;
+  return <form className={styles.container}>{children}</form>;
 };
 
 export default InputContainer;

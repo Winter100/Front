@@ -1,10 +1,8 @@
 import { Outlet } from 'react-router-dom';
-import { PiUploadSimpleBold } from 'react-icons/pi';
-import { PiGifBold } from 'react-icons/pi';
 import Footer from './Footer';
 
 import MainSection from './MainSection';
-import MenuContainer from '../common/MenuContainer';
+import FooterMenu from '../../pages/chatting/FooterMenu';
 
 const ChattingLayout = () => {
   return (
@@ -13,10 +11,7 @@ const ChattingLayout = () => {
         <Outlet />
       </MainSection>
       <Footer>
-        <MenuContainer>
-          <PiUploadSimpleBold />
-          <PiGifBold />
-        </MenuContainer>
+        <FooterMenu />
       </Footer>
     </>
   );

@@ -1,0 +1,35 @@
+.ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px;
+  padding: 0px;
+  font-size: 2rem;
+
+  background-color: #202123;
+  color: gray;
+  height: 100%;
+}
+
+.ul > li {
+  flex: 1;
+  height: 100%;
+}
+
+.ul > li > input {
+  display: none;
+}
+
+.ul > li > label {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ul > li > label:hover {
+  color: beige;
+  cursor: pointer;
+}

@@ -17,46 +17,57 @@ import Gender from './pages/signup/setting/gender/Gender';
 import InterestChoice from './pages/signup/setting/interestChoice/InterestChoice';
 import Profile from './pages/signup/setting/profile/Profile';
 import ProfileImageUploader from './pages/signup/setting/profileImageUploader/ProfileImageUploader';
+import HomeLayout from './components/layout/HomeLayout';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
     children: [
-      { index: true, element: <Home /> },
       {
-        path: 'match',
-        element: <MatchLayout />,
-        children: [
-          { index: true, element: <MatchingProfile /> },
-          {
-            path: 'messages',
-            element: <Messages />,
-          },
-          { path: 'my', element: <My /> },
-        ],
+        path: '/',
+        element: <HomeLayout />,
+        children: [{ index: true, element: <Home /> }],
       },
       {
-        path: 'chatting/:id',
-        element: <ChattingLayout />,
-        children: [{ index: true, element: <Chatting /> }],
-      },
-
-      {
-        path: 'signup',
-        element: <SignupLayout />,
+        element: <ProtectedRoute />,
         children: [
-          { index: true, element: <Signup /> },
-          { path: 'credential', element: <AuthCredential /> },
           {
-            path: 'setting',
+            path: 'match',
+            element: <MatchLayout />,
             children: [
-              { path: 'gender', element: <Gender /> },
-              { path: 'interestChoice', element: <InterestChoice /> },
-              { path: 'profile', element: <Profile /> },
+              { index: true, element: <MatchingProfile /> },
               {
-                path: 'profileImageUploader',
-                element: <ProfileImageUploader />,
+                path: 'messages',
+                element: <Messages />,
+              },
+              { path: 'my', element: <My /> },
+            ],
+          },
+          {
+            path: 'chatting/:id',
+            element: <ChattingLayout />,
+            children: [{ index: true, element: <Chatting /> }],
+          },
+
+          {
+            path: 'signup',
+            element: <SignupLayout />,
+            children: [
+              { index: true, element: <Signup /> },
+              { path: 'credential', element: <AuthCredential /> },
+              {
+                path: 'setting',
+                children: [
+                  { path: 'gender', element: <Gender /> },
+                  { path: 'interestChoice', element: <InterestChoice /> },
+                  { path: 'profile', element: <Profile /> },
+                  {
+                    path: 'profileImageUploader',
+                    element: <ProfileImageUploader />,
+                  },
+                ],
               },
             ],
           },

@@ -8,6 +8,7 @@ import RoundWrapper from '../../../components/common/RoundWrapper';
 import AbsoluteBox from '../../../components/common/AbsoluteBox';
 import UserImage from '../../../components/common/UserImage';
 import Button from '../../../components/common/Button';
+import MyModal from '../../../components/MyModal';
 
 const My = () => {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const My = () => {
                   backgroundColor: 'rgb(255, 89, 103)',
                 }}
               >
-                <Button style={{ fontSize: '0.8rem' }}>테스트 버튼</Button>
+                <MyModal />
               </RoundWrapper>
             </AbsoluteBox>
           </Wrapper>
@@ -89,8 +90,7 @@ const My = () => {
         </div>
 
         <Wrapper gap="1rem" flexGrow={1}>
-          <p>...설명</p>
-          <p>...............</p>
+          <p></p>
           <RoundWrapper
             style={{
               width: '12rem',
@@ -99,7 +99,7 @@ const My = () => {
               borderRadius: '25px',
             }}
           >
-            <Button>테스트 버튼2</Button>
+            <Button>...</Button>
           </RoundWrapper>
         </Wrapper>
       </div>

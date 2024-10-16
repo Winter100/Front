@@ -1,7 +1,12 @@
-.chatting {
-  display: flex;
-  flex-direction: column;
-  background-color: white;
+.sendBtn {
+  width: 5rem;
+  background-color: inherit;
+  color: white;
+  font-size: 0.7rem;
+  border: none;
+}
 
-  flex: 1;
+.sendBtn:hover {
+  cursor: pointer;
+  font-weight: 600;
 }
