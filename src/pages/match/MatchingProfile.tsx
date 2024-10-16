@@ -8,7 +8,7 @@ import AnotherMenu from './components/AnotherMenu';
 const DUMMY = {
   name: '아무개',
   age: 26,
-  profileImages: ['public/1.jpg', 'public/2.jpg', 'public/3.jpg'],
+  profileImages: ['public/2.jpg', 'public/3.jpg'],
   badges: [
     { description: 'INTP' },
     { description: '요리잘함' },

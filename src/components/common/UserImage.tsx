@@ -3,7 +3,7 @@ import styles from './styles/UserImage.module.css';
 
 interface UserImageProps {
   src?: string;
-  size?: 'M' | 'L' | 'XL';
+  size?: 'M' | 'L' | 'XL' | 'MODAL';
 }
 const UserImage = ({ src = '/public/3.jpg', size = 'M' }: UserImageProps) => {
   const sizeValue = convertRemToSize(size);

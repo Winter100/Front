@@ -10,7 +10,7 @@ const ProfileImageUploader: React.FC = () => {
   const { profile } = useProfileStore();
   const navigate = useNavigate();
   const imageInputs = Array.from({ length: 6 }, (_, index) => index);
-  const saveHandler = () => {
+  const saveHandler = async () => {
     if (profile.image.length >= 3) {
       navigate('/match');
     } else {

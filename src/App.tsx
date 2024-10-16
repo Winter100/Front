@@ -17,6 +17,8 @@ import Gender from './pages/signup/setting/gender/Gender';
 import InterestChoice from './pages/signup/setting/interestChoice/InterestChoice';
 import Profile from './pages/signup/setting/profile/Profile';
 import ProfileImageUploader from './pages/signup/setting/profileImageUploader/ProfileImageUploader';
+import HomeLayout from './components/layout/HomeLayout';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import ProfileEditLayout from './components/layout/ProfileEditLayout';
 import Edit from './pages/profile/edit/Edit';
 import LoginLayout from './components/layout/LoginLayout';
@@ -28,25 +30,33 @@ const router = createBrowserRouter([
     path: '/',
     element: <RootLayout />,
     children: [
-      { index: true, element: <Home /> },
       {
-        path: 'match',
-        element: <MatchLayout />,
+        path: '/',
+        element: <HomeLayout />,
+        children: [{ index: true, element: <Home /> }],
+      },
+      {
+        element: <ProtectedRoute />,
         children: [
-          { index: true, element: <MatchingProfile /> },
           {
-            path: 'messages',
-            element: <Messages />,
+            path: 'match',
+            element: <MatchLayout />,
+            children: [
+              { index: true, element: <MatchingProfile /> },
+              {
+                path: 'messages',
+                element: <Messages />,
+              },
+              { path: 'my', element: <My /> },
+            ],
           },
-          { path: 'my', element: <My /> },
+          {
+            path: 'chatting/:id',
+            element: <ChattingLayout />,
+            children: [{ index: true, element: <Chatting /> }],
+          },
         ],
       },
-      {
-        path: 'chatting/:id',
-        element: <ChattingLayout />,
-        children: [{ index: true, element: <Chatting /> }],
-      },
-
       {
         path: 'signup',
         element: <SignupLayout />,
@@ -57,8 +67,8 @@ const router = createBrowserRouter([
             path: 'setting',
             children: [
               { path: 'gender', element: <Gender /> },
-              { path: 'interestChoice', element: <InterestChoice /> },
               { path: 'profile', element: <Profile /> },
+              { path: 'interestChoice', element: <InterestChoice /> },
               {
                 path: 'profileImageUploader',
                 element: <ProfileImageUploader />,

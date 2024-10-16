@@ -50,7 +50,7 @@ const Login = () => {
     <>
       <article className={styles.container}>
         <div className={styles.titleWrapper}>
-          <h2>tinder</h2>
+          <h2>엔돌핀</h2>
         </div>
         <div className={styles.formWrapper}>
           <form onSubmit={handleSubmit(loginHandler, errorHandler)}>

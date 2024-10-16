@@ -1,6 +1,15 @@
 import { useState } from 'react';
 import DaumPostcodeEmbed from 'react-daum-postcode';
 import styles from './addressForm.module.css';
+import { getLatAndLon } from '../../../util/getLatAndLon';
+import { useKakaoLoader } from 'react-kakao-maps-sdk';
+
+interface dataType {
+  address: string;
+  addressType: string;
+  bname: string;
+  buildingName: string;
+}
 
 const theme = {
   bgColor: '#202123', //바탕 배경색
@@ -17,7 +26,7 @@ const AddressForm = () => {
   const [value, setValue] = useState(false);
   const [address, setAddress] = useState('');
 
-  const handleComplete = (data) => {
+  const handleComplete = (data: dataType) => {
     let fullAddress = data.address;
     let extraAddress = '';
 
@@ -34,8 +43,32 @@ const AddressForm = () => {
 
     setAddress(fullAddress);
     setValue(false);
-    console.log(fullAddress);
   };
+
+  const getLatLon = async () => {
+    if (address.length === 0 && !address) {
+      console.log('값이 없음');
+      return;
+    }
+    const data = await getLatAndLon(address);
+
+    const longitude = data[0].x;
+    const latitude = data[0].y;
+    console.log(latitude, longitude);
+  };
+
+  const [loaidng, error] = useKakaoLoader({
+    libraries: ['services'],
+    appkey: '',
+  });
+
+  if (loaidng) {
+    return <p>로딩 테스트...</p>;
+  }
+
+  if (error) {
+    return <p>에러 테스트...</p>;
+  }
 
   return (
     <div className={styles.container}>
@@ -50,6 +83,7 @@ const AddressForm = () => {
       <div className={styles.address}>
         {address && <p>선택된 주소: {address}</p>}
       </div>
+      <button onClick={getLatLon}>위경도 확인</button>
     </div>
   );
 };
