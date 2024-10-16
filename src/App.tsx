@@ -19,6 +19,11 @@ import Profile from './pages/signup/setting/profile/Profile';
 import ProfileImageUploader from './pages/signup/setting/profileImageUploader/ProfileImageUploader';
 import HomeLayout from './components/layout/HomeLayout';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import ProfileEditLayout from './components/layout/ProfileEditLayout';
+import Edit from './pages/profile/edit/Edit';
+import LoginLayout from './components/layout/LoginLayout';
+import Callback from './pages/callback/Callback';
+import CallbackLayout from './components/layout/CallbackLayout';
 
 const router = createBrowserRouter([
   {
@@ -50,30 +55,43 @@ const router = createBrowserRouter([
             element: <ChattingLayout />,
             children: [{ index: true, element: <Chatting /> }],
           },
-
+        ],
+      },
+      {
+        path: 'signup',
+        element: <SignupLayout />,
+        children: [
+          { index: true, element: <Signup /> },
+          { path: 'credential', element: <AuthCredential /> },
           {
-            path: 'signup',
-            element: <SignupLayout />,
+            path: 'setting',
             children: [
-              { index: true, element: <Signup /> },
-              { path: 'credential', element: <AuthCredential /> },
+              { path: 'gender', element: <Gender /> },
+              { path: 'interestChoice', element: <InterestChoice /> },
+              { path: 'profile', element: <Profile /> },
               {
-                path: 'setting',
-                children: [
-                  { path: 'gender', element: <Gender /> },
-                  { path: 'interestChoice', element: <InterestChoice /> },
-                  { path: 'profile', element: <Profile /> },
-                  {
-                    path: 'profileImageUploader',
-                    element: <ProfileImageUploader />,
-                  },
-                ],
+                path: 'profileImageUploader',
+                element: <ProfileImageUploader />,
               },
             ],
           },
         ],
       },
-      { path: 'login', element: <Login /> },
+      {
+        path: 'login',
+        element: <LoginLayout />,
+        children: [{ index: true, element: <Login /> }],
+      },
+      {
+        path: 'profile-edit',
+        element: <ProfileEditLayout />,
+        children: [{ index: true, element: <Edit /> }],
+      },
+      {
+        path: 'callback',
+        element: <CallbackLayout />,
+        children: [{ index: true, element: <Callback /> }],
+      },
     ],
   },
 ]);

@@ -21,10 +21,22 @@ export const handlers = [
       },
     ]);
   }),
-  http.post('/api/login', () => {
-    return HttpResponse.json('login success');
+  http.post('/api/v1/auth/kakao', () => {
+    return HttpResponse.json({
+      accessToken:
+        'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNzIzMTYyNDcyLCJleHAiOjE3MjM1MjI0NzJ9.RsuO7_CL6IALDx7ZarjJOhnpmNNqGluAt2-XeyHrKS4',
+      refreshToken: 'string',
+      grantType: 'string',
+      expiresIn: 0,
+    });
   }),
-  http.post('/api/signup', async () => {
+  http.post('/api/v1/auth/email-certification', async () => {
+    return HttpResponse.json({
+      status: '성공!',
+      message: '이미 인증이 완료된 이메일입니다.',
+    });
+  }),
+  http.post('/api/v1/auth/sign-up', async () => {
     return HttpResponse.json(`signup success`);
   }),
 ];
