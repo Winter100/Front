@@ -67,8 +67,8 @@ const router = createBrowserRouter([
             path: 'setting',
             children: [
               { path: 'gender', element: <Gender /> },
-              { path: 'interestChoice', element: <InterestChoice /> },
               { path: 'profile', element: <Profile /> },
+              { path: 'interestChoice', element: <InterestChoice /> },
               {
                 path: 'profileImageUploader',
                 element: <ProfileImageUploader />,

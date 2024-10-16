@@ -59,7 +59,7 @@ const AddressForm = () => {
 
   const [loaidng, error] = useKakaoLoader({
     libraries: ['services'],
-    appkey: 'bc97fdd9154c0108b80dd0d936b13290',
+    appkey: '',
   });
 
   if (loaidng) {
