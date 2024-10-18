@@ -8,7 +8,6 @@ import MainButton from '../../../components/ui/MainButton';
 import { useState } from 'react';
 
 type Inputs = {
-  userName: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -29,7 +28,6 @@ const AuthCredential = () => {
   const projectURL = import.meta.env.VITE_PROJECT_SERVER_URL as string;
 
   //입력된 유저정보
-  const userName = watch('userName');
   const email = watch('email');
   const password = watch('password');
   const certificationNumber = watch('certificationNumber');
@@ -40,7 +38,6 @@ const AuthCredential = () => {
       const response = await axios.post(
         `${projectURL}/api/v1/auth/sign-up`,
         {
-          username: data.userName,
           password: data.password,
           email: data.email,
           certificationNumber: data.certificationNumber,
@@ -51,8 +48,9 @@ const AuthCredential = () => {
           },
         }
       );
-      console.log(response.status);
-      nav('/signup/setting/gender');
+      if (response.data.status === '성공') {
+        nav('/signup/setting/gender');
+      }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         console.error('signinError', error.response.data);
@@ -64,12 +62,7 @@ const AuthCredential = () => {
 
   //회원가입 에러 함수
   const onError = (errors: FieldErrors<Inputs>) => {
-    const errorMessages = [
-      'userName',
-      'email',
-      'password',
-      'confirmPassword',
-    ] as const;
+    const errorMessages = ['email', 'password', 'confirmPassword'] as const;
 
     // 첫 번째로 발견된 에러만 처리 (선택적)
     for (const field of errorMessages) {
@@ -82,18 +75,25 @@ const AuthCredential = () => {
 
   //인증번호 요청 함수
   const getVerificationBtnHanddler = async () => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
     try {
-      if (userName.length >= 6) {
+      if (emailRegex.test(email)) {
         const response = await axios.post(
           `${projectURL}/api/v1/auth/email-certification`,
           {
-            username: userName,
             email,
           }
         );
 
-        console.log(response.data);
-        setEmailCheckingState(!emailCheckingState);
+        if (response.data.status === '성공') {
+          toast.success(response.data.message);
+          setEmailCheckingState(!emailCheckingState);
+        } else {
+          toast.error('인증번호 받기 실패');
+        }
+      } else {
+        toast.error('이메일 형식이 올바르지 않습니다.');
       }
     } catch (error) {
       console.error('error', error);
@@ -106,13 +106,18 @@ const AuthCredential = () => {
       const response = await axios.post(
         `${projectURL}/api/v1/auth/check-certification`,
         {
-          id: userName,
           email,
           certificationNumber,
         }
       );
-      console.log(response.data);
-      setEmailVerification(!emailVerification);
+      console.log(response);
+
+      if (response.data.status === '성공') {
+        toast.success(response.data.message);
+        setEmailVerification(!emailVerification);
+      } else {
+        toast.error(`${response.data.message} 인증번호를 다시 확인해주세요`);
+      }
     } catch (error) {
       console.error('error', error);
     }
@@ -125,32 +130,6 @@ const AuthCredential = () => {
         </header>
         <form onSubmit={handleSubmit(onSubmit, onError)}>
           <div className={styles.inputContainer}>
-            <div>
-              <label htmlFor="userName">아이디</label>
-              <input
-                type="text"
-                readOnly={emailCheckingState}
-                style={{
-                  backgroundColor: emailCheckingState ? '#4c4c4c' : 'black',
-                }}
-                autoComplete="off"
-                {...register('userName', {
-                  required: '아이디를 입력해주세요.',
-                  pattern: {
-                    value: /^[a-zA-Z0-9]+$/,
-                    message: '아이디는 영어와 숫자만 사용할 수 있습니다.',
-                  },
-                  minLength: {
-                    value: 6,
-                    message: '아이디는 최소 6자 이상이어야 합니다.',
-                  },
-                  maxLength: {
-                    value: 12,
-                    message: '아이디는 최대 12자까지 입력할 수 있습니다.',
-                  },
-                })}
-              />
-            </div>
             <div>
               <label htmlFor="email">이메일</label>
               <div className={styles.inputBtnStack}>
@@ -187,6 +166,7 @@ const AuthCredential = () => {
                     type="text"
                     id="verificationInput"
                     readOnly={emailVerification}
+                    maxLength={4}
                     style={{
                       backgroundColor: emailVerification ? '#4c4c4c' : 'black',
                     }}
