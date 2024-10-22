@@ -52,7 +52,7 @@ const InterestChoice = () => {
 
   const btnHandler = () => {
     setProfile({ ...profile, interest: selectedArr });
-    nav('/signup/setting/profileImageUploader');
+    nav('/signup/setting/address');
   };
 
   return (
