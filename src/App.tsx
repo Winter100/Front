@@ -25,6 +25,7 @@ import LoginLayout from './components/layout/LoginLayout';
 import Callback from './pages/callback/Callback';
 import CallbackLayout from './components/layout/CallbackLayout';
 import Address from './pages/signup/setting/address/Address';
+import Birth from './pages/signup/setting/birth/Birth';
 
 const router = createBrowserRouter([
   {
@@ -75,6 +76,7 @@ const router = createBrowserRouter([
                 element: <ProfileImageUploader />,
               },
               { path: 'address', element: <Address /> },
+              { path: 'birth', element: <Birth /> },
             ],
           },
         ],

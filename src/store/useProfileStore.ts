@@ -6,6 +6,7 @@ type Profile = {
   interest: string[];
   image: File[];
   introduce: string;
+  dateOfBirth: string;
 };
 
 type State = {
@@ -24,9 +25,10 @@ const useProfileStore = create<State & Action>((set) => ({
     interest: [],
     image: [],
     introduce: '',
+    dateOfBirth: '',
   },
 
-  setProfile: ({ gender, interest, image, introduce, nickname }) =>
+  setProfile: ({ gender, interest, image, introduce, nickname, dateOfBirth }) =>
     set((state) => ({
       profile: {
         ...state.profile,
@@ -35,6 +37,7 @@ const useProfileStore = create<State & Action>((set) => ({
         interest,
         image,
         introduce,
+        dateOfBirth,
       },
     })),
   addImage: (image) =>
