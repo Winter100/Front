@@ -18,10 +18,9 @@ const Login = () => {
   const loginHandler: SubmitHandler<Inputs> = async (data) => {
     try {
       const response = await axios.post(`${requestURL}/api/v1/auth/sign-in`, {
-        username: data.username,
+        email: data.username,
         password: data.password,
       });
-      console.log(response);
       if (response.data.accessToken && response.data.refreshToken) {
         sessionStorage.setItem('accessToken', response.data.accessToken);
         sessionStorage.setItem('refreshToken', response.data.refreshToken);

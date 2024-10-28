@@ -40,9 +40,8 @@ const AuthCredential = () => {
       const response = await axios.post(
         `${projectURL}/api/v1/auth/sign-up`,
         {
-          username: data.userName,
-          password: data.password,
           email: data.email,
+          password: data.password,
           certificationNumber: data.certificationNumber,
         },
         {
@@ -52,6 +51,7 @@ const AuthCredential = () => {
         }
       );
       console.log(response.status);
+      console.log(response.data);
       nav('/signup/setting/gender');
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -127,7 +127,7 @@ const AuthCredential = () => {
           <div className={styles.inputContainer}>
             <div>
               <label htmlFor="userName">아이디</label>
-              <input
+              {/* <input
                 type="text"
                 readOnly={emailCheckingState}
                 style={{
@@ -149,7 +149,7 @@ const AuthCredential = () => {
                     message: '아이디는 최대 12자까지 입력할 수 있습니다.',
                   },
                 })}
-              />
+              /> */}
             </div>
             <div>
               <label htmlFor="email">이메일</label>

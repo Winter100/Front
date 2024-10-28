@@ -1,12 +1,18 @@
 import BadgeList from './BadgeList';
 import styles from './userProfile.module.css';
 
-const UserProfile = ({ name, age }: { name: string; age: number }) => {
+const UserProfile = ({
+  profileName,
+  age,
+}: {
+  profileName: string;
+  age: number;
+}) => {
   return (
     <div className={styles.container}>
       <div className={styles.user_info}>
-        <p>{name}</p>
-        <p>{age}</p>
+        <p>{profileName ?? ''}</p>
+        <p>{age ?? 0}</p>
       </div>
       <BadgeList />
     </div>

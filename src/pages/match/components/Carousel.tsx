@@ -3,7 +3,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import styles from './carousel.module.css';
 
-const Carousel = ({ images }: { images: string[] }) => {
+const Carousel = ({ image }: { image: string }) => {
   const settings = {
     dots: true,
     dotsClass: 'dots_custom',
@@ -29,12 +29,17 @@ const Carousel = ({ images }: { images: string[] }) => {
   };
 
   return (
-    <Slider {...settings}>
-      {images.map((image) => (
-        <img key={image} className={styles.img} src={image} alt={image} />
-      ))}
-    </Slider>
+    <div className={styles.img_container}>
+      <img key={image} className={styles.img} src={image} alt={image} />
+    </div>
+    // <Slider {...settings}>
+    //  </Slider>
   );
 };
 
 export default Carousel;
+{
+  /* {images.map((image) => (
+        <img key={image} className={styles.img} src={image} alt={image} />
+      ))} */
+}

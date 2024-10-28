@@ -52,8 +52,8 @@ const AddressForm = () => {
     }
     const data = await getLatAndLon(address);
 
-    const longitude = data[0].x;
-    const latitude = data[0].y;
+    const latitude = data[0].y; // 위도
+    const longitude = data[0].x; // 경도
     console.log(latitude, longitude);
   };
 

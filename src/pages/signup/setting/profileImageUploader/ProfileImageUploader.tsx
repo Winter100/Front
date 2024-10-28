@@ -1,18 +1,39 @@
-import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import styles from './profileImageUploader.module.css';
 import useProfileStore from '../../../../store/useProfileStore';
 import ImageInput from '../../../../components/ui/ImageInput';
 import MainButton from '../../../../components/ui/MainButton';
+import axios from 'axios';
 
 const ProfileImageUploader: React.FC = () => {
   const { profile } = useProfileStore();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+
   const imageInputs = Array.from({ length: 6 }, (_, index) => index);
   const saveHandler = async () => {
     if (profile.image.length >= 3) {
-      navigate('/match');
+      // navigate('/match');
+      const imageOne = profile.image[0];
+      const formData = new FormData();
+
+      formData.append('profileImage', imageOne);
+      formData.append('profileImage', imageOne);
+      formData.append('profileImage', imageOne);
+
+      const response = axios.post(
+        `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/profiles/upload-profile`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5NTgyODE0fQ.KMBuOL2SiTl0lamWA09h8ccq4YB5ovFFaCZLePaOrWtFmYfdPRa_ZyBp9m9J7JLHBWxBgJFlUmQP_Qijd4Y01A`,
+          },
+          data: formData,
+        }
+      );
+      const data = (await response).data;
+
+      console.log(data);
     } else {
       toast.error('이미지는 최소 3장이 필요합니다.');
     }
