@@ -44,6 +44,7 @@ const ImageInput: React.FC<Props> = ({ index }) => {
       {image[index] && (
         <div className={styles.deleteBtnWrapper}>
           <button
+            type="button"
             onClick={() => {
               deleteHandler();
             }}

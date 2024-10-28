@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
 import styles from './profileImageUploader.module.css';
 import useProfileStore from '../../../../store/useProfileStore';
 import ImageInput from '../../../../components/ui/ImageInput';
@@ -17,11 +16,13 @@ const ProfileImageUploader: React.FC = () => {
   const saveHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(profile.image);
-    const formData = new FormData();
-    formData.append('profileImage', profile.image[0]);
-
     const token = sessionStorage.getItem('accessToken');
+    const formData = new FormData();
+
+    profile.image.forEach((image) => {
+      formData.append(`profileImage`, image as File);
+    });
+
     if (profile.image.length >= 3) {
       try {
         const response = await axios.post(
@@ -29,18 +30,20 @@ const ProfileImageUploader: React.FC = () => {
           formData,
           {
             headers: {
-              Authorization: `Bearer ${token}`, // Authorization 헤더에 액세스 토큰 추가
+              Authorization: `Bearer ${token}`,
             },
           }
         );
-        if (response.data.status === '성공') {
-          navigate('/match');
-        }
+        console.log(response);
+        navigate('/match');
+        // if (response.data.status === '성공') {
+        //   navigate('/match');
+        // }
       } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
-          console.error('에러', error.response.data);
+          console.error('에러', error.response);
         } else {
-          console.error('에러', error);
+          console.error('에러2', error);
         }
       }
     } else {
