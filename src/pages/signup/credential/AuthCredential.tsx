@@ -15,8 +15,8 @@ type Inputs = {
 };
 
 const AuthCredential = () => {
-  const [emailVerification, setEmailVerification] = useState(false);
-  const [emailCheckingState, setEmailCheckingState] = useState(false);
+  const [isVerificationCodeReceived, setIsVerificationCodeReceived] =
+    useState(false);
   const nav = useNavigate();
 
   const { register, handleSubmit, watch } = useForm<Inputs>({
@@ -30,10 +30,10 @@ const AuthCredential = () => {
   //입력된 유저정보
   const email = watch('email');
   const password = watch('password');
-  const certificationNumber = watch('certificationNumber');
 
   //회원가입 함수
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    console.log(data);
     try {
       const response = await axios.post(
         `${projectURL}/api/v1/auth/sign-up`,
@@ -48,7 +48,8 @@ const AuthCredential = () => {
           },
         }
       );
-      if (response.data.status === '성공') {
+      console.log(response);
+      if (response.data.email === data.email) {
         nav('/signup/setting/gender');
       }
     } catch (error) {
@@ -88,7 +89,7 @@ const AuthCredential = () => {
 
         if (response.data.status === '성공') {
           toast.success(response.data.message);
-          setEmailCheckingState(!emailCheckingState);
+          setIsVerificationCodeReceived(!isVerificationCodeReceived);
         } else {
           toast.error('인증번호 받기 실패');
         }
@@ -101,27 +102,27 @@ const AuthCredential = () => {
   };
 
   //인증번호 확인 함수
-  const postVerificationNumBtnHanddler = async () => {
-    try {
-      const response = await axios.post(
-        `${projectURL}/api/v1/auth/check-certification`,
-        {
-          email,
-          certificationNumber,
-        }
-      );
-      console.log(response);
+  // const postVerificationNumBtnHanddler = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       `${projectURL}/api/v1/auth/check-certification`,
+  //       {
+  //         email,
+  //         certificationNumber,
+  //       }
+  //     );
+  //     console.log(response);
 
-      if (response.data.status === '성공') {
-        toast.success(response.data.message);
-        setEmailVerification(!emailVerification);
-      } else {
-        toast.error(`${response.data.message} 인증번호를 다시 확인해주세요`);
-      }
-    } catch (error) {
-      console.error('error', error);
-    }
-  };
+  //     if (response.data.email === email) {
+  //       toast.success(response.data.message);
+  //       setEmailVerification(!emailVerification);
+  //     } else {
+  //       toast.error(`${response.data.message} 인증번호를 다시 확인해주세요`);
+  //     }
+  //   } catch (error) {
+  //     console.error('error', error);
+  //   }
+  // };
   return (
     <>
       <div className={styles.container}>
@@ -135,10 +136,12 @@ const AuthCredential = () => {
               <div className={styles.inputBtnStack}>
                 <input
                   className={styles.emailInput}
-                  readOnly={emailCheckingState}
+                  readOnly={isVerificationCodeReceived}
                   autoComplete="off"
                   style={{
-                    backgroundColor: emailCheckingState ? '#4c4c4c' : 'black',
+                    backgroundColor: isVerificationCodeReceived
+                      ? '#4c4c4c'
+                      : 'black',
                   }}
                   {...register('email', {
                     required: '이메일을 입력해주세요.',
@@ -152,33 +155,22 @@ const AuthCredential = () => {
                 <button
                   type="button"
                   onClick={getVerificationBtnHanddler}
-                  disabled={emailCheckingState}
+                  disabled={isVerificationCodeReceived}
                 >
                   인증번호 받기
                 </button>
               </div>
             </div>
-            {emailCheckingState && (
+            {isVerificationCodeReceived && (
               <div>
                 <label htmlFor="verificationInput">인증번호 입력</label>
                 <div className={styles.inputBtnStack}>
                   <input
                     type="text"
                     id="verificationInput"
-                    readOnly={emailVerification}
                     maxLength={4}
-                    style={{
-                      backgroundColor: emailVerification ? '#4c4c4c' : 'black',
-                    }}
                     {...register('certificationNumber')}
                   />
-                  <button
-                    type="button"
-                    onClick={postVerificationNumBtnHanddler}
-                    disabled={emailVerification}
-                  >
-                    인증하기
-                  </button>
                 </div>
               </div>
             )}
@@ -186,9 +178,11 @@ const AuthCredential = () => {
               <label htmlFor="password">비밀번호</label>
               <input
                 type="password"
-                disabled={!emailVerification}
+                disabled={!isVerificationCodeReceived}
                 style={{
-                  backgroundColor: !emailVerification ? '#4c4c4c' : undefined,
+                  backgroundColor: !isVerificationCodeReceived
+                    ? '#4c4c4c'
+                    : undefined,
                 }}
                 maxLength={13}
                 {...register('password', {
@@ -213,9 +207,11 @@ const AuthCredential = () => {
               <label htmlFor="confirmPassword">비밀번호 확인</label>
               <input
                 type="password"
-                disabled={!emailVerification}
+                disabled={!isVerificationCodeReceived}
                 style={{
-                  backgroundColor: emailVerification ? 'black' : '#4c4c4c',
+                  backgroundColor: isVerificationCodeReceived
+                    ? 'black'
+                    : '#4c4c4c',
                 }}
                 maxLength={13}
                 {...register('confirmPassword', {
@@ -230,7 +226,7 @@ const AuthCredential = () => {
             <MainButton
               text="가입하기"
               type="submit"
-              disabled={!emailVerification}
+              disabled={!isVerificationCodeReceived}
             />
           </div>
         </form>
