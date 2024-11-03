@@ -19,7 +19,7 @@ const Gender = () => {
             type="button"
             text="남자"
             onClickFn={() => {
-              setProfile({ ...profile, gender: 'male' });
+              setProfile({ ...profile, gender: 'MALE' });
               nav('/signup/setting/profile');
             }}
           />
@@ -27,7 +27,7 @@ const Gender = () => {
             type="button"
             text="여자"
             onClickFn={() => {
-              setProfile({ ...profile, gender: 'female' });
+              setProfile({ ...profile, gender: 'FEMALE' });
               nav('/signup/setting/profile');
             }}
           />

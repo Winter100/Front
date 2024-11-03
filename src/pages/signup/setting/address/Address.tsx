@@ -61,10 +61,11 @@ const Address = () => {
     const longitude = data[0].x;
     const latitude = data[0].y;
     const token = sessionStorage.getItem('accessToken');
-    const projectURL = import.meta.env.VITE_PROJECT_SERVER_URL;
+    const requestURL = import.meta.env.VITE_PROJECT_SERVER_URL;
+    console.log(longitude, latitude);
     try {
       const response = await axios.post(
-        `${projectURL}/api/v1/profiles/saveLocation`,
+        `${requestURL}/api/v1/profiles/saveLocation`,
         {
           latitude,
           longitude,
@@ -75,15 +76,16 @@ const Address = () => {
           },
         }
       );
+      console.log(response);
       if (response.data.status === '성공') {
-        nav('/signup/setting/gender');
+        nav('/signup/setting/profileImageUploader');
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        console.error('postAddressError', error.response.data);
+        console.error('postAddressError', error.response);
         toast.error(error.response.data.message);
       } else {
-        console.error('postAddressError', error);
+        console.error('postAddressError2', error);
       }
     }
   };

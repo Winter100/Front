@@ -9,6 +9,7 @@ type Inputs = {
   email: string;
   password: string;
 };
+
 const Login = () => {
   const nav = useNavigate();
   const { register, handleSubmit } = useForm<Inputs>({
@@ -16,21 +17,33 @@ const Login = () => {
     reValidateMode: 'onSubmit',
   });
   const requestURL = import.meta.env.VITE_PROJECT_SERVER_URL;
+
   const loginHandler: SubmitHandler<Inputs> = async (data) => {
     try {
       const response = await axios.post(`${requestURL}/api/v1/auth/sign-in`, {
         email: data.email,
         password: data.password,
       });
+      console.log(response);
       if (response.data.token.accessToken && response.data.token.refreshToken) {
         sessionStorage.setItem('accessToken', response.data.token.accessToken);
         sessionStorage.setItem(
           'refreshToken',
           response.data.token.refreshToken
         );
-        response.data.hasProfile
-          ? nav('/match')
-          : nav('/signup/setting/gender');
+        if (!response.data.hasProfile) {
+          toast.success('만들고 있던 프로필로 이동합니다');
+          nav('/signup/setting/gender');
+        } else if (!response.data.hasProfileLocation) {
+          toast.success('만들고 있던 프로필로 이동합니다');
+          nav('/signup/setting/address');
+        } else if (!response.data.hasProfileImage) {
+          toast.success('만들고 있던 프로필로 이동합니다');
+          nav('/signup/setting/profileImageUploader');
+        } else {
+          toast.success('로그인 완료');
+          nav('/match');
+        }
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
