@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import MainButton from '../../components/ui/MainButton';
 import { FieldErrors, SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 type Inputs = {
-  username: string;
+  email: string;
   password: string;
 };
 const Login = () => {
@@ -18,26 +19,37 @@ const Login = () => {
   const loginHandler: SubmitHandler<Inputs> = async (data) => {
     try {
       const response = await axios.post(`${requestURL}/api/v1/auth/sign-in`, {
-        email: data.username,
+        email: data.email,
         password: data.password,
       });
-      if (response.data.accessToken && response.data.refreshToken) {
-        sessionStorage.setItem('accessToken', response.data.accessToken);
-        sessionStorage.setItem('refreshToken', response.data.refreshToken);
+      if (response.data.token.accessToken && response.data.token.refreshToken) {
+        sessionStorage.setItem('accessToken', response.data.token.accessToken);
+        sessionStorage.setItem(
+          'refreshToken',
+          response.data.token.refreshToken
+        );
         response.data.hasProfile
           ? nav('/match')
           : nav('/signup/setting/gender');
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        console.error('signinError', error.response.data);
+        toast.error(error.response.data.message);
       } else {
         console.error('signinError', error);
       }
     }
   };
   const errorHandler = (errors: FieldErrors<Inputs>) => {
-    console.log(errors);
+    const errorMessages = ['email', 'password'] as const;
+
+    // 첫 번째로 발견된 에러만 처리 (선택적)
+    for (const field of errorMessages) {
+      if (errors[field]) {
+        toast.error(errors[field]?.message);
+        return;
+      }
+    }
   };
   const signupHandler = () => {
     nav('/signup');
@@ -53,7 +65,17 @@ const Login = () => {
         </div>
         <div className={styles.formWrapper}>
           <form onSubmit={handleSubmit(loginHandler, errorHandler)}>
-            <input type="text" autoComplete="off" {...register('username')} />
+            <input
+              type="email"
+              autoComplete="off"
+              {...register('email', {
+                required: '이메일을 입력해주세요.',
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: '이메일 형식이 올바르지 않습니다.',
+                },
+              })}
+            />
             <input type="password" {...register('password')} />
             <MainButton text="로그인" type="submit" />
             <div className={styles.socialLoginBtnContainer}>

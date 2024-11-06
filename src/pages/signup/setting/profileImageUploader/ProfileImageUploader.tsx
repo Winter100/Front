@@ -14,21 +14,25 @@ const ProfileImageUploader: React.FC = () => {
   const saveHandler = async () => {
     if (profile.image.length >= 3) {
       // navigate('/match');
-      const imageOne = profile.image[0];
+      const imageOne = profile.image;
       const formData = new FormData();
 
-      formData.append('profileImage', imageOne);
-      formData.append('profileImage', imageOne);
-      formData.append('profileImage', imageOne);
+      formData.append('profileImage', imageOne[0]);
+      formData.append('profileImage', imageOne[1]);
+      formData.append('profileImage', imageOne[2]);
+
+      const token =
+        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMSIsImV4cCI6MTczMDA5ODk3N30.-bvYMOZEBMSQgnyR-Z84v3JcoM8Sf--oXxNy9_kuma2e_vmUPLGseLuDXzfbu3zZI5ADgEdZh_vM0lb6LHhbbw';
+      // const token = sessionStorage.getItem('accessToken');
 
       const response = axios.post(
         `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/profiles/upload-profile`,
+        formData,
         {
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiZXhwIjoxNzI5NTgyODE0fQ.KMBuOL2SiTl0lamWA09h8ccq4YB5ovFFaCZLePaOrWtFmYfdPRa_ZyBp9m9J7JLHBWxBgJFlUmQP_Qijd4Y01A`,
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
           },
-          data: formData,
         }
       );
       const data = (await response).data;

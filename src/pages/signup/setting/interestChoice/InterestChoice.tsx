@@ -7,6 +7,7 @@ import styles from './interestChoice.module.css';
 import Badge from '../../../../components/common/Badge';
 import MainButton from '../../../../components/ui/MainButton';
 import useProfileStore from '../../../../store/useProfileStore';
+import axios from 'axios';
 
 const InterestChoice = () => {
   const nav = useNavigate();
@@ -50,9 +51,31 @@ const InterestChoice = () => {
     }
   };
 
-  const btnHandler = () => {
-    setProfile({ ...profile, interest: selectedArr });
-    nav('/signup/setting/profileImageUploader');
+  const btnHandler = async () => {
+    // setProfile({ ...profile, interest: selectedArr });
+    // nav('/signup/setting/address');
+
+    const token = sessionStorage.getItem('accessToken');
+    const projectURL = import.meta.env.VITE_PROJECT_SERVER_URL;
+
+    const response = await axios.post(
+      `${projectURL}/api/v1/profiles`,
+      {
+        profileName: '프로필테슽',
+        selfIntroduction: '안321',
+        dateOfBirth: '1999-12-12',
+        gender: 'MALE',
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const data = response.data;
+
+    console.log('data', data);
   };
 
   return (

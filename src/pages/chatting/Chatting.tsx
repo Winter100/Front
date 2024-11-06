@@ -8,11 +8,12 @@ import ChattingRoom from './components/ChattingRoom';
 import InputContainer from '../../components/common/InputContainer';
 import Input from '../../components/common/Input';
 import { useChattingStore } from '../../store/useChattingStore';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { MessageType } from '../../types/message';
 
 const Chatting = () => {
   const navigate = useNavigate();
+  const ws = useRef<WebSocket | null>(null);
   const addChattingMessages = useChattingStore(
     (state) => state.addChattingMessages
   );
@@ -29,6 +30,19 @@ const Chatting = () => {
     addChattingMessages(messageData);
     setMessage('');
   };
+
+  useEffect(() => {
+    ws.current = new WebSocket('ws://URL');
+    ws.current.onopen = () => {
+      console.log('연결 시작');
+    };
+
+    ws.current.onmessage = (event) => {
+      if (event.data) {
+        return;
+      }
+    };
+  }, []);
 
   return (
     <>

@@ -24,6 +24,7 @@ import Edit from './pages/profile/edit/Edit';
 import LoginLayout from './components/layout/LoginLayout';
 import Callback from './pages/callback/Callback';
 import CallbackLayout from './components/layout/CallbackLayout';
+import Address from './pages/signup/setting/address/Address';
 
 const router = createBrowserRouter([
   {
@@ -69,6 +70,7 @@ const router = createBrowserRouter([
               { path: 'gender', element: <Gender /> },
               { path: 'profile', element: <Profile /> },
               { path: 'interestChoice', element: <InterestChoice /> },
+              { path: 'address', element: <Address /> },
               {
                 path: 'profileImageUploader',
                 element: <ProfileImageUploader />,

@@ -1,0 +1,98 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  gap: 40px;
+}
+.searchAddressButton {
+  width: 100%;
+  min-height: 2rem;
+  border: none;
+  border-radius: 5px;
+  padding: 0;
+  background: linear-gradient(45deg, #e94b76, #eb6649);
+
+  transition: 0.3s;
+}
+
+.searchAddressButton:hover {
+  opacity: 0.5;
+}
+.adressInputContainer {
+  width: 100%;
+  height: calc(100% - 112px);
+}
+.postcodeWrapper {
+  height: 100%;
+  max-height: calc(100% - 112px);
+  min-height: 300px;
+}
+.container > input {
+  width: 500px;
+  height: 2.2rem;
+  border: none;
+  border-radius: 5px;
+  margin-top: 5px;
+
+  background-color: #202123;
+  color: white;
+}
+
+.headerContainer {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.headerContainer h2 {
+  font-size: 25px;
+  font-weight: 700;
+}
+.resultContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-items: center;
+}
+.locationConfirmationContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.locationConfirmationContainer > p:first-child {
+  font-size: 25px;
+}
+.locationConfirmationContainer > p:last-child {
+  font-size: 20px;
+}
+.btnContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.btnContainer > div {
+  width: 80%;
+}
+
+.resetAddressBtn {
+  width: 100%;
+  height: 50px;
+  border-radius: 3rem;
+  border: none;
+  color: white;
+  background-color: gray;
+  font-size: 20px;
+  font-weight: 700;
+}
