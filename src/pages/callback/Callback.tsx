@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './callback.module.css';
+import requests, { postRequest } from '../../api/request';
 const Callback = () => {
   const nav = useNavigate();
   const location = useLocation();
@@ -10,13 +10,10 @@ const Callback = () => {
     const queryParams = new URLSearchParams(location.search);
     const code = queryParams.get('code');
     const fetchData = async (code: string) => {
-      const requestURL = import.meta.env.VITE_PROJECT_SERVER_URL;
       try {
-        const response = await axios.post(
-          `${requestURL}/api/v1/auth/kakao`,
-          { authorizationCode: code },
-          { headers: { 'Content-Type': 'application/json' } }
-        );
+        const response = await postRequest(requests.fetchKaKaoSignIn, {
+          authorizationCode: code,
+        });
         if (response.data.accessToken && response.data.refreshToken) {
           sessionStorage.setItem('accessToken', response.data.accessToken);
           sessionStorage.setItem('refreshToken', response.data.refreshToken);

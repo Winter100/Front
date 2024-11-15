@@ -8,6 +8,7 @@ import useProfileStore from '../../../../store/useProfileStore';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import requests, { postRequest } from '../../../../api/request';
 
 interface dataType {
   address: string;
@@ -60,23 +61,15 @@ const Address = () => {
 
     const longitude = data[0].x;
     const latitude = data[0].y;
-    const token = sessionStorage.getItem('accessToken');
-    const requestURL = import.meta.env.VITE_PROJECT_SERVER_URL;
+    const token = sessionStorage.getItem('accessToken') as string;
+
     console.log(longitude, latitude);
     try {
-      const response = await axios.post(
-        `${requestURL}/api/v1/profiles/saveLocation`,
-        {
-          latitude,
-          longitude,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const response = await postRequest(
+        requests.fetchSaveLocation,
+        { latitude, longitude },
+        token
       );
-      console.log(response);
       if (response.data.status === '성공') {
         nav('/signup/setting/profileImageUploader');
       }

@@ -2,10 +2,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FieldErrors, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-
 import styles from './authCredential.module.css';
 import MainButton from '../../../components/ui/MainButton';
 import { useState } from 'react';
+import requests, { postRequest } from '../../../api/request';
 
 type Inputs = {
   email: string;
@@ -24,9 +24,6 @@ const AuthCredential = () => {
     reValidateMode: 'onSubmit',
   });
 
-  // const projectURL = import.meta.env.VITE_PROJECT_URL as string;
-  const projectURL = import.meta.env.VITE_PROJECT_SERVER_URL as string;
-
   //입력된 유저정보
   const email = watch('email');
   const password = watch('password');
@@ -34,30 +31,19 @@ const AuthCredential = () => {
   //회원가입 함수
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     console.log(data);
+
     try {
-      const response = await axios.post(
-        `${projectURL}/api/v1/auth/sign-up`,
-        {
-          password: data.password,
-          email: data.email,
-          certificationNumber: data.certificationNumber,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const response = await postRequest(requests.fetchSignUp, {
+        password: data.password,
+        email: data.email,
+        certificationNumber: data.certificationNumber,
+      });
       console.log(response);
-      if (response.data.email === data.email) {
-        nav('/signup/setting/gender');
-      }
+      if (response.data.email === data.email) nav('/signup/setting/gender');
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        console.error('signinError', error.response.data);
-      } else {
-        console.error('signinError', error);
-      }
+      axios.isAxiosError(error) && error.response
+        ? console.error('signinError', error.response.data)
+        : console.error('signinError', error);
     }
   };
 
@@ -79,50 +65,26 @@ const AuthCredential = () => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
     try {
-      if (emailRegex.test(email)) {
-        const response = await axios.post(
-          `${projectURL}/api/v1/auth/email-certification`,
-          {
-            email,
-          }
-        );
-
-        if (response.data.status === '성공') {
-          toast.success(response.data.message);
-          setIsVerificationCodeReceived(!isVerificationCodeReceived);
-        } else {
-          toast.error('인증번호 받기 실패');
-        }
-      } else {
+      if (!emailRegex.test(email)) {
         toast.error('이메일 형식이 올바르지 않습니다.');
+        return null;
+      }
+
+      const response = await postRequest(requests.fetchEmailCertification, {
+        email,
+      });
+      console.log(response);
+      if (response.data.status === '성공') {
+        toast.success(response.data.message);
+        setIsVerificationCodeReceived(!isVerificationCodeReceived);
+      } else {
+        toast.error('인증번호 받기 실패');
       }
     } catch (error) {
       console.error('error', error);
     }
   };
 
-  //인증번호 확인 함수
-  // const postVerificationNumBtnHanddler = async () => {
-  //   try {
-  //     const response = await axios.post(
-  //       `${projectURL}/api/v1/auth/check-certification`,
-  //       {
-  //         email,
-  //         certificationNumber,
-  //       }
-  //     );
-  //     console.log(response);
-
-  //     if (response.data.email === email) {
-  //       toast.success(response.data.message);
-  //       setEmailVerification(!emailVerification);
-  //     } else {
-  //       toast.error(`${response.data.message} 인증번호를 다시 확인해주세요`);
-  //     }
-  //   } catch (error) {
-  //     console.error('error', error);
-  //   }
-  // };
   return (
     <>
       <div className={styles.container}>

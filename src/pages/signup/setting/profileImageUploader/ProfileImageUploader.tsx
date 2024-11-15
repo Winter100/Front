@@ -6,12 +6,12 @@ import ImageInput from '../../../../components/ui/ImageInput';
 import MainButton from '../../../../components/ui/MainButton';
 import axios from 'axios';
 import { FormEvent } from 'react';
+import requests, { postRequest } from '../../../../api/request';
 
 const ProfileImageUploader: React.FC = () => {
   const { profile } = useProfileStore();
   const navigate = useNavigate();
   const imageInputs = Array.from({ length: 6 }, (_, index) => index);
-  const requestURL = import.meta.env.VITE_PROJECT_SERVER_URL;
 
   const saveHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -25,14 +25,10 @@ const ProfileImageUploader: React.FC = () => {
 
     if (profile.image.length >= 3) {
       try {
-        const response = await axios.post(
-          `${requestURL}/api/v1/profiles/upload-profile`,
+        const response = await postRequest(
+          requests.fetchUploadProfileImage,
           formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          token
         );
         console.log(response);
         navigate('/match');
