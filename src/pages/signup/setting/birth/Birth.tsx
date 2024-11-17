@@ -5,12 +5,12 @@ import useProfileStore from '../../../../store/useProfileStore';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import requests, { postRequest } from '../../../../api/request';
 
 const Birth = () => {
   const { profile, setProfile } = useProfileStore();
   const navigate = useNavigate();
 
-  const requestURL = import.meta.env.VITE_PROJECT_SERVER_URL;
   const token = sessionStorage.getItem('accessToken');
 
   const date = new Date();
@@ -41,30 +41,23 @@ const Birth = () => {
 
   //
 
-  // 생년월일 저장 핸들러
+  // 프로필 저장 핸들러
   const birthHandler = async () => {
     console.log(profile);
     try {
-      const response = await axios.post(
-        `${requestURL}/api/v1/profiles`,
-        {
-          profileName: profile.nickname,
-          selfIntroduction: profile.introduce,
-          dateOfBirth: `${selectedYear}-${String(selectedMonth).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`,
-          gender: profile.gender,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const data = {
+        profileName: profile.nickname,
+        selfIntroduction: profile.introduce,
+        dateOfBirth: `${selectedYear}-${String(selectedMonth).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`,
+        gender: profile.gender,
+      };
 
-      if (response.status === 201) {
-        navigate('/signup/setting/address');
-      } else if (response.status === 409) {
+      const response = await postRequest(requests.fetchProfiles, data, token);
+      if (response.status === 409) {
         toast.error('프로필이 존재합니다.');
+        return;
       }
+      if (response.status === 201) navigate('/signup/setting/address');
     } catch (error) {
       console.error(
         '에러',
@@ -77,12 +70,14 @@ const Birth = () => {
 
   // 날짜 선택 핸들러
   const handleDateChange = (type: 'year' | 'month' | 'day', value: number) => {
-    if (type === 'year') {
-      setSelectedYear(value);
-    } else if (type === 'month') {
-      setSelectedMonth(value);
-    } else if (type === 'day') {
-      setSelectedDay(value);
+    const setValue = {
+      year: setSelectedYear,
+      month: setSelectedMonth,
+      day: setSelectedDay,
+    };
+
+    if (setValue[type]) {
+      setValue[type](value);
     }
 
     setProfile({

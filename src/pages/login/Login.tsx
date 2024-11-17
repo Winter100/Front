@@ -4,6 +4,7 @@ import MainButton from '../../components/ui/MainButton';
 import { FieldErrors, SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import requests, { postRequest } from '../../api/request';
 
 type Inputs = {
   email: string;
@@ -20,10 +21,11 @@ const Login = () => {
 
   const loginHandler: SubmitHandler<Inputs> = async (data) => {
     try {
-      const response = await axios.post(`${requestURL}/api/v1/auth/sign-in`, {
+      const inputData = {
         email: data.email,
         password: data.password,
-      });
+      };
+      const response = await postRequest(requests.fetchSignIn, inputData);
       console.log(response);
       if (response.data.token.accessToken && response.data.token.refreshToken) {
         sessionStorage.setItem('accessToken', response.data.token.accessToken);
