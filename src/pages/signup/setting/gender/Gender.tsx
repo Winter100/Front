@@ -9,31 +9,31 @@ const Gender = () => {
   const { profile, setProfile } = useProfileStore();
 
   return (
-    <>
-      <div className={styles.container}>
-        <div>
-          <h2>성별이 무엇입니까?</h2>
-        </div>
-        <div className={styles.btnContainer}>
-          <MainButton
-            type="button"
-            text="남자"
-            onClickFn={() => {
-              setProfile({ ...profile, gender: 'MALE' });
-              nav('/signup/setting/profile');
-            }}
-          />
-          <MainButton
-            type="button"
-            text="여자"
-            onClickFn={() => {
-              setProfile({ ...profile, gender: 'FEMALE' });
-              nav('/signup/setting/profile');
-            }}
-          />
-        </div>
+    <div className={styles.container}>
+      <div>
+        <h2>성별이 무엇입니까?</h2>
       </div>
-    </>
+      <div className={styles.btnContainer}>
+        <MainButton
+          type="button"
+          text="남자"
+          aria-label="남성 성별 선택"
+          onClickFn={() => {
+            setProfile({ ...profile, gender: 'MALE' });
+            nav('/signup/setting/profile');
+          }}
+        />
+        <MainButton
+          type="button"
+          text="여자"
+          aria-label="여성 성별 선택"
+          onClickFn={() => {
+            setProfile({ ...profile, gender: 'FEMALE' });
+            nav('/signup/setting/profile');
+          }}
+        />
+      </div>
+    </div>
   );
 };
 

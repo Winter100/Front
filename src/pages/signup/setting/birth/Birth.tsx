@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import styles from './birth.module.css';
 import MainButton from '../../../../components/ui/MainButton';
 import useProfileStore from '../../../../store/useProfileStore';
@@ -23,11 +23,21 @@ const Birth = () => {
   const [selectedDay, setSelectedDay] = useState(currentDay);
   const [daysArr, setDaysArr] = useState<string[]>([]);
 
-  const yearArr = Array.from(
-    { length: currentYear - 1990 + 1 },
-    (_, i) => `${i + 1990}년`
+  // yearArr과 monthArr을 useMemo로 최적화
+  const yearArr = useMemo(
+    () =>
+      Array.from({ length: currentYear - 1990 + 1 }, (_, i) => `${i + 1990}년`),
+    [currentYear]
   );
-  const monthArr = Array.from({ length: 12 }, (_, i) => `${i + 1}월`);
+
+  const monthArr = useMemo(
+    () => Array.from({ length: 12 }, (_, i) => `${i + 1}월`),
+    []
+  );
+
+  // 날짜 포맷팅 함수 분리
+  const formatDate = (year: number, month: number, day: number) =>
+    `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
   // 해당 연도와 월에 맞는 일 수를 반환하는 함수
   const getDaysInMonth = (year: number, month: number) =>
@@ -39,16 +49,13 @@ const Birth = () => {
     setDaysArr(Array.from({ length: daysInMonth }, (_, i) => `${i + 1}일`));
   }, [selectedYear, selectedMonth]);
 
-  //
-
   // 프로필 저장 핸들러
   const birthHandler = async () => {
-    console.log(profile);
     try {
       const data = {
         profileName: profile.nickname,
         selfIntroduction: profile.introduce,
-        dateOfBirth: `${selectedYear}-${String(selectedMonth).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`,
+        dateOfBirth: formatDate(selectedYear, selectedMonth, selectedDay),
         gender: profile.gender,
       };
 
@@ -76,13 +83,11 @@ const Birth = () => {
       day: setSelectedDay,
     };
 
-    if (setValue[type]) {
-      setValue[type](value);
-    }
+    setValue[type]?.(value);
 
     setProfile({
       ...profile,
-      dateOfBirth: `${selectedYear}-${String(selectedMonth).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`,
+      dateOfBirth: formatDate(selectedYear, selectedMonth, selectedDay),
     });
   };
 
