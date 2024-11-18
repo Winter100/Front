@@ -1,35 +1,34 @@
-import { useNavigate } from 'react-router-dom';
-
-import styles from './gender.module.css';
-import useProfileStore from '../../../../store/useProfileStore';
-import MainButton from '../../../../components/ui/MainButton';
-
+import { useState } from 'react';
+import MainButton from '../../../../../components/ui/MainButton';
+import useProfileStore from '../../../../../store/useProfileStore';
+import styles from './styles/gender.module.css';
 const Gender = () => {
-  const nav = useNavigate();
   const { profile, setProfile } = useProfileStore();
-
+  const [genderState, setGenderState] = useState('');
   return (
     <div className={styles.container}>
-      <div>
-        <h2>성별이 무엇입니까?</h2>
+      <div className={styles.headerWrapper}>
+        <h3>성별</h3>
       </div>
       <div className={styles.btnContainer}>
         <MainButton
           type="button"
           text="남자"
           aria-label="남성 성별 선택"
+          disabled={genderState === 'MALE'}
           onClickFn={() => {
+            setGenderState('MALE');
             setProfile({ ...profile, gender: 'MALE' });
-            nav('/signup/setting/profile');
           }}
         />
         <MainButton
           type="button"
           text="여자"
           aria-label="여성 성별 선택"
+          disabled={genderState === 'FEMALE'}
           onClickFn={() => {
+            setGenderState('FEMALE');
             setProfile({ ...profile, gender: 'FEMALE' });
-            nav('/signup/setting/profile');
           }}
         />
       </div>

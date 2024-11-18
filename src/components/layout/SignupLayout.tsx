@@ -6,7 +6,6 @@ import MainSection from './MainSection';
 const SignupLayout = () => {
   const nav = useNavigate();
   return (
-    // <div className={styles.signupLayout}>
     <>
       <Header
         left={
@@ -37,7 +36,6 @@ const SignupLayout = () => {
         <Outlet />
       </MainSection>
     </>
-    // </div>
   );
 };
 

@@ -54,7 +54,7 @@ const InterestChoice = () => {
 
   const btnHandler = () => {
     setProfile({ ...profile, interest: selectedArr });
-    nav('/signup/setting/birth');
+    nav('/signup/setting/address');
   };
 
   return (
