@@ -44,14 +44,15 @@ export const getRequest = async (
 export const postRequest = async (
   endPoint: string,
   data,
-  token: string | null = null
+  token: boolean = false
 ) => {
+  const accessToken = sessionStorage.getItem('accessToken');
   try {
     const config: AxiosRequestConfig = {
       headers: {},
     };
     if (token) {
-      config.headers!['Authorization'] = token;
+      config.headers!['Authorization'] = accessToken;
     }
     const response = await instance.post(endPoint, data, config);
     return response;
