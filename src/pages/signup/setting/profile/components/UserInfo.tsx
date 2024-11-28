@@ -5,7 +5,7 @@ const UserInfo = () => {
   const nicknameRef = useRef<HTMLInputElement>(null);
   const introduceRef = useRef<HTMLTextAreaElement>(null);
   const { profile, setProfile } = useProfileStore();
-  const { nickname, introduce } = profile;
+  const { profileName, selfIntroduction } = profile;
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -16,24 +16,24 @@ const UserInfo = () => {
   return (
     <div className={styles.container}>
       <div>
-        <label htmlFor="nickname">닉네임</label>
+        <label htmlFor="profileName">닉네임</label>
         <input
           type="text"
-          id="nickname"
+          id="profileName"
           ref={nicknameRef}
-          defaultValue={nickname}
+          defaultValue={profileName}
           autoComplete="off"
           onChange={handleInputChange}
           maxLength={10}
         />
       </div>
       <div>
-        <label htmlFor="introduce">자기소개</label>
+        <label htmlFor="selfIntroduction">자기소개</label>
         <textarea
-          name="introduce"
-          id="introduce"
+          name="selfIntroduction"
+          id="selfIntroduction"
           ref={introduceRef}
-          defaultValue={introduce}
+          defaultValue={selfIntroduction}
           autoComplete="off"
           onChange={handleInputChange}
           maxLength={30}

@@ -30,16 +30,14 @@ const AuthCredential = () => {
 
   //회원가입 함수
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(data);
-
     try {
       const response = await postRequest(requests.fetchSignUp, {
         password: data.password,
         email: data.email,
         certificationNumber: data.certificationNumber,
       });
-      console.log(response);
-      if (response.data.email === data.email) nav('/signup/setting/gender');
+
+      if (response.data.email === data.email) nav('/signup/setting/profile');
     } catch (error) {
       axios.isAxiosError(error) && error.response
         ? console.error('signinError', error.response.data)
@@ -73,7 +71,7 @@ const AuthCredential = () => {
       const response = await postRequest(requests.fetchEmailCertification, {
         email,
       });
-      console.log(response);
+
       if (response.data.status === '성공') {
         toast.success(response.data.message);
         setIsVerificationCodeReceived(!isVerificationCodeReceived);

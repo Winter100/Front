@@ -2,10 +2,10 @@ import { create } from 'zustand';
 
 type Profile = {
   gender: string;
-  nickname: string;
+  profileName: string;
   interest: string[];
   image: File[];
-  introduce: string;
+  selfIntroduction: string;
   dateOfBirth: string;
 };
 
@@ -21,22 +21,29 @@ type Action = {
 const useProfileStore = create<State & Action>((set) => ({
   profile: {
     gender: '',
-    nickname: '',
+    profileName: '',
     interest: [],
     image: [],
-    introduce: '',
+    selfIntroduction: '',
     dateOfBirth: '',
   },
 
-  setProfile: ({ gender, interest, image, introduce, nickname, dateOfBirth }) =>
+  setProfile: ({
+    gender,
+    interest,
+    image,
+    selfIntroduction,
+    profileName,
+    dateOfBirth,
+  }) =>
     set((state) => ({
       profile: {
         ...state.profile,
         gender,
-        nickname,
+        profileName,
         interest,
         image,
-        introduce,
+        selfIntroduction,
         dateOfBirth,
       },
     })),
