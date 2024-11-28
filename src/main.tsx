@@ -20,14 +20,12 @@ const enableMocking = async () => {
 
 enableMocking().then(() => {
   ReactDOM.createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>
-      <TanstackProvider>
-        <ToastProvider>
-          <ContextProvider>
-            <App />
-          </ContextProvider>
-        </ToastProvider>
-      </TanstackProvider>
-    </React.StrictMode>
+    <TanstackProvider>
+      <ToastProvider>
+        <ContextProvider>
+          <App />
+        </ContextProvider>
+      </ToastProvider>
+    </TanstackProvider>
   );
 });

@@ -29,7 +29,7 @@ export const getRequest = async (
 ) => {
   try {
     const config: AxiosRequestConfig = {
-      headers: {},
+      headers: { 'Content-Type': 'application/json' },
     };
     if (token) {
       config.headers!['Authorization'] = token;
@@ -41,9 +41,9 @@ export const getRequest = async (
     throw error;
   }
 };
-export const postRequest = async (
+export const postRequest = async <T>(
   endPoint: string,
-  data,
+  data: T,
   token: boolean = false
 ) => {
   const accessToken = sessionStorage.getItem('accessToken');

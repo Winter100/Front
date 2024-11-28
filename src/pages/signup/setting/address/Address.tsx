@@ -61,13 +61,12 @@ const Address = () => {
 
     const longitude = data[0].x;
     const latitude = data[0].y;
-    const token = sessionStorage.getItem('accessToken') as string;
 
     try {
       const response = await postRequest(
         requests.fetchSaveLocation,
         { latitude, longitude },
-        token
+        true
       );
       if (response.data.status === '성공') {
         nav('/signup/setting/profileImageUploader');
@@ -124,7 +123,7 @@ const Address = () => {
           <div className={styles.resultContainer}>
             <div className={styles.locationConfirmationContainer}>
               <p>"{address}"</p>
-              <p>{profile.nickname}님의 현재 위치가 맞으신가요?</p>
+              <p>{profile.profileName}님의 현재 위치가 맞으신가요?</p>
             </div>
             <div className={styles.btnContainer}>
               <MainButton

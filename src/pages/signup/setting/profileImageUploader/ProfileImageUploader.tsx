@@ -17,7 +17,6 @@ const ProfileImageUploader: React.FC = () => {
   const saveHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    const token = sessionStorage.getItem('accessToken');
     const formData = new FormData();
 
     profile.image.forEach((image) => {
@@ -29,7 +28,7 @@ const ProfileImageUploader: React.FC = () => {
         const response = await postRequest(
           requests.fetchUploadProfileImage,
           formData,
-          token
+          true
         );
         console.log(response);
         navigate('/match');
