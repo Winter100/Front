@@ -52,7 +52,7 @@ const Address = () => {
   };
 
   const getLatLon = async () => {
-    if (address.length === 0 && !address) {
+    if (address.length === 0 || !address) {
       toast.error('에러가 발생했습니다. 다시 시도해주세요.');
       setAddress('');
       return;
@@ -61,14 +61,12 @@ const Address = () => {
 
     const longitude = data[0].x;
     const latitude = data[0].y;
-    const token = sessionStorage.getItem('accessToken') as string;
 
-    console.log(longitude, latitude);
     try {
       const response = await postRequest(
         requests.fetchSaveLocation,
         { latitude, longitude },
-        token
+        true
       );
       if (response.data.status === '성공') {
         nav('/signup/setting/profileImageUploader');
@@ -83,17 +81,17 @@ const Address = () => {
     }
   };
 
-  const [loaidng, error] = useKakaoLoader({
+  const [loading, error] = useKakaoLoader({
     libraries: ['services'],
     appkey: import.meta.env.VITE_KAKAO_ADDRESS_API_KEY,
   });
 
-  if (loaidng) {
-    return <p>로딩 테스트...</p>;
+  if (loading) {
+    return <p>주소를 불러오는 중입니다</p>;
   }
 
   if (error) {
-    return <p>에러 테스트...</p>;
+    return <p>주소를 불러오는데 실패했습니다. 다시 시도해주세요.</p>;
   }
 
   return (
@@ -125,7 +123,7 @@ const Address = () => {
           <div className={styles.resultContainer}>
             <div className={styles.locationConfirmationContainer}>
               <p>"{address}"</p>
-              <p>{profile.nickname}님의 현재 위치가 맞으신가요?</p>
+              <p>{profile.profileName}님의 현재 위치가 맞으신가요?</p>
             </div>
             <div className={styles.btnContainer}>
               <MainButton

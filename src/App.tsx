@@ -13,7 +13,7 @@ import Login from './pages/login/Login';
 import SignupLayout from './components/layout/SignupLayout';
 import Signup from './pages/signup/Signup';
 import AuthCredential from './pages/signup/credential/AuthCredential';
-import Gender from './pages/signup/setting/gender/Gender';
+
 import InterestChoice from './pages/signup/setting/interestChoice/InterestChoice';
 import Profile from './pages/signup/setting/profile/Profile';
 import ProfileImageUploader from './pages/signup/setting/profileImageUploader/ProfileImageUploader';
@@ -25,7 +25,6 @@ import LoginLayout from './components/layout/LoginLayout';
 import Callback from './pages/callback/Callback';
 import CallbackLayout from './components/layout/CallbackLayout';
 import Address from './pages/signup/setting/address/Address';
-import Birth from './pages/signup/setting/birth/Birth';
 
 const router = createBrowserRouter([
   {
@@ -68,7 +67,6 @@ const router = createBrowserRouter([
           {
             path: 'setting',
             children: [
-              { path: 'gender', element: <Gender /> },
               { path: 'profile', element: <Profile /> },
               { path: 'interestChoice', element: <InterestChoice /> },
               {
@@ -76,7 +74,6 @@ const router = createBrowserRouter([
                 element: <ProfileImageUploader />,
               },
               { path: 'address', element: <Address /> },
-              { path: 'birth', element: <Birth /> },
             ],
           },
         ],
