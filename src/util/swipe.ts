@@ -1,16 +1,15 @@
 import axios from 'axios';
+import { User } from '../store/useFindUserStore';
 
-export const handleOnLike = async (toUserName: string, token: string) => {
+export const handleOnLike = async (userName: string, token: string) => {
   try {
-    /**
-     * toUserName에서 유저 이름 가져와 보내주기
-     */
-
-    if (toUserName.length > 1) {
+    console.log(userName);
+    if (userName.length > 1) {
       const response = await axios.post(
-        `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/like`,
+        // `/api/api/v1/swipes/like`,
+        `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/swipes/like`,
         {
-          toProfileName: toUserName,
+          toProfileName: userName,
         },
         {
           headers: {
@@ -21,24 +20,21 @@ export const handleOnLike = async (toUserName: string, token: string) => {
       );
 
       const data = response.data;
-      console.log(data);
+      console.log('like', data);
     }
   } catch (e) {
     console.log(e);
   }
 };
 
-export const handleOnDisLike = async (toUserName: string, token: string) => {
+export const handleOnDisLike = async (userName: string, token: string) => {
   try {
-    /**
-     * toUserName에서 유저 이름 가져와 보내주기
-     */
-
-    if (toUserName.length > 1) {
+    if (userName.length > 1) {
       const response = await axios.post(
-        `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/dislike`,
+        // `/api/api/v1/swipes/dislike`,
+        `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/swipes/dislike`,
         {
-          toProfileName: toUserName,
+          toProfileName: userName,
         },
         {
           headers: {
@@ -49,23 +45,20 @@ export const handleOnDisLike = async (toUserName: string, token: string) => {
       );
 
       const data = response.data;
-      console.log(data);
+      console.log('disLike', data);
     }
   } catch (e) {
     console.log(e);
   }
 };
 
-export const handleOnRefreshUser = async (
+export const handleGetFindProfiles = async (
   token: string,
-  setToUserName: (name: string) => void
+  setToUserName: (name: User[]) => void
 ) => {
-  /**
-   * 상대방 유저이름 받아오고 zustand에 넣기? 아니면 리턴하기?
-   * toUserName = 유저이름
-   */
   try {
     const response = await axios.get(
+      // `/api/api/v1/profiles/findProfiles`,
       `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/profiles/findProfiles`,
       {
         headers: {
@@ -78,7 +71,7 @@ export const handleOnRefreshUser = async (
     const data = response.data;
     setToUserName(data);
 
-    console.log('data', data);
+    console.log('findProfiles', data);
   } catch (e) {
     console.log(e);
     // throw new Error('');

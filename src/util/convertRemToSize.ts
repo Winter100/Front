@@ -1,5 +1,8 @@
-export const convertRemToSize = (size: 'M' | 'L' | 'XL' | 'MODAL') => {
+export const convertRemToSize = (size: 'S' | 'M' | 'L' | 'XL' | 'MODAL') => {
   switch (size) {
+    case 'S': {
+      return '2.5rem';
+    }
     case 'M': {
       return '2.7rem';
     }
