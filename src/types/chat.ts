@@ -1,10 +1,13 @@
+import { FileInfoType } from './message';
+
 export interface ServerMessageResponse {
-  messageType?: string;
+  messageType: string;
   content: string;
   createdAt: string;
   profileId: number;
   unreadCnt: number;
-  fileInfo: null;
+  fileInfo: FileInfoType;
+  id: string;
 }
 
 export interface Message {
