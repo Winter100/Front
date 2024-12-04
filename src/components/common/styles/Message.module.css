@@ -1,8 +1,13 @@
 .container {
-  margin: 0px;
-  display: inline-block;
-  padding: 0.7rem;
-  max-width: 15rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 14rem;
+  width: 100%;
+  min-height: 1.5rem;
+  padding: 10px;
+  flex: 1 1 0;
 }
 
 .me {
@@ -12,4 +17,15 @@
 .you {
   background-color: rgb(40, 40, 40);
   border-radius: 15px 15px 15px 5px;
+}
+
+.img {
+  width: 200px;
+  border-radius: 10px;
+}
+
+.delete_container {
+  display: flex;
+  gap: 2px;
+  cursor: default;
 }
