@@ -8,27 +8,6 @@ const Callback = () => {
   const nav = useNavigate();
   const location = useLocation();
 
-  //뒤로가기 방지
-  useEffect(() => {
-    const prevPage = document.referrer;
-    window.history.replaceState({ isCallbackPage: true, prevPage }, '');
-
-    const handlePopState = (event: PopStateEvent) => {
-      if (event.state && event.state.isCallbackPage) {
-        if (event.state.prevPage) {
-          window.location.href = event.state.prevPage;
-        } else {
-          nav('/');
-        }
-      }
-    };
-
-    window.addEventListener('popstate', handlePopState);
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [nav]);
-
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const code = queryParams.get('code');

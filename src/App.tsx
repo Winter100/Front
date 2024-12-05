@@ -18,13 +18,15 @@ import InterestChoice from './pages/signup/setting/interestChoice/InterestChoice
 import Profile from './pages/signup/setting/profile/Profile';
 import ProfileImageUploader from './pages/signup/setting/profileImageUploader/ProfileImageUploader';
 import HomeLayout from './components/layout/HomeLayout';
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+
 import ProfileEditLayout from './components/layout/ProfileEditLayout';
 import Edit from './pages/profile/edit/Edit';
 import LoginLayout from './components/layout/LoginLayout';
 import Callback from './pages/callback/Callback';
 import CallbackLayout from './components/layout/CallbackLayout';
 import Address from './pages/signup/setting/address/Address';
+import ProtectedRouteWithProfile from './components/ProtectedRoute/ProfileProtectedRoute';
+import LoginProtectedRoute from './components/ProtectedRoute/LoginProtectedRoute';
 
 const router = createBrowserRouter([
   {
@@ -32,12 +34,22 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       {
-        path: '/',
         element: <HomeLayout />,
+        path: '/',
         children: [{ index: true, element: <Home /> }],
       },
       {
-        element: <ProtectedRoute />,
+        element: <LoginProtectedRoute />,
+        children: [
+          {
+            path: 'login',
+            element: <LoginLayout />,
+            children: [{ index: true, element: <Login /> }],
+          },
+        ],
+      },
+      {
+        element: <ProtectedRouteWithProfile />,
         children: [
           {
             path: 'match',
@@ -56,6 +68,11 @@ const router = createBrowserRouter([
             element: <ChattingLayout />,
             children: [{ index: true, element: <Chatting /> }],
           },
+          {
+            path: 'profile-edit',
+            element: <ProfileEditLayout />,
+            children: [{ index: true, element: <Edit /> }],
+          },
         ],
       },
       {
@@ -66,6 +83,7 @@ const router = createBrowserRouter([
           { path: 'credential', element: <AuthCredential /> },
           {
             path: 'setting',
+            element: <LoginProtectedRoute />,
             children: [
               { path: 'profile', element: <Profile /> },
               { path: 'interestChoice', element: <InterestChoice /> },
@@ -78,20 +96,16 @@ const router = createBrowserRouter([
           },
         ],
       },
+
       {
-        path: 'login',
-        element: <LoginLayout />,
-        children: [{ index: true, element: <Login /> }],
-      },
-      {
-        path: 'profile-edit',
-        element: <ProfileEditLayout />,
-        children: [{ index: true, element: <Edit /> }],
-      },
-      {
-        path: 'callback',
-        element: <CallbackLayout />,
-        children: [{ index: true, element: <Callback /> }],
+        element: <LoginProtectedRoute />,
+        children: [
+          {
+            path: 'callback',
+            element: <CallbackLayout />,
+            children: [{ index: true, element: <Callback /> }],
+          },
+        ],
       },
     ],
   },
