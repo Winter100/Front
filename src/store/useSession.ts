@@ -46,12 +46,6 @@ export const useSession = create<State & Action>((set) => {
           response.data.token.accessToken &&
           response.data.token.refreshToken
         ) {
-          set({
-            isLogin: true,
-            hasProfile: response.data.hasProfile,
-            hasProfileLocation: response.data.hasProfileLocation,
-            hasProfileImage: response.data.hasProfileImage,
-          });
           // 로그인 시 토큰을 sessionStorage에 저장
 
           sessionStorage.setItem(
@@ -62,6 +56,12 @@ export const useSession = create<State & Action>((set) => {
             'refreshToken',
             response.data.token.refreshToken
           );
+          set({
+            hasProfile: response.data.hasProfile,
+            hasProfileLocation: response.data.hasProfileLocation,
+            hasProfileImage: response.data.hasProfileImage,
+            isLogin: true,
+          });
           return {
             success: true,
             hasProfile: response.data.hasProfile,
