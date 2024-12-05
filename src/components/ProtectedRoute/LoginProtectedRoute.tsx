@@ -6,13 +6,13 @@ const LoginProtectedRoute = () => {
   const { isLogin } = useSession();
   const { data } = useUserProfile();
 
-  const hasProfileData = data && data.data;
+  const hasProfileData = Boolean(data?.data);
 
-  return isLogin && !hasProfileData ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/match" replace />
-  );
+  if (!isLogin || !hasProfileData) {
+    return <Outlet />;
+  }
+
+  return <Navigate to="/match" replace />;
 };
 
 export default LoginProtectedRoute;
