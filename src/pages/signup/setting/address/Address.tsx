@@ -68,6 +68,7 @@ const Address = () => {
         { latitude, longitude },
         true
       );
+      console.log(response);
       if (response.data.status === '성공') {
         nav('/signup/setting/profileImageUploader');
       }

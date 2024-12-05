@@ -71,8 +71,8 @@ const AuthCredential = () => {
       const response = await postRequest(requests.fetchEmailCertification, {
         email,
       });
-
-      if (response.data.status === '성공') {
+      console.log(response.status);
+      if (response.status === 200) {
         toast.success(response.data.message);
         setIsVerificationCodeReceived(!isVerificationCodeReceived);
       } else {
