@@ -22,17 +22,15 @@ const requests = {
   fetchChatRoomList: '/api/v1/profiles/upload-profile',
   fetchGetMessages: '/api/v1/chat/rooms/{chatRoomId}/getMessages',
 };
+const accessToken = sessionStorage.getItem('accessToken');
 
-export const getRequest = async (
-  endPoint: string,
-  token: string | null = null
-) => {
+export const getRequest = async (endPoint: string, token: boolean = false) => {
   try {
     const config: AxiosRequestConfig = {
       headers: { 'Content-Type': 'application/json' },
     };
     if (token) {
-      config.headers!['Authorization'] = token;
+      config.headers!['Authorization'] = `Bearer ${accessToken}`;
     }
     const response = await instance.get(endPoint, config);
     return response;
@@ -46,13 +44,12 @@ export const postRequest = async <T>(
   data: T,
   token: boolean = false
 ) => {
-  const accessToken = sessionStorage.getItem('accessToken');
   try {
     const config: AxiosRequestConfig = {
       headers: {},
     };
     if (token) {
-      config.headers!['Authorization'] = accessToken;
+      config.headers!['Authorization'] = `Bearer ${accessToken}`;
     }
     const response = await instance.post(endPoint, data, config);
     return response;
