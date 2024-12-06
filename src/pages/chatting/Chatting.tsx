@@ -1,47 +1,58 @@
-import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
+import './init.ts';
 
-import styles from './chatting.module.css';
 import Header from '../../components/layout/Header';
-import UserImage from '../../components/common/UserImage';
 import ChattingRoom from './components/ChattingRoom';
-import InputContainer from '../../components/common/InputContainer';
-import Input from '../../components/common/Input';
-import { useChattingStore } from '../../store/useChattingStore';
-import { useEffect, useRef, useState } from 'react';
-import { MessageType } from '../../types/message';
+
+import { useChattingStore } from '../../store/useChattingStore.ts';
+import ChattingMenu from './components/ChattingMenu.tsx';
+import OtherProfile from './components/OtherProfile.tsx';
 
 const Chatting = () => {
   const navigate = useNavigate();
-  const ws = useRef<WebSocket | null>(null);
-  const addChattingMessages = useChattingStore(
-    (state) => state.addChattingMessages
+  const { id: chatRoomId } = useParams();
+  const [parthnerId, setParthnerId] = useState<number | null>(null);
+  const addInitChattingMessages = useChattingStore(
+    (state) => state.addInitChattingMessages
   );
 
-  const [message, setMessage] = useState('');
+  useEffect(() => {
+    try {
+      const getMessages = async () => {
+        const resposne = await axios.get(
+          `${import.meta.env.VITE_PROJECT_SERVER_URL}/chat-messages/chat-rooms/${chatRoomId}`
+        );
+        const data = resposne.data;
+        addInitChattingMessages(data);
+      };
 
-  const sendMessageHandler = (e: React.FormEvent) => {
-    e.preventDefault();
-    const messageData: MessageType = {
-      isMe: true,
-      content: message,
-      date: '2024-12-12',
-    };
-    addChattingMessages(messageData);
-    setMessage('');
-  };
+      getMessages();
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
 
   useEffect(() => {
-    ws.current = new WebSocket('ws://URL');
-    ws.current.onopen = () => {
-      console.log('연결 시작');
-    };
+    try {
+      const room = async () => {
+        const resposne = await axios.get(
+          `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/chat-rooms/${chatRoomId}/participants`
+        );
+        const data = resposne.data;
+        const myid = sessionStorage.getItem('id') ?? '';
 
-    ws.current.onmessage = (event) => {
-      if (event.data) {
-        return;
-      }
-    };
+        setParthnerId(
+          data.participantIds.find((id: number) => id !== Number(myid))
+        );
+      };
+
+      room();
+    } catch (e) {
+      console.log(e);
+    }
   }, []);
 
   return (
@@ -57,31 +68,22 @@ const Chatting = () => {
               color: 'white',
               fontSize: '1rem',
             }}
-            onClick={() => navigate(-1)}
+            onClick={() => navigate('/match/messages')}
           >
             <IoIosArrowBack />
           </button>
         }
         center={
-          <>
-            <UserImage src="/public/3.jpg" size="M" />
-            <p style={{ margin: 'auto 1rem', fontSize: '0.8rem' }}>홍길동</p>
-          </>
+          <OtherProfile
+            chatRoomId={Number(chatRoomId)}
+            partnerId={parthnerId ?? 0}
+          />
         }
         right="메뉴"
       />
 
       <ChattingRoom />
-      <InputContainer>
-        <Input value={message} onChange={(e) => setMessage(e.target.value)} />
-        <button
-          type="submit"
-          onClick={sendMessageHandler}
-          className={styles.sendBtn}
-        >
-          보내기
-        </button>
-      </InputContainer>
+      <ChattingMenu />
     </>
   );
 };
