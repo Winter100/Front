@@ -23,16 +23,15 @@ const requests = {
   fetchGetMessages: '/api/v1/chat/rooms/{chatRoomId}/getMessages',
 };
 
-export const getRequest = async (
-  endPoint: string,
-  token: string | null = null
-) => {
+export const getRequest = async (endPoint: string, token: boolean = false) => {
   try {
     const config: AxiosRequestConfig = {
-      headers: { 'Content-Type': 'application/json' },
+      headers: {},
     };
+
     if (token) {
-      config.headers!['Authorization'] = token;
+      const accessToken = sessionStorage.getItem('accessToken');
+      config.headers!['Authorization'] = `Bearer ${accessToken}`;
     }
     const response = await instance.get(endPoint, config);
     return response;
@@ -46,13 +45,13 @@ export const postRequest = async <T>(
   data: T,
   token: boolean = false
 ) => {
-  const accessToken = sessionStorage.getItem('accessToken');
   try {
     const config: AxiosRequestConfig = {
       headers: {},
     };
     if (token) {
-      config.headers!['Authorization'] = accessToken;
+      const accessToken = sessionStorage.getItem('accessToken');
+      config.headers!['Authorization'] = `Bearer ${accessToken}`;
     }
     const response = await instance.post(endPoint, data, config);
     return response;

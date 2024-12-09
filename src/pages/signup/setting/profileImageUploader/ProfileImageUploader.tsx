@@ -31,7 +31,7 @@ const ProfileImageUploader: React.FC = () => {
           true
         );
         console.log(response);
-        navigate('/match');
+        // navigate('/match');
         // if (response.data.status === '성공') {
         //   navigate('/match');
         // }
