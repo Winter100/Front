@@ -1,5 +1,5 @@
 export interface MessageType {
-  messageType: 'FILE' | 'CHAT';
+  messageType: string;
   fileInfo: FileInfoType | null;
   profileId: number;
   id: string;

@@ -12,7 +12,7 @@ const UserImage = ({ src = '/public/3.jpg', size = 'M' }: UserImageProps) => {
       className={styles.container}
       style={{ width: sizeValue, height: sizeValue }}
     >
-      <img src={src} alt="테스트" />
+      <img src={src} alt="이미지" />
     </div>
   );
 };
