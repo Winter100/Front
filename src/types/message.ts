@@ -8,6 +8,14 @@ export interface MessageType {
   unreadCnt?: number;
 }
 
+export interface MessagePreviewType {
+  currentPage: number;
+  hasNext: boolean;
+  messages: MessageType[];
+  totalElements: number;
+  totalPages: number;
+}
+
 export interface FileInfoType {
   fileName: string;
   fileSize: number;
