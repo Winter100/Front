@@ -5,6 +5,14 @@
   background-color: black;
 }
 
+.spinner_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  height: 100%;
+}
+
 .profile_box {
   padding-top: 5rem;
   display: flex;

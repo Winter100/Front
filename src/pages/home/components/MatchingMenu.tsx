@@ -5,15 +5,15 @@ import { HiUser } from 'react-icons/hi2';
 
 import styles from './matchingMenu.module.css';
 import MenuContainer from '../../../components/common/MenuContainer';
-
-// const MATCH_DUMMY_MENU = [
-//   { id: 'a1', item: AiFillFire, href: '/match', end: true },
-//   { id: 'a4', item: ImBubbles, href: '/match/messages', end: false },
-//   { id: 'a5', item: HiUser, href: '/match/my', end: true },
-// ];
+import { useChattingStore } from '../../../store/useChattingStore';
 
 const MatchingMenu = () => {
-  const unreadMessages = 5;
+  const chattingRooms = useChattingStore((state) => state.chattingRooms);
+  const unreadMessages = chattingRooms.reduce(
+    (acc, cur) => acc + cur.unreadCount,
+    0
+  );
+
   return (
     <MenuContainer>
       <div className={styles.navLinkContainer}>
@@ -49,16 +49,6 @@ const MatchingMenu = () => {
           <HiUser />
         </NavLink>
       </div>
-      {/* {MATCH_DUMMY_MENU.map((menu) => (
-        <NavLink
-          end={menu.end}
-          to={menu.href}
-          className={({ isActive }) => (isActive ? styles.active : '')}
-          key={menu.id}
-        >
-          <menu.item />
-        </NavLink>
-      ))} */}
     </MenuContainer>
   );
 };

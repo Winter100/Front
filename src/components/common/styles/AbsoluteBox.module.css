@@ -7,7 +7,6 @@
   display: flex;
   flex-wrap: wrap;
   justify-items: center;
-  gap: 0.3rem;
 
   cursor: default;
 

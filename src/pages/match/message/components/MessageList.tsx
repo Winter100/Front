@@ -1,7 +1,8 @@
+import { useEffect } from 'react';
+import { useChattingStore } from '../../../../store/useChattingStore';
 import MessagePreview from './MessagePreview';
 import styles from './messageList.module.css';
-
-const DUMMY = new Array(3).fill('a');
+import axios from 'axios';
 
 const images = [
   { src: 'url(/public/1.jpg)' },
@@ -10,6 +11,31 @@ const images = [
   { src: 'url(/public/dolphin.png)' },
 ];
 const MessageList = () => {
+  const chattingRooms = useChattingStore((state) => state.chattingRooms);
+  const setChattingRooms = useChattingStore((state) => state.setChattingRooms);
+  const token = sessionStorage.getItem('accessToken') ?? '';
+
+  useEffect(() => {
+    const handleGetChatRooms = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/chat-rooms/simple`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = response.data;
+        setChattingRooms(data);
+        // console.log('나와 연결된 채팅방', data);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    handleGetChatRooms();
+  }, []);
   return (
     <>
       <ul className={styles.container}>
@@ -25,9 +51,9 @@ const MessageList = () => {
             />
           ))}
         </div>
-        {DUMMY.map((message, i) => (
-          <li key={message + i + 10}>
-            <MessagePreview />
+        {chattingRooms.map((rooms) => (
+          <li key={rooms.chatRoomId}>
+            <MessagePreview {...rooms} />
           </li>
         ))}
       </ul>

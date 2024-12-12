@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
 import './init.ts';
@@ -10,50 +8,35 @@ import ChattingRoom from './components/ChattingRoom';
 import { useChattingStore } from '../../store/useChattingStore.ts';
 import ChattingMenu from './components/ChattingMenu.tsx';
 import OtherProfile from './components/OtherProfile.tsx';
+import Exit from '../../components/Exit.tsx';
+import { useAllMessages } from '../../hooks/useAllMessages.ts';
+import { usePartnerWithParticipants } from '../../hooks/usePartnerWithParticipants.ts';
+import Spinner from '../../components/common/Spinner.tsx';
+import { useEffect } from 'react';
 
 const Chatting = () => {
   const navigate = useNavigate();
   const { id: chatRoomId } = useParams();
-  const [parthnerId, setParthnerId] = useState<number | null>(null);
+  const { partnerData, isLoading } = usePartnerWithParticipants(
+    Number(chatRoomId)
+  );
+
   const addInitChattingMessages = useChattingStore(
     (state) => state.addInitChattingMessages
   );
+  const { data, isLoading: isAllMessagesLoading } = useAllMessages(
+    chatRoomId ?? '',
+    0,
+    100
+  );
 
   useEffect(() => {
-    try {
-      const getMessages = async () => {
-        const resposne = await axios.get(
-          `${import.meta.env.VITE_PROJECT_SERVER_URL}/chat-messages/chat-rooms/${chatRoomId}`
-        );
-        const data = resposne.data;
-        addInitChattingMessages(data);
-      };
+    if (data?.messages) addInitChattingMessages(data?.messages ?? []);
+  }, [data, addInitChattingMessages]);
 
-      getMessages();
-    } catch (e) {
-      console.log(e);
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      const room = async () => {
-        const resposne = await axios.get(
-          `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/chat-rooms/${chatRoomId}/participants`
-        );
-        const data = resposne.data;
-        const myid = sessionStorage.getItem('id') ?? '';
-
-        setParthnerId(
-          data.participantIds.find((id: number) => id !== Number(myid))
-        );
-      };
-
-      room();
-    } catch (e) {
-      console.log(e);
-    }
-  }, []);
+  if (isLoading || isAllMessagesLoading) {
+    return <Spinner />;
+  }
 
   return (
     <>
@@ -75,14 +58,18 @@ const Chatting = () => {
         }
         center={
           <OtherProfile
-            chatRoomId={Number(chatRoomId)}
-            partnerId={parthnerId ?? 0}
+            imageUrl={partnerData?.imageUrl}
+            profileName={partnerData?.profileName}
           />
         }
-        right="메뉴"
+        right={<Exit chatRoomId={chatRoomId ?? ''} />}
       />
 
-      <ChattingRoom />
+      <ChattingRoom
+        imageUrl={partnerData?.imageUrl}
+        profileName={partnerData?.profileName}
+      />
+
       <ChattingMenu />
     </>
   );

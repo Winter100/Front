@@ -1,4 +1,3 @@
-import BadgeList from './BadgeList';
 import styles from './userProfile.module.css';
 
 const UserProfile = ({
@@ -14,7 +13,6 @@ const UserProfile = ({
         <p>{profileName ?? ''}</p>
         <p>{age ?? 0}</p>
       </div>
-      <BadgeList />
     </div>
   );
 };
