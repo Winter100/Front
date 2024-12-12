@@ -4,33 +4,46 @@ import MainButton from '../../components/ui/MainButton';
 import { FieldErrors, SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useSession } from '../../store/useSession';
 
 type Inputs = {
   email: string;
   password: string;
 };
+
 const Login = () => {
+  const { login } = useSession();
   const nav = useNavigate();
   const { register, handleSubmit } = useForm<Inputs>({
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
   });
   const requestURL = import.meta.env.VITE_PROJECT_SERVER_URL;
+
   const loginHandler: SubmitHandler<Inputs> = async (data) => {
     try {
-      const response = await axios.post(`${requestURL}/api/v1/auth/sign-in`, {
-        email: data.email,
-        password: data.password,
-      });
-      if (response.data.token.accessToken && response.data.token.refreshToken) {
-        sessionStorage.setItem('accessToken', response.data.token.accessToken);
-        sessionStorage.setItem(
-          'refreshToken',
-          response.data.token.refreshToken
-        );
-        response.data.hasProfile
-          ? nav('/match')
-          : nav('/signup/setting/gender');
+      const result = await login(data.email, data.password);
+
+      if (result.success) {
+        // 프로필 정보에 따라 리디렉션
+        if (!result.hasProfile) {
+          toast.success('생성중이던 프로필로 이동합니다.');
+          nav('/signup/setting/profile');
+          return; // 리디렉션 후 종료
+        }
+        if (!result.hasProfileLocation) {
+          toast.success('생성중이던 프로필로 이동합니다.');
+          nav('/signup/setting/address');
+          return; // 리디렉션 후 종료
+        }
+        if (!result.hasProfileImage) {
+          toast.success('생성중이던 프로필로 이동합니다.');
+          nav('/signup/setting/profileImageUploader');
+          return; // 리디렉션 후 종료
+        }
+
+        // 모든 프로필 정보가 있는 경우
+        nav('/match');
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {

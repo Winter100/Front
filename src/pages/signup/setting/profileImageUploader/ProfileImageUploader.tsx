@@ -1,50 +1,59 @@
+import { FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-
 import styles from './profileImageUploader.module.css';
 import useProfileStore from '../../../../store/useProfileStore';
 import ImageInput from '../../../../components/ui/ImageInput';
 import MainButton from '../../../../components/ui/MainButton';
 import axios from 'axios';
+import requests, { postRequest } from '../../../../api/request';
 
 const ProfileImageUploader: React.FC = () => {
   const { profile } = useProfileStore();
   // const navigate = useNavigate();
 
   const imageInputs = Array.from({ length: 6 }, (_, index) => index);
-  const saveHandler = async () => {
+  const [loading, setLoading] = useState(false);
+
+  const saveHandler = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    const formData = new FormData();
+
+    profile.image.forEach((image) => {
+      formData.append(`profileImage`, image as File);
+    });
+
     if (profile.image.length >= 3) {
-      // navigate('/match');
-      const imageOne = profile.image;
-      const formData = new FormData();
-
-      formData.append('profileImage', imageOne[0]);
-      formData.append('profileImage', imageOne[1]);
-      formData.append('profileImage', imageOne[2]);
-
-      const token =
-        'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMSIsImV4cCI6MTczMDA5ODk3N30.-bvYMOZEBMSQgnyR-Z84v3JcoM8Sf--oXxNy9_kuma2e_vmUPLGseLuDXzfbu3zZI5ADgEdZh_vM0lb6LHhbbw';
-      // const token = sessionStorage.getItem('accessToken');
-
-      const response = axios.post(
-        `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/profiles/upload-profile`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: `Bearer ${token}`,
-          },
+      try {
+        const response = await postRequest(
+          requests.fetchUploadProfileImage,
+          formData,
+          true
+        );
+        console.log(response);
+        // navigate('/match');
+        // if (response.data.status === '성공') {
+        //   navigate('/match');
+        // }
+      } catch (error) {
+        setLoading(false);
+        if (axios.isAxiosError(error) && error.response) {
+          console.error('에러', error.response);
+          toast.error('이미지 업로드 중 오류가 발생했습니다.');
+        } else {
+          console.error('에러2', error);
+          toast.error('알 수 없는 오류가 발생했습니다.');
         }
-      );
-      const data = (await response).data;
-
-      console.log(data);
+      }
     } else {
+      setLoading(false);
       toast.error('이미지는 최소 3장이 필요합니다.');
     }
   };
   return (
     <>
-      <div className={styles.container}>
+      <form className={styles.container} onSubmit={saveHandler}>
         <div className={styles.headerWrapper}>
           <h2>프로필 이미지 등록</h2>
         </div>
@@ -59,14 +68,11 @@ const ProfileImageUploader: React.FC = () => {
         </div>
         <div className={styles.btnWrapper}>
           <MainButton
-            type="button"
-            text="저장하기"
-            onClickFn={() => {
-              saveHandler();
-            }}
+            type="submit"
+            text={loading ? '저장 중...' : '저장하기'}
           />
         </div>
-      </div>
+      </form>
     </>
   );
 };

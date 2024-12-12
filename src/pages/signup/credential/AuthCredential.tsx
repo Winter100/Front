@@ -2,10 +2,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { FieldErrors, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-
 import styles from './authCredential.module.css';
 import MainButton from '../../../components/ui/MainButton';
 import { useState } from 'react';
+import requests, { postRequest } from '../../../api/request';
 
 type Inputs = {
   email: string;
@@ -15,8 +15,8 @@ type Inputs = {
 };
 
 const AuthCredential = () => {
-  const [emailVerification, setEmailVerification] = useState(false);
-  const [emailCheckingState, setEmailCheckingState] = useState(false);
+  const [isVerificationCodeReceived, setIsVerificationCodeReceived] =
+    useState(false);
   const nav = useNavigate();
 
   const { register, handleSubmit, watch } = useForm<Inputs>({
@@ -24,39 +24,24 @@ const AuthCredential = () => {
     reValidateMode: 'onSubmit',
   });
 
-  // const projectURL = import.meta.env.VITE_PROJECT_URL as string;
-  const projectURL = import.meta.env.VITE_PROJECT_SERVER_URL as string;
-
   //입력된 유저정보
   const email = watch('email');
   const password = watch('password');
-  const certificationNumber = watch('certificationNumber');
 
   //회원가입 함수
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      const response = await axios.post(
-        `${projectURL}/api/v1/auth/sign-up`,
-        {
-          email: data.email,
-          password: data.password,
-          certificationNumber: data.certificationNumber,
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-      if (response.data.status === '성공') {
-        nav('/signup/setting/gender');
-      }
+      const response = await postRequest(requests.fetchSignUp, {
+        password: data.password,
+        email: data.email,
+        certificationNumber: data.certificationNumber,
+      });
+
+      if (response.data.email === data.email) nav('/signup/setting/profile');
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        console.error('signinError', error.response.data);
-      } else {
-        console.error('signinError', error);
-      }
+      axios.isAxiosError(error) && error.response
+        ? console.error('signinError', error.response.data)
+        : console.error('signinError', error);
     }
   };
 
@@ -78,50 +63,26 @@ const AuthCredential = () => {
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
     try {
-      if (emailRegex.test(email)) {
-        const response = await axios.post(
-          `${projectURL}/api/v1/auth/email-certification`,
-          {
-            email,
-          }
-        );
-
-        if (response.data.status === '성공') {
-          toast.success(response.data.message);
-          setEmailCheckingState(!emailCheckingState);
-        } else {
-          toast.error('인증번호 받기 실패');
-        }
-      } else {
+      if (!emailRegex.test(email)) {
         toast.error('이메일 형식이 올바르지 않습니다.');
+        return null;
       }
-    } catch (error) {
-      console.error('error', error);
-    }
-  };
 
-  //인증번호 확인 함수
-  const postVerificationNumBtnHanddler = async () => {
-    try {
-      const response = await axios.post(
-        `${projectURL}/api/v1/auth/check-certification`,
-        {
-          email,
-          certificationNumber,
-        }
-      );
-      console.log(response);
-
-      if (response.data.status === '성공') {
+      const response = await postRequest(requests.fetchEmailCertification, {
+        email,
+      });
+      console.log(response.status);
+      if (response.status === 200) {
         toast.success(response.data.message);
-        setEmailVerification(!emailVerification);
+        setIsVerificationCodeReceived(!isVerificationCodeReceived);
       } else {
-        toast.error(`${response.data.message} 인증번호를 다시 확인해주세요`);
+        toast.error('인증번호 받기 실패');
       }
     } catch (error) {
       console.error('error', error);
     }
   };
+
   return (
     <>
       <div className={styles.container}>
@@ -135,10 +96,12 @@ const AuthCredential = () => {
               <div className={styles.inputBtnStack}>
                 <input
                   className={styles.emailInput}
-                  readOnly={emailCheckingState}
+                  readOnly={isVerificationCodeReceived}
                   autoComplete="off"
                   style={{
-                    backgroundColor: emailCheckingState ? '#4c4c4c' : 'black',
+                    backgroundColor: isVerificationCodeReceived
+                      ? '#4c4c4c'
+                      : 'black',
                   }}
                   {...register('email', {
                     required: '이메일을 입력해주세요.',
@@ -152,33 +115,22 @@ const AuthCredential = () => {
                 <button
                   type="button"
                   onClick={getVerificationBtnHanddler}
-                  disabled={emailCheckingState}
+                  disabled={isVerificationCodeReceived}
                 >
                   인증번호 받기
                 </button>
               </div>
             </div>
-            {emailCheckingState && (
+            {isVerificationCodeReceived && (
               <div>
                 <label htmlFor="verificationInput">인증번호 입력</label>
                 <div className={styles.inputBtnStack}>
                   <input
                     type="text"
                     id="verificationInput"
-                    readOnly={emailVerification}
                     maxLength={4}
-                    style={{
-                      backgroundColor: emailVerification ? '#4c4c4c' : 'black',
-                    }}
                     {...register('certificationNumber')}
                   />
-                  <button
-                    type="button"
-                    onClick={postVerificationNumBtnHanddler}
-                    disabled={emailVerification}
-                  >
-                    인증하기
-                  </button>
                 </div>
               </div>
             )}
@@ -186,9 +138,11 @@ const AuthCredential = () => {
               <label htmlFor="password">비밀번호</label>
               <input
                 type="password"
-                // disabled={!emailVerification}
+                disabled={!isVerificationCodeReceived}
                 style={{
-                  backgroundColor: !emailVerification ? '#4c4c4c' : undefined,
+                  backgroundColor: !isVerificationCodeReceived
+                    ? '#4c4c4c'
+                    : undefined,
                 }}
                 maxLength={13}
                 {...register('password', {
@@ -213,9 +167,11 @@ const AuthCredential = () => {
               <label htmlFor="confirmPassword">비밀번호 확인</label>
               <input
                 type="password"
-                // disabled={!emailVerification}
+                disabled={!isVerificationCodeReceived}
                 style={{
-                  backgroundColor: emailVerification ? 'black' : '#4c4c4c',
+                  backgroundColor: isVerificationCodeReceived
+                    ? 'black'
+                    : '#4c4c4c',
                 }}
                 maxLength={13}
                 {...register('confirmPassword', {
@@ -230,7 +186,7 @@ const AuthCredential = () => {
             <MainButton
               text="가입하기"
               type="submit"
-              // disabled={!emailVerification}
+              disabled={!isVerificationCodeReceived}
             />
           </div>
         </form>

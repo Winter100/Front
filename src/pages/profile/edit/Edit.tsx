@@ -36,7 +36,7 @@ const Edit: React.FC = () => {
   const textareaChangeHandler = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
-    setProfile({ ...profile, introduce: event.target.value });
+    setProfile({ ...profile, selfIntroduction: event.target.value });
   };
 
   const editButtonHandler = () => {
@@ -52,10 +52,10 @@ const Edit: React.FC = () => {
 
         <EditContentComponent title="자기소개">
           <textarea
-            name="introduce"
-            id="introduce"
+            name="selfIntroduction"
+            id="selfIntroduction"
             onChange={textareaChangeHandler}
-            defaultValue={profile.introduce}
+            defaultValue={profile.selfIntroduction}
           ></textarea>
         </EditContentComponent>
         <EditContentComponent title="MBTI">

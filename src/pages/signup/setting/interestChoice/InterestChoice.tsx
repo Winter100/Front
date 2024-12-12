@@ -34,9 +34,11 @@ const InterestChoice = () => {
   ];
 
   //이전에 선택된 관심사가 있으면 표시
-  // useEffect(() => {
-  //   setSelectedArr(interest);
-  // }, [interest]);
+  useEffect(() => {
+    if (interest && interest.length > 0) {
+      setSelectedArr(interest);
+    }
+  }, [interest]);
 
   // 관심사를 클릭하면 배열에 최대 5개를 저장하고 다시 클릭하면 제외되는 함수
   const toggleInterest = (interest: string) => {
@@ -51,78 +53,54 @@ const InterestChoice = () => {
     }
   };
 
-  const btnHandler = async () => {
-    // setProfile({ ...profile, interest: selectedArr });
-    // nav('/signup/setting/address');
-
-    const token = sessionStorage.getItem('accessToken');
-    const projectURL = import.meta.env.VITE_PROJECT_SERVER_URL;
-
-    const response = await axios.post(
-      `${projectURL}/api/v1/profiles`,
-      {
-        profileName: '프로필테슽',
-        selfIntroduction: '안321',
-        dateOfBirth: '1999-12-12',
-        gender: 'MALE',
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    const data = response.data;
-
-    console.log('data', data);
+  const btnHandler = () => {
+    setProfile({ ...profile, interest: selectedArr });
+    nav('/signup/setting/profileImageUploader');
   };
 
   return (
-    <>
-      <div className={styles.container}>
-        <div className={styles.headerContainer}>
-          <h2>관심사</h2>
-          <p>평소 관심이 있거나 자주했던 관심사를 등록해주세요.</p>
-        </div>
-        <div className={styles.interestListWrapper}>
-          <ul>
-            {interestList.map((e) => {
-              return (
-                <li
-                  key={e}
-                  onClick={() => {
-                    toggleInterest(e);
-                  }}
-                >
-                  <Badge
-                    description={e}
-                    style={{
-                      backgroundColor: selectedArr.includes(e)
-                        ? '#dddddd80'
-                        : 'inherit',
-                    }}
-                  />
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-        <div className={styles.btnWrapper}>
-          <MainButton
-            text={
-              selectedArr.length === 0
-                ? `스킵하기 ( ${selectedArr.length} / 5)`
-                : `다음으로 ( ${selectedArr.length} / 5)`
-            }
-            type="button"
-            onClickFn={() => {
-              btnHandler();
-            }}
-          />
-        </div>
+    <div className={styles.container}>
+      <div className={styles.headerContainer}>
+        <h2>관심사</h2>
+        <p>평소 관심이 있거나 자주했던 관심사를 등록해주세요.</p>
       </div>
-    </>
+      <div className={styles.interestListWrapper}>
+        <ul>
+          {interestList.map((e) => {
+            return (
+              <li
+                key={e}
+                onClick={() => {
+                  toggleInterest(e);
+                }}
+              >
+                <Badge
+                  description={e}
+                  style={{
+                    backgroundColor: selectedArr.includes(e)
+                      ? '#dddddd80'
+                      : 'inherit',
+                  }}
+                />
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <div className={styles.btnWrapper}>
+        <MainButton
+          text={
+            selectedArr.length === 0
+              ? `스킵하기 ( ${selectedArr.length} / 5)`
+              : `다음으로 ( ${selectedArr.length} / 5)`
+          }
+          type="button"
+          onClickFn={() => {
+            btnHandler();
+          }}
+        />
+      </div>
+    </div>
   );
 };
 
