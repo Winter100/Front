@@ -23,7 +23,7 @@ const getAllMessages = async (
       }
     );
     const data: MessagePreviewType = response.data ?? [];
-    console.log('메시지 가져오기', data, page, size);
+    // console.log('메시지 가져오기', data, page, size);
     return data;
   } catch (error) {
     console.log(error);

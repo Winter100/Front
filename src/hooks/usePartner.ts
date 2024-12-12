@@ -18,7 +18,7 @@ const getPartner = async (token: string, partnerProfileId: number) => {
         },
       }
     );
-    console.log('asdf', response.data);
+    // console.log('asdf', response.data);
     return response.data as PartnerType;
   } catch (e) {
     console.log(e);
