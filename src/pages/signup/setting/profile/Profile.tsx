@@ -26,7 +26,7 @@ const Profile = () => {
       );
 
       console.log(res);
-      nav('/signup/setting/interestChoice');
+      nav('/signup/setting/profileImageUploader');
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response) {
