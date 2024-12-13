@@ -10,9 +10,8 @@ import requests, { postRequest } from '../../../../api/request';
 
 const ProfileImageUploader: React.FC = () => {
   const { profile } = useProfileStore();
-  // const navigate = useNavigate();
-
-  const imageInputs = Array.from({ length: 6 }, (_, index) => index);
+  const navigate = useNavigate();
+  const imageInputs = Array.from({ length: 1 }, (_, index) => index);
   const [loading, setLoading] = useState(false);
 
   const saveHandler = async (e: FormEvent<HTMLFormElement>) => {
@@ -24,18 +23,17 @@ const ProfileImageUploader: React.FC = () => {
       formData.append(`profileImage`, image as File);
     });
 
-    if (profile.image.length >= 3) {
+    if (profile.image) {
       try {
         const response = await postRequest(
           requests.fetchUploadProfileImage,
           formData,
           true
         );
-        console.log(response);
-        // navigate('/match');
-        // if (response.data.status === '성공') {
-        //   navigate('/match');
-        // }
+        setLoading(false);
+        if (response.status === 200) {
+          navigate('/address');
+        }
       } catch (error) {
         setLoading(false);
         if (axios.isAxiosError(error) && error.response) {
@@ -48,7 +46,7 @@ const ProfileImageUploader: React.FC = () => {
       }
     } else {
       setLoading(false);
-      toast.error('이미지는 최소 3장이 필요합니다.');
+      toast.error('이미지는 최소 1장이 필요합니다.');
     }
   };
   return (
@@ -64,7 +62,7 @@ const ProfileImageUploader: React.FC = () => {
         </div>
 
         <div>
-          <span>이미지는 최소 3장이상 필요합니다.</span>
+          <span>자신을 표현할 사진 한장을 저장해주세요.</span>
         </div>
         <div className={styles.btnWrapper}>
           <MainButton

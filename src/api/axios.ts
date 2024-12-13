@@ -13,8 +13,6 @@ instance.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    console.log('error.response', error.response);
-    console.log('error.response.message', error.response.data.message);
 
     if (
       error.response.status === 401 &&
@@ -31,6 +29,7 @@ instance.interceptors.response.use(
         const response = await instance.post('/api/v1/auth/refresh', {
           refreshToken,
         });
+
         const newAccessToken = response.data.accessToken;
 
         sessionStorage.setItem('accessToken', newAccessToken);
