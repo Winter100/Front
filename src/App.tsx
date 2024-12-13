@@ -88,6 +88,7 @@ const router = createBrowserRouter([
                 path: 'profileImageUploader',
                 element: <ProfileImageUploader />,
               },
+              { path: 'address', element: <Address /> },
             ],
           },
         ],
