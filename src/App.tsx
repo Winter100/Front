@@ -13,8 +13,6 @@ import Login from './pages/login/Login';
 import SignupLayout from './components/layout/SignupLayout';
 import Signup from './pages/signup/Signup';
 import AuthCredential from './pages/signup/credential/AuthCredential';
-
-import InterestChoice from './pages/signup/setting/interestChoice/InterestChoice';
 import Profile from './pages/signup/setting/profile/Profile';
 import ProfileImageUploader from './pages/signup/setting/profileImageUploader/ProfileImageUploader';
 import HomeLayout from './components/layout/HomeLayout';
@@ -86,7 +84,6 @@ const router = createBrowserRouter([
             element: <LoginProtectedRoute />,
             children: [
               { path: 'profile', element: <Profile /> },
-              { path: 'interestChoice', element: <InterestChoice /> },
               {
                 path: 'profileImageUploader',
                 element: <ProfileImageUploader />,

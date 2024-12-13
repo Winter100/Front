@@ -6,6 +6,15 @@
   flex-direction: column;
   gap: 10px;
 }
+.editContent input {
+  border: 2px solid gray;
+  border-radius: 5px;
+  padding: 10px;
+  resize: none;
+  font-size: 18px;
+  color: white;
+  background: none;
+}
 .editContent textarea {
   height: 100px;
   border: 2px solid gray;

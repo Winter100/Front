@@ -24,16 +24,14 @@
 
 .deleteBtnWrapper {
   position: absolute;
-  top: 5px;
+  top: 0;
   right: 5px;
 }
 .deleteBtnWrapper button {
-  width: 30px;
-  height: 30px;
-  border-radius: 50rem;
+  width: 100%;
+  height: auto;
+  background: none;
   border: none;
-  font-size: 25px;
-  font-weight: 700;
-  color: gray;
-  content: '\00d7';
+  font-size: 50px;
+  color: red;
 }

@@ -69,8 +69,8 @@ const Address = () => {
         true
       );
       console.log(response);
-      if (response.data.status === '성공') {
-        nav('/signup/setting/profileImageUploader');
+      if (response.status === 200) {
+        nav('/match');
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -123,7 +123,7 @@ const Address = () => {
         {address && (
           <div className={styles.resultContainer}>
             <div className={styles.locationConfirmationContainer}>
-              <p>"{address}"</p>
+              <p style={{ textAlign: 'center' }}>{address}</p>
               <p>{profile.profileName}님의 현재 위치가 맞으신가요?</p>
             </div>
             <div className={styles.btnContainer}>

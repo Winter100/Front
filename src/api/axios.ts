@@ -13,12 +13,12 @@ instance.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    console.log(error.response);
 
     // 토큰 만료로 인한 401 에러이고, 재시도하지 않은 요청일 경우
     if (
       error.response.status === 401 &&
-      error.response.message === '만료된 토큰입니다.' &&
+      error.response.data.message ===
+        '토큰이 유효하지 않습니다. 다시 로그인하세요.' &&
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
@@ -28,6 +28,7 @@ instance.interceptors.response.use(
         const response = await instance.post('/api/v1/auth/refresh', {
           refreshToken,
         });
+
         const newAccessToken = response.data.accessToken;
 
         sessionStorage.setItem('accessToken', newAccessToken);
