@@ -1,15 +1,15 @@
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { MessagePreviewType } from '../types/message';
+import instance from '../api/axios';
 
-const getAllMessages = async (
+export const getAllMessages = async (
   token: string,
   chatRoomId: string,
   page: number = 0,
   size: number = 100
 ) => {
   try {
-    const response = await axios.get(
+    const response = await instance.get(
       `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/chat-messages/chat-rooms/${chatRoomId}`,
       {
         params: {
@@ -23,10 +23,9 @@ const getAllMessages = async (
       }
     );
     const data: MessagePreviewType = response.data ?? [];
-    // console.log('메시지 가져오기', data, page, size);
     return data;
   } catch (error) {
-    console.log(error);
+    console.log('123', error);
   }
 };
 

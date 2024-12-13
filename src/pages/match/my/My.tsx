@@ -10,6 +10,11 @@ import Spinner from '../../../components/common/Spinner';
 const My = () => {
   const { data, isLoading, isError } = useMyProfile();
 
+  const handleLogout = () => {
+    sessionStorage.clear();
+    location.reload();
+  };
+
   if (isLoading) {
     return (
       <div className={styles.spinner_container}>
@@ -77,6 +82,11 @@ const My = () => {
             <p>{data?.profileName ?? ''}</p>
             <p>{data?.age ?? ''}</p>
           </Wrapper>
+        </div>
+        <div className={styles.bottom_container}>
+          <button onClick={handleLogout} className={styles.btn}>
+            로그아웃
+          </button>
         </div>
       </div>
     </>

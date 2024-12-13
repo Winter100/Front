@@ -1,10 +1,10 @@
-import axios from 'axios';
 import { User } from '../store/useFindUserStore';
+import instance from '../api/axios';
 
 export const handleOnLike = async (userName: string, token: string) => {
   try {
     if (userName.length > 1) {
-      const response = await axios.post(
+      const response = await instance.post(
         `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/swipes/like`,
         {
           toProfileName: userName,
@@ -19,6 +19,22 @@ export const handleOnLike = async (userName: string, token: string) => {
 
       const data = response.data;
       return data;
+      // if (userName.length > 1) {
+      //   const response = await axios.post(
+      //     `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/swipes/like`,
+      //     {
+      //       toProfileName: userName,
+      //     },
+      //     {
+      //       headers: {
+      //         'Content-Type': 'application/json',
+      //         Authorization: `Bearer ${token}`,
+      //       },
+      //     }
+      //   );
+
+      //   const data = response.data;
+      //   return data;
     }
   } catch (e) {
     console.log(e);
@@ -28,7 +44,7 @@ export const handleOnLike = async (userName: string, token: string) => {
 export const handleOnDisLike = async (userName: string, token: string) => {
   try {
     if (userName.length > 1) {
-      const response = await axios.post(
+      const response = await instance.post(
         `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/swipes/dislike`,
         {
           toProfileName: userName,
@@ -44,6 +60,23 @@ export const handleOnDisLike = async (userName: string, token: string) => {
       const data = response.data;
       return data;
     }
+    // if (userName.length > 1) {
+    //   const response = await axios.post(
+    //     `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/swipes/dislike`,
+    //     {
+    //       toProfileName: userName,
+    //     },
+    //     {
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     }
+    //   );
+
+    //   const data = response.data;
+    //   return data;
+    // }
   } catch (e) {
     console.log(e);
   }
@@ -54,7 +87,7 @@ export const handleGetFindProfiles = async (
   setToUserName: (name: User[]) => void
 ) => {
   try {
-    const response = await axios.get(
+    const response = await instance.get(
       `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/profiles/findProfiles`,
       {
         headers: {

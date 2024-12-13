@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
 import './init.ts';
@@ -12,7 +13,6 @@ import Exit from '../../components/Exit.tsx';
 import { useAllMessages } from '../../hooks/useAllMessages.ts';
 import { usePartnerWithParticipants } from '../../hooks/usePartnerWithParticipants.ts';
 import Spinner from '../../components/common/Spinner.tsx';
-import { useEffect } from 'react';
 
 const Chatting = () => {
   const navigate = useNavigate();
@@ -27,15 +27,28 @@ const Chatting = () => {
   const { data, isLoading: isAllMessagesLoading } = useAllMessages(
     chatRoomId ?? '',
     0,
-    100
+    20
   );
 
   useEffect(() => {
     if (data?.messages) addInitChattingMessages(data?.messages ?? []);
   }, [data, addInitChattingMessages]);
 
-  if (isLoading || isAllMessagesLoading) {
-    return <Spinner />;
+  const loading = isLoading || isAllMessagesLoading;
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+        }}
+      >
+        <Spinner />
+      </div>
+    );
   }
 
   return (

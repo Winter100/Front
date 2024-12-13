@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import Modal from 'react-modal';
 import Button from './common/Button';
-import styles from './MyModal.module.css';
-import RoundWrapper from './common/RoundWrapper';
+import styles from './Exit.module.css';
 import axios from 'axios';
 
 const overlay = {
@@ -16,8 +15,8 @@ const content = {
   bottom: 'auto',
   marginRight: '-50%',
   transform: 'translate(-50%, -50%)',
-  width: '500px',
-  height: '600px',
+  width: '350px',
+  height: '200px',
   zIndex: 100,
   backgroundColor: '#202123',
   border: 'none',
@@ -66,27 +65,23 @@ const Exit = ({ chatRoomId }: { chatRoomId: string }) => {
         contentLabel="채팅방 나가기"
       >
         <div className={styles.container}>
-          <div className={styles.body}>
-            <div className={styles.image_container}>
-              <RoundWrapper
-                style={{
-                  cursor: 'default',
-                  border: 'none',
-                }}
-              ></RoundWrapper>
+          <div className={styles.header}>
+            <h2>채팅방 나가기</h2>
+            <div className={styles.description}>
+              <p>채팅방을 나가면 다시 들어올 수 없습니다</p>
+              <p>정말 나가시겠습니까?</p>
             </div>
-
-            <form>
-              <div>채팅방 나가기</div>
-              <div>
-                채팅방을 나가면 메시지가 삭제되며 더이상 해당 유저와 매칭되지
-                않습니다
-              </div>
-              <div>
-                <button onClick={() => setOpenModal(false)}>취소</button>
-                <button onClick={handleSubmit}>나가기</button>
-              </div>
-            </form>
+          </div>
+          <div className={styles.btn_container}>
+            <button
+              className={`${styles.btn} ${styles.cancel}`}
+              onClick={() => setOpenModal(false)}
+            >
+              취소
+            </button>
+            <button className={styles.btn} onClick={handleSubmit}>
+              나가기
+            </button>
           </div>
         </div>
       </Modal>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import styles from './interestChoice.module.css';
@@ -7,10 +7,10 @@ import styles from './interestChoice.module.css';
 import Badge from '../../../../components/common/Badge';
 import MainButton from '../../../../components/ui/MainButton';
 // import useProfileStore from '../../../../store/useProfileStore';
-import axios from 'axios';
+// import axios from 'axios';
 
 const InterestChoice = () => {
-  // const nav = useNavigate();
+  const nav = useNavigate();
   const [selectedArr, setSelectedArr] = useState<string[]>([]);
   // const { profile, setProfile } = useProfileStore();
   // const { interest } = profile;
@@ -34,11 +34,11 @@ const InterestChoice = () => {
   ];
 
   //이전에 선택된 관심사가 있으면 표시
-  useEffect(() => {
-    if (interest && interest.length > 0) {
-      setSelectedArr(interest);
-    }
-  }, [interest]);
+  // useEffect(() => {
+  //   if (interest && interest.length > 0) {
+  //     setSelectedArr(interest);
+  //   }
+  // }, [interest]);
 
   // 관심사를 클릭하면 배열에 최대 5개를 저장하고 다시 클릭하면 제외되는 함수
   const toggleInterest = (interest: string) => {

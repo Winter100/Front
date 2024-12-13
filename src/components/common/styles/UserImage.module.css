@@ -31,6 +31,7 @@
   justify-content: center;
   align-items: center;
   height: 100%;
+  gap: 10px;
 }
 
 .modalImage {
@@ -55,7 +56,6 @@
 }
 
 .btn_container {
-  margin: 1rem;
   display: flex;
   align-content: center;
   justify-content: center;

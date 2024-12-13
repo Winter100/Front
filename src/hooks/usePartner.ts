@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import instance from '../api/axios';
 
 type PartnerType = {
   age: number;
@@ -9,7 +9,7 @@ type PartnerType = {
 
 const getPartner = async (token: string, partnerProfileId: number) => {
   try {
-    const response = await axios.get(
+    const response = await instance.get(
       `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/profiles/${partnerProfileId}`,
       {
         headers: {
@@ -18,8 +18,17 @@ const getPartner = async (token: string, partnerProfileId: number) => {
         },
       }
     );
-    // console.log('asdf', response.data);
     return response.data as PartnerType;
+    // const response = await axios.get(
+    //   `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/profiles/${partnerProfileId}`,
+    //   {
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   }
+    // );
+    // return response.data as PartnerType;
   } catch (e) {
     console.log(e);
   }

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { MessageType } from '../types/message';
+import { MessagePreviewType, MessageType } from '../types/message';
 
 type ChattingRooms = {
   chatRoomId: number;
@@ -16,7 +16,7 @@ type State = {
 type Action = {
   addInitChattingMessages: (message: MessageType[]) => void;
   addChattingMessages: (message: MessageType) => void;
-  addFirstMessages: (message: MessageType[]) => void;
+  addFirstMessages: (message: MessagePreviewType[]) => void;
   deleteChattingMessages: (id: string) => void;
   setChattingRooms: (roomsData: ChattingRooms[]) => void;
 };
@@ -57,14 +57,21 @@ export const useChattingStore = create<State & Action>((set) => ({
   },
   addFirstMessages: (messageData) => {
     set((state) => {
-      // const preMessages = [...messageData, ...state.chattingMessages];
-      const sortedMessages = messageData.sort(
+      const arr = messageData.map((page) => page.messages);
+      const mergedData = arr.flat();
+
+      const combinedMessages = [...mergedData, ...state.chattingMessages];
+
+      const sortedData = combinedMessages.sort(
         (a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))
       );
 
-      // console.log('sortedMessages', sortedMessages);
+      const uniqueMessagesMap = new Map();
+      sortedData.forEach((msg) => uniqueMessagesMap.set(msg.id, msg));
+      const uniqueMessages = Array.from(uniqueMessagesMap.values());
+
       return {
-        chattingMessages: [...sortedMessages, ...state.chattingMessages],
+        chattingMessages: uniqueMessages,
       };
     });
   },

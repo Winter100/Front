@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import instance from '../api/axios';
 
 export type MyProfile = {
   age: number;
@@ -13,7 +13,7 @@ export type MyProfile = {
 
 const handleGetMyProfile = async (token: string) => {
   try {
-    const response = await axios.get(
+    const response = await instance.get(
       `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/profiles/getProfile`,
       {
         headers: {
@@ -25,6 +25,18 @@ const handleGetMyProfile = async (token: string) => {
     const data: MyProfile = response.data;
 
     return data;
+    // const response = await axios.get(
+    //   `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/profiles/getProfile`,
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   }
+    // );
+
+    // const data: MyProfile = response.data;
+
+    // return data;
   } catch (e) {
     console.log(e);
   }

@@ -1,10 +1,10 @@
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
 import { User } from '../store/useFindUserStore';
+import instance from '../api/axios';
 
 export const getFindProfiles = async (token: string) => {
   try {
-    const response = await axios.get(
+    const response = await instance.get(
       `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/profiles/findProfiles`,
       {
         headers: {
@@ -18,7 +18,7 @@ export const getFindProfiles = async (token: string) => {
 
     return data;
   } catch (e) {
-    console.log(e);
+    console.log('findProfiles 에러', e);
   }
 };
 
@@ -31,6 +31,8 @@ export const useFindProfiles = () => {
     gcTime: 0,
     staleTime: 0,
   });
+
+  console.log('isError', isError);
 
   return { data, isLoading, isError };
 };

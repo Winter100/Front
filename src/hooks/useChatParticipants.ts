@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+import instance from '../api/axios';
 
 const getChatParticipants = async (chatRoomId: number, token: string) => {
-  const response = await axios.get(
+  const response = await instance.get(
     `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/chat-rooms/${chatRoomId}/participants`,
     {
       headers: {
@@ -12,6 +12,16 @@ const getChatParticipants = async (chatRoomId: number, token: string) => {
     }
   );
   return response.data;
+  // const response = await axios.get(
+  //   `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/chat-rooms/${chatRoomId}/participants`,
+  //   {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`,
+  //       'Content-Type': 'application/json',
+  //     },
+  //   }
+  // );
+  // return response.data;
 };
 
 export const useChatParticipants = (chatRoomId: number) => {

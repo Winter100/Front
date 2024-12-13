@@ -6,9 +6,12 @@ import ChatDate from './ChatDate';
 import MessageItemContainer from './MessageItemContainer';
 import { deleteMessage } from '../../../util/websocketService';
 import { useParams } from 'react-router-dom';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 
 import OtherProfile from './OtherProfile';
+import { useInfiniteMessages } from '../../../hooks/useInfiniteMessages';
+import { throttle } from 'lodash';
+import { MessagePreviewType } from '../../../types/message';
 
 const ChattingRoom = ({
   imageUrl = '/profile.png',
@@ -17,15 +20,12 @@ const ChattingRoom = ({
   imageUrl: string | undefined;
   profileName: string | undefined;
 }) => {
-  // 역방향 무한 스크롤 구현하기
-  // const page = 1;
-  // const hasNext = true;
   const myId = sessionStorage.getItem('id') ?? '';
   const chattingMessages = useChattingStore((state) => state.chattingMessages);
+  const addFirstMessages = useChattingStore((state) => state.addFirstMessages);
   const deleteChattingMessages = useChattingStore(
     (state) => state.deleteChattingMessages
   );
-  // const addFirstMessages = useChattingStore((state) => state.addFirstMessages);
   const { id: roomId } = useParams();
   const { scrollRef } = useScroll('auto', chattingMessages);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -38,40 +38,41 @@ const ChattingRoom = ({
     (a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))
   );
 
-  // useEffect(() => {
-  //   const container = containerRef.current;
+  const { data, hasNextPage, fetchNextPage } = useInfiniteMessages(
+    roomId ?? ''
+  );
 
-  //   const fetch = async () => {
-  //     const data = await getAllMessages(token, roomId, page);
-  //     addFirstMessages(data?.messages ?? []);
-  //   };
+  useEffect(() => {
+    if (data) {
+      addFirstMessages(data?.pages as MessagePreviewType[]);
+    }
+  }, [data, addFirstMessages]);
 
-  //   const handleScroll = throttle(() => {
-  //     if (container) {
-  //       const scrollTop = container.scrollTop;
-  //       if (hasNext && scrollTop < 100) {
-  //         container.scrollTop = scrollTop + 400;
-  //         try {
-  //           fetch();
-  //           page++;
-  //           hasNext = false;
-  //         } catch (e) {
-  //           console.log(e);
-  //         }
-  //       }
-  //     }
-  //   }, 1000);
+  useEffect(() => {
+    const container = containerRef.current;
 
-  //   if (container) {
-  //     container.addEventListener('scroll', handleScroll);
-  //   }
+    const handleScroll = throttle(() => {
+      if (container) {
+        const scrollTop = container.scrollTop;
+        if (scrollTop < 150) {
+          if (fetchNextPage && hasNextPage) {
+            container.scrollTop = scrollTop + 400;
+            fetchNextPage();
+          }
+        }
+      }
+    }, 500);
 
-  //   return () => {
-  //     if (container) {
-  //       container.removeEventListener('scroll', handleScroll);
-  //     }
-  //   };
-  // }, []);
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, [fetchNextPage, hasNextPage]);
 
   return (
     <div className={styles.container} ref={containerRef}>

@@ -26,7 +26,6 @@ const MessagePreview = ({
   );
   let content = '';
   let date = '';
-
   const loading = isLoading || isMessagesLoading;
 
   if (loading) {
