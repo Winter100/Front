@@ -1,0 +1,15 @@
+.container {
+  width: 3.5rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+
+  font-size: 11px;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: white;
+}

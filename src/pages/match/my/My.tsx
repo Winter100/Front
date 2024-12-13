@@ -1,17 +1,35 @@
-import { useNavigate } from 'react-router-dom';
-import { CiSettings } from 'react-icons/ci';
-import { FaPen } from 'react-icons/fa6';
-
 import styles from './my.module.css';
 import Wrapper from '../../../components/common/Wrapper';
 import RoundWrapper from '../../../components/common/RoundWrapper';
 import AbsoluteBox from '../../../components/common/AbsoluteBox';
 import UserImage from '../../../components/common/UserImage';
-import Button from '../../../components/common/Button';
 import MyModal from '../../../components/MyModal';
+import { useMyProfile } from '../../../hooks/useMyProfile';
+import Spinner from '../../../components/common/Spinner';
 
 const My = () => {
-  const navigate = useNavigate();
+  const { data, isLoading, isError } = useMyProfile();
+
+  const handleLogout = () => {
+    sessionStorage.clear();
+    location.reload();
+  };
+
+  if (isLoading) {
+    return (
+      <div className={styles.spinner_container}>
+        <Spinner size={100} />
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className={styles.spinner_container}>
+        <p>잠시 후 다시 시도해주세요.</p>
+      </div>
+    );
+  }
   return (
     <>
       <div className={styles.container}>
@@ -22,9 +40,13 @@ const My = () => {
                 position: 'relative',
                 width: '14rem',
                 height: '14rem',
+                border: 'none',
               }}
             >
-              <UserImage src="/public/3.jpg" size="XL" />
+              <UserImage
+                src={data?.profileImages[0] ?? '/profile.png'}
+                size="XL"
+              />
             </RoundWrapper>
             <AbsoluteBox
               style={{
@@ -43,65 +65,29 @@ const My = () => {
                   height: 'inherit',
                   borderRadius: 'inherit',
                   color: 'white',
-                  backgroundColor: 'rgb(255, 89, 103)',
+                  border: 'none',
+                  backgroundColor: '#202123',
                 }}
               >
-                <MyModal />
+                <MyModal
+                  profileName={data?.profileName}
+                  selfIntroduction={data?.selfIntroduction}
+                  profileImages={data?.profileImages[0]}
+                />
               </RoundWrapper>
             </AbsoluteBox>
           </Wrapper>
 
           <Wrapper fontSize="2rem" flexDirection="row">
-            {/* 유저 데이터 가져와서 보여주기 */}
-            <p>올리버</p>
-            <p>26</p>
+            <p>{data?.profileName ?? ''}</p>
+            <p>{data?.age ?? ''}</p>
           </Wrapper>
-          <div className={styles.btn_box}>
-            <Wrapper fontSize="0.8rem">
-              <RoundWrapper>
-                <Button
-                  onClick={() => navigate('setting')}
-                  style={{
-                    fontSize: '2rem',
-                    color: 'white',
-                  }}
-                >
-                  <CiSettings />
-                </Button>
-              </RoundWrapper>
-              <p>세팅</p>
-            </Wrapper>
-
-            <Wrapper fontSize="0.8rem">
-              <RoundWrapper>
-                <Button
-                  onClick={() => navigate('profile')}
-                  style={{
-                    fontSize: '1.2rem',
-                    color: 'white',
-                  }}
-                >
-                  <FaPen />
-                </Button>
-              </RoundWrapper>
-              <p>프로필 수정</p>
-            </Wrapper>
-          </div>
         </div>
-
-        <Wrapper gap="1rem" flexGrow={1}>
-          <p></p>
-          <RoundWrapper
-            style={{
-              width: '12rem',
-              height: '2.5rem',
-              fontSize: '1rem',
-              borderRadius: '25px',
-            }}
-          >
-            <Button>...</Button>
-          </RoundWrapper>
-        </Wrapper>
+        <div className={styles.bottom_container}>
+          <button onClick={handleLogout} className={styles.btn}>
+            로그아웃
+          </button>
+        </div>
       </div>
     </>
   );

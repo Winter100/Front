@@ -14,12 +14,13 @@ instance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // 토큰 만료로 인한 401 에러이고, 재시도하지 않은 요청일 경우
     if (
       error.response.status === 401 &&
       error.response.data.message ===
         '토큰이 유효하지 않습니다. 다시 로그인하세요.' &&
       !originalRequest._retry
+      // error.response.status === 401 &&
+      // error.response.message === '만료된 토큰입니다.'
     ) {
       originalRequest._retry = true;
 
@@ -33,7 +34,6 @@ instance.interceptors.response.use(
 
         sessionStorage.setItem('accessToken', newAccessToken);
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-
         // 실패했던 요청 재시도
         return instance(originalRequest);
       } catch (refreshError) {
@@ -44,6 +44,12 @@ instance.interceptors.response.use(
         return Promise.reject(refreshError);
       }
     }
+    // else {
+    //   sessionStorage.removeItem('accessToken');
+    //   sessionStorage.removeItem('refreshToken');
+    //   sessionStorage.removeItem('id');
+    //   location.reload();
+    // }
     return Promise.reject(error);
   }
 );

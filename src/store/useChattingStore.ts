@@ -1,47 +1,98 @@
 import { create } from 'zustand';
-import { MessageType } from '../types/message';
+import { MessagePreviewType, MessageType } from '../types/message';
 
-const DUMMY_MESSAGES = [
-  { isMe: true, content: '뭐해?', date: '2024-12-12' },
-  { isMe: false, content: '그냥있어', date: '2024-12-12' },
-  { isMe: false, content: '왜??', date: '2024-12-12' },
-  { isMe: true, content: '걍 심심해서?', date: '2024-12-12' },
-  { isMe: true, content: '저녁 ㄱㄱ?', date: '2024-12-12' },
-  { isMe: true, content: '대답', date: '2024-12-12' },
-  { isMe: true, content: '대답', date: '2024-12-12' },
-  { isMe: true, content: '대답', date: '2024-12-12' },
-  { isMe: true, content: '대답', date: '2024-12-12' },
-  { isMe: true, content: '대답', date: '2024-12-12' },
-  { isMe: true, content: '대답', date: '2024-12-12' },
-  { isMe: true, content: '대답', date: '2024-12-12' },
-  { isMe: true, content: '대답', date: '2024-12-12' },
-  { isMe: true, content: '대답', date: '2024-12-12' },
-  { isMe: true, content: '대답', date: '2024-12-12' },
-  { isMe: true, content: '대답', date: '2024-12-12' },
-  { isMe: true, content: '대답', date: '2024-12-12' },
-  { isMe: true, content: '대답', date: '2024-12-12' },
-  { isMe: true, content: '대답', date: '2024-12-12' },
-  { isMe: true, content: '대답', date: '2024-12-12' },
-  {
-    isMe: false,
-    content:
-      'ㅇㅇ ㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱㄱ',
-    date: '2024-12-12',
-  },
-  { isMe: false, content: '뭐하는데 답장이 없냐?', date: '2024-12-12' },
-];
+type ChattingRooms = {
+  chatRoomId: number;
+  myProfileId: number;
+  partnerProfileId: number;
+  unreadCount: number;
+};
+
 type State = {
+  chattingRooms: ChattingRooms[];
   chattingMessages: MessageType[];
 };
 
 type Action = {
+  addInitChattingMessages: (message: MessageType[]) => void;
   addChattingMessages: (message: MessageType) => void;
+  addFirstMessages: (message: MessagePreviewType[]) => void;
+  deleteChattingMessages: (id: string) => void;
+  setChattingRooms: (roomsData: ChattingRooms[]) => void;
 };
 
 export const useChattingStore = create<State & Action>((set) => ({
-  chattingMessages: DUMMY_MESSAGES,
-  addChattingMessages: (message) =>
-    set((state) => ({
-      chattingMessages: [...state.chattingMessages, message],
-    })),
+  chattingRooms: [],
+  chattingMessages: [],
+  addInitChattingMessages: (messageData) => {
+    // console.log('초기 메시지', messageData);
+    set(() => ({
+      chattingMessages: [...messageData],
+    }));
+  },
+  addChattingMessages: (messageData) => {
+    // console.log('새로 받은 메시지:', messageData);
+    set((state) => {
+      if (messageData.messageType === 'DELETE') {
+        const preMessages = [...state.chattingMessages];
+        const deleteMessage = preMessages.map((message) =>
+          message.id === messageData.id
+            ? {
+                ...message,
+                messageType: 'DELETE',
+                content: '삭제된 메시지입니다.',
+              }
+            : { ...message }
+        );
+        return { chattingMessages: deleteMessage };
+      } else if (
+        messageData.messageType === 'CHAT' ||
+        messageData.messageType === 'FILE'
+      ) {
+        return { chattingMessages: [...state.chattingMessages, messageData] };
+      } else {
+        return { chattingMessages: [...state.chattingMessages] };
+      }
+    });
+  },
+  addFirstMessages: (messageData) => {
+    set((state) => {
+      const arr = messageData.map((page) => page.messages);
+      const mergedData = arr.flat();
+
+      const combinedMessages = [...mergedData, ...state.chattingMessages];
+
+      const sortedData = combinedMessages.sort(
+        (a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))
+      );
+
+      const uniqueMessagesMap = new Map();
+      sortedData.forEach((msg) => uniqueMessagesMap.set(msg.id, msg));
+      const uniqueMessages = Array.from(uniqueMessagesMap.values());
+
+      return {
+        chattingMessages: uniqueMessages,
+      };
+    });
+  },
+  deleteChattingMessages: (id) => {
+    set((state) => {
+      const preMessages = [...state.chattingMessages];
+      const deleteMessage = preMessages.map((message) =>
+        message.id === id
+          ? {
+              ...message,
+              messageType: 'DELETE',
+              content: '삭제된 메시지입니다.',
+            }
+          : { ...message }
+      );
+      return { chattingMessages: deleteMessage };
+    });
+  },
+  setChattingRooms: (roomsData) => {
+    set(() => {
+      return { chattingRooms: roomsData };
+    });
+  },
 }));

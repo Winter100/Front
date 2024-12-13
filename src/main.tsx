@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
@@ -13,7 +12,7 @@ const enableMocking = async () => {
     return;
   }
 
-  const { worker } = await import('./mocks/browser');
+  // const { worker } = await import('./mocks/browser');
 
   // return worker.start();
 };

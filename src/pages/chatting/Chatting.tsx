@@ -1,34 +1,55 @@
-import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { IoIosArrowBack } from 'react-icons/io';
+import './init.ts';
 
-import styles from './chatting.module.css';
 import Header from '../../components/layout/Header';
-import UserImage from '../../components/common/UserImage';
 import ChattingRoom from './components/ChattingRoom';
-import InputContainer from '../../components/common/InputContainer';
-import Input from '../../components/common/Input';
-import { useChattingStore } from '../../store/useChattingStore';
-import { useState } from 'react';
-import { MessageType } from '../../types/message';
+
+import { useChattingStore } from '../../store/useChattingStore.ts';
+import ChattingMenu from './components/ChattingMenu.tsx';
+import OtherProfile from './components/OtherProfile.tsx';
+import Exit from '../../components/Exit.tsx';
+import { useAllMessages } from '../../hooks/useAllMessages.ts';
+import { usePartnerWithParticipants } from '../../hooks/usePartnerWithParticipants.ts';
+import Spinner from '../../components/common/Spinner.tsx';
 
 const Chatting = () => {
   const navigate = useNavigate();
-  const addChattingMessages = useChattingStore(
-    (state) => state.addChattingMessages
+  const { id: chatRoomId } = useParams();
+  const { partnerData, isLoading } = usePartnerWithParticipants(
+    Number(chatRoomId)
   );
 
-  const [message, setMessage] = useState('');
+  const addInitChattingMessages = useChattingStore(
+    (state) => state.addInitChattingMessages
+  );
+  const { data, isLoading: isAllMessagesLoading } = useAllMessages(
+    chatRoomId ?? '',
+    0,
+    20
+  );
 
-  const sendMessageHandler = (e: React.FormEvent) => {
-    e.preventDefault();
-    const messageData: MessageType = {
-      isMe: true,
-      content: message,
-      date: '2024-12-12',
-    };
-    addChattingMessages(messageData);
-    setMessage('');
-  };
+  useEffect(() => {
+    if (data?.messages) addInitChattingMessages(data?.messages ?? []);
+  }, [data, addInitChattingMessages]);
+
+  const loading = isLoading || isAllMessagesLoading;
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+        }}
+      >
+        <Spinner />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -43,31 +64,26 @@ const Chatting = () => {
               color: 'white',
               fontSize: '1rem',
             }}
-            onClick={() => navigate(-1)}
+            onClick={() => navigate('/match/messages')}
           >
             <IoIosArrowBack />
           </button>
         }
         center={
-          <>
-            <UserImage src="/public/3.jpg" size="M" />
-            <p style={{ margin: 'auto 1rem', fontSize: '0.8rem' }}>홍길동</p>
-          </>
+          <OtherProfile
+            imageUrl={partnerData?.imageUrl}
+            profileName={partnerData?.profileName}
+          />
         }
-        right="메뉴"
+        right={<Exit chatRoomId={chatRoomId ?? ''} />}
       />
 
-      <ChattingRoom />
-      <InputContainer>
-        <Input value={message} onChange={(e) => setMessage(e.target.value)} />
-        <button
-          type="submit"
-          onClick={sendMessageHandler}
-          className={styles.sendBtn}
-        >
-          보내기
-        </button>
-      </InputContainer>
+      <ChattingRoom
+        imageUrl={partnerData?.imageUrl}
+        profileName={partnerData?.profileName}
+      />
+
+      <ChattingMenu />
     </>
   );
 };

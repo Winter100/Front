@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
 import styles from './Home.module.css';
-// import { FaSignInAlt } from 'react-icons/fa';
-// import { GiDolphin } from 'react-icons/gi';
 
 const Home = () => {
   return (

@@ -1,0 +1,17 @@
+.container > li {
+  display: flex;
+  gap: 0.7rem;
+}
+
+.me {
+  align-self: flex-end;
+}
+.you {
+  align-self: flex-start;
+}
+
+.date {
+  display: flex;
+  font-size: 11px;
+  align-items: flex-end;
+}
