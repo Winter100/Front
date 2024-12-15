@@ -25,6 +25,7 @@ import CallbackLayout from './components/layout/CallbackLayout';
 import Address from './pages/signup/setting/address/Address';
 import ProtectedRouteWithProfile from './components/ProtectedRoute/ProfileProtectedRoute';
 import LoginProtectedRoute from './components/ProtectedRoute/LoginProtectedRoute';
+import PublicRoute from './components/ProtectedRoute/PublicRoute';
 
 const router = createBrowserRouter([
   {
@@ -37,7 +38,7 @@ const router = createBrowserRouter([
         children: [{ index: true, element: <Home /> }],
       },
       {
-        element: <LoginProtectedRoute />,
+        element: <PublicRoute />,
         children: [
           {
             path: 'login',
