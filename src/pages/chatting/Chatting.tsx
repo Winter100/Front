@@ -13,28 +13,43 @@ import Exit from '../../components/Exit.tsx';
 import { useAllMessages } from '../../hooks/useAllMessages.ts';
 import { usePartnerWithParticipants } from '../../hooks/usePartnerWithParticipants.ts';
 import Spinner from '../../components/common/Spinner.tsx';
+import { useAccessRoom } from '../../hooks/useAccessRoom.ts';
 
 const Chatting = () => {
   const navigate = useNavigate();
   const { id: chatRoomId } = useParams();
-  const { partnerData, isLoading } = usePartnerWithParticipants(
-    Number(chatRoomId)
-  );
 
-  const addInitChattingMessages = useChattingStore(
-    (state) => state.addInitChattingMessages
+  const { data: accessData, isLoading: accessLoading } = useAccessRoom(
+    Number(chatRoomId) ?? ''
   );
+  const isAccessible = accessData?.isAccessible ?? false;
+
   const { data, isLoading: isAllMessagesLoading } = useAllMessages(
     chatRoomId ?? '',
     0,
-    20
+    20,
+    isAccessible
+  );
+
+  const { partnerData, isLoading } = usePartnerWithParticipants(
+    Number(chatRoomId)
+  );
+  const addInitChattingMessages = useChattingStore(
+    (state) => state.addInitChattingMessages
   );
 
   useEffect(() => {
     if (data?.messages) addInitChattingMessages(data?.messages ?? []);
   }, [data, addInitChattingMessages]);
 
-  const loading = isLoading || isAllMessagesLoading;
+  useEffect(() => {
+    if (!isAccessible) {
+      navigate('/match/messages', { replace: true });
+    }
+  }, [isAccessible, navigate]);
+
+  const loading =
+    isLoading || isAllMessagesLoading || accessLoading || !isAccessible;
 
   if (loading) {
     return (

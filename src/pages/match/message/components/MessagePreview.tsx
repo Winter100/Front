@@ -5,6 +5,7 @@ import UserImage from '../../../../components/common/UserImage';
 import { usePartner } from '../../../../hooks/usePartner';
 import { useAllMessages } from '../../../../hooks/useAllMessages';
 import Spinner from '../../../../components/common/Spinner';
+import { useAccessRoom } from '../../../../hooks/useAccessRoom';
 import { convertToKrTime } from '../../../../util/convertToKrTime';
 
 interface MessageProps {
@@ -19,10 +20,13 @@ const MessagePreview = ({
   unreadCount,
 }: MessageProps) => {
   const { data, isLoading } = usePartner(chatRoomId, partnerProfileId);
+  const { data: accessData } = useAccessRoom(chatRoomId ?? '');
+  const isAccessible = accessData?.isAccessible ?? false;
   const { data: messages, isLoading: isMessagesLoading } = useAllMessages(
     chatRoomId.toString(),
     0,
-    1
+    1,
+    isAccessible
   );
   let content = '';
   let date = '';
@@ -38,11 +42,11 @@ const MessagePreview = ({
     );
   }
 
-  if (messages && messages.messages.length > 0) {
-    date = convertToKrTime(messages.messages[0].createdAt);
-    if (messages.messages[0].messageType === 'CHAT') {
-      content = messages.messages[0].content;
-    } else if (messages.messages[0].messageType === 'DELETE') {
+  if (messages && messages?.messages.length > 0) {
+    date = convertToKrTime(messages?.messages[0].createdAt, true);
+    if (messages?.messages[0].messageType === 'CHAT') {
+      content = messages?.messages[0].content;
+    } else if (messages?.messages[0].messageType === 'DELETE') {
       content = '삭제된 메시지입니다';
     } else {
       content = '[이미지]';
@@ -67,8 +71,6 @@ const MessagePreview = ({
             <p>{data?.profileName}</p>
             <p>{content}</p>
           </div>
-
-          <div></div>
 
           <div className={styles.unreadCount_container}>
             <p className={styles.date}>{date}</p>

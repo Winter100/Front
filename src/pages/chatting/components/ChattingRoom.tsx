@@ -1,17 +1,18 @@
-import Message from '../../../components/common/Message';
-import { useScroll } from '../../../hooks/useScroll';
-import styles from './chattingRoom.module.css';
-import { useChattingStore } from '../../../store/useChattingStore';
-import ChatDate from './ChatDate';
-import MessageItemContainer from './MessageItemContainer';
-import { deleteMessage } from '../../../util/websocketService';
-import { useParams } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
-
-import OtherProfile from './OtherProfile';
-import { useInfiniteMessages } from '../../../hooks/useInfiniteMessages';
 import { throttle } from 'lodash';
+import { useParams } from 'react-router-dom';
+import { useScroll } from '../../../hooks/useScroll';
+import { useInfiniteMessages } from '../../../hooks/useInfiniteMessages';
+import { useChattingStore } from '../../../store/useChattingStore';
+import { deleteMessage } from '../../../util/websocketService';
+import { groupedMessages } from '../../../util/groupedMessages';
 import { MessagePreviewType } from '../../../types/message';
+
+import styles from './styles/chattingRoom.module.css';
+import Message from '../../../components/common/Message';
+import OtherProfile from './OtherProfile';
+import MessageItemContainer from './MessageItemContainer';
+import DeleteBtn from './DeleteBtn';
 
 const ChattingRoom = ({
   imageUrl = '/profile.png',
@@ -20,7 +21,7 @@ const ChattingRoom = ({
   imageUrl: string | undefined;
   profileName: string | undefined;
 }) => {
-  const myId = sessionStorage.getItem('id') ?? '';
+  const myId = sessionStorage.getItem('id') ?? '1';
   const chattingMessages = useChattingStore((state) => state.chattingMessages);
   const addFirstMessages = useChattingStore((state) => state.addFirstMessages);
   const deleteChattingMessages = useChattingStore(
@@ -74,38 +75,46 @@ const ChattingRoom = ({
     };
   }, [fetchNextPage, hasNextPage]);
 
+  const result = Object.values(groupedMessages(sortedMessages));
+
   return (
     <div className={styles.container} ref={containerRef}>
-      {sortedMessages.map((message) => (
-        <div
-          key={message.id}
-          className={
-            message.profileId === Number(myId) ? styles.me : styles.you
-          }
-        >
-          <>
-            {message.profileId !== Number(myId) ? (
-              <MessageItemContainer>
-                <OtherProfile
-                  isViewName={false}
-                  imageUrl={imageUrl}
-                  profileName={profileName}
-                />
-                <Message myId={myId} {...message} />
-                <ChatDate createdAt={message.createdAt} isMe={false} />
-              </MessageItemContainer>
-            ) : (
-              <MessageItemContainer>
-                <ChatDate
-                  createdAt={message.createdAt}
-                  handleDelete={() => handleDelete(Number(roomId), message.id)}
-                  isMe={true}
-                  messageType={message.messageType}
-                />
-                <Message myId={myId} {...message} />
-              </MessageItemContainer>
-            )}
-          </>
+      {result.map((items) => (
+        <div key={items.date} className={styles.messages_container}>
+          <p className={styles.dateTitle}>{items.date}</p>
+          {items.messages.map((message) => (
+            <div
+              key={message.id}
+              className={
+                message.profileId === Number(myId) ? styles.me : styles.you
+              }
+            >
+              <>
+                {message.profileId !== Number(myId) ? (
+                  <MessageItemContainer>
+                    <OtherProfile
+                      isViewName={false}
+                      imageUrl={imageUrl}
+                      profileName={profileName}
+                    />
+                    <Message myId={myId} {...message} />
+                    <DeleteBtn isMe={false} />
+                  </MessageItemContainer>
+                ) : (
+                  <MessageItemContainer>
+                    <DeleteBtn
+                      handleDelete={() =>
+                        handleDelete(Number(roomId), message.id)
+                      }
+                      isMe={true}
+                      messageType={message.messageType}
+                    />
+                    <Message myId={myId} {...message} />
+                  </MessageItemContainer>
+                )}
+              </>
+            </div>
+          ))}
         </div>
       ))}
       <div ref={scrollRef} />
