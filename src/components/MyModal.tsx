@@ -2,9 +2,9 @@ import { useRef, useState } from 'react';
 import Modal from 'react-modal';
 import Button from './common/Button';
 import styles from './MyModal.module.css';
-// import RoundWrapper from './common/RoundWrapper';
 import UserImage from './common/UserImage';
-import axios from 'axios';
+import instance from '../api/axios';
+import { useQueryClient } from '@tanstack/react-query';
 
 type MyProfile = {
   profileName: string | undefined;
@@ -37,6 +37,7 @@ const MyModal = ({
   const [openModal, setOpenModal] = useState(false);
   const profileNameRef = useRef<HTMLInputElement>(null);
   const selfIntroductionRef = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,7 +57,7 @@ const MyModal = ({
 
     const url = import.meta.env.VITE_PROJECT_SERVER_URL;
     try {
-      const response = await axios.patch(
+      const response = await instance.patch(
         `${url}/api/v1/profiles/update`,
         { profileName, selfIntroduction },
         {
@@ -66,11 +67,15 @@ const MyModal = ({
           },
         }
       );
-      console.log('response', response.data);
+      if (response.status === 201) {
+        queryClient.invalidateQueries({ queryKey: ['myProfile'], exact: true });
+      }
+      setOpenModal(false);
     } catch (error) {
       console.error('API 요청 중 오류 발생:', error);
     }
   };
+
   return (
     <div>
       <Button
@@ -88,14 +93,7 @@ const MyModal = ({
       >
         <div className={styles.container}>
           <div className={styles.image_container}>
-            {/* <RoundWrapper
-              style={{
-                cursor: 'default',
-                border: 'none',
-              }}
-            > */}
             <UserImage src={profileImages ?? '/profile.png'} size="MODAL" />
-            {/* </RoundWrapper> */}
           </div>
 
           <form className={styles.form} onSubmit={handleSubmit}>

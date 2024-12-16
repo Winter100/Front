@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import Button from './common/Button';
 import styles from './Exit.module.css';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const overlay = {
   backgroundColor: ' rgba(0, 0, 0, 0.7)',
@@ -24,6 +25,7 @@ const content = {
 
 const Exit = ({ chatRoomId }: { chatRoomId: string }) => {
   const [openModal, setOpenModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +40,7 @@ const Exit = ({ chatRoomId }: { chatRoomId: string }) => {
 
     try {
       const response = await axios.delete(
-        `${url}/api/v1/chat-rooms/${chatRoomId}`,
+        `${url}/api/v1/chat-rooms/${chatRoomId}/leave`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -46,6 +48,9 @@ const Exit = ({ chatRoomId }: { chatRoomId: string }) => {
           },
         }
       );
+      if (response.status === 200) {
+        navigate('/match/messages', { replace: true });
+      }
       const data = response.data;
       return data;
     } catch (error) {
@@ -74,12 +79,15 @@ const Exit = ({ chatRoomId }: { chatRoomId: string }) => {
           </div>
           <div className={styles.btn_container}>
             <button
-              className={`${styles.btn} ${styles.cancel}`}
+              className={`${styles.btn}`}
               onClick={() => setOpenModal(false)}
             >
               취소
             </button>
-            <button className={styles.btn} onClick={handleSubmit}>
+            <button
+              className={`${styles.btn} ${styles.exit}`}
+              onClick={handleSubmit}
+            >
               나가기
             </button>
           </div>
