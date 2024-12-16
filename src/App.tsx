@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './App.css';
 
 import Home from './pages/home/Home';
-import MatchingProfile from './pages/match/MatchingProfile';
+import Matching from './pages/match/Matching';
 import Messages from './pages/match/message/Messages';
 import My from './pages/match/my/My';
 import RootLayout from './components/layout/RootLayout';
@@ -53,7 +53,7 @@ const router = createBrowserRouter([
             path: 'match',
             element: <MatchLayout />,
             children: [
-              { index: true, element: <MatchingProfile /> },
+              { index: true, element: <Matching /> },
               {
                 path: 'messages',
                 element: <Messages />,

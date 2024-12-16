@@ -25,13 +25,11 @@ export const useChattingStore = create<State & Action>((set) => ({
   chattingRooms: [],
   chattingMessages: [],
   addInitChattingMessages: (messageData) => {
-    // console.log('초기 메시지', messageData);
     set(() => ({
       chattingMessages: [...messageData],
     }));
   },
   addChattingMessages: (messageData) => {
-    // console.log('새로 받은 메시지:', messageData);
     set((state) => {
       if (messageData.messageType === 'DELETE') {
         const preMessages = [...state.chattingMessages];

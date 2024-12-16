@@ -42,7 +42,6 @@ const useFindUserStore = create<State & Action>((set) => ({
     set((state) => {
       const users = [...state.userData];
       const filteredUsers = users.filter((user) => user.profileName !== name);
-      // console.log('filteredUsers', filteredUsers);
       return { userData: filteredUsers };
     }),
 }));
