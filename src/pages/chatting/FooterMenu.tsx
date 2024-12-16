@@ -1,5 +1,5 @@
 import { PiGifBold, PiUploadSimpleBold } from 'react-icons/pi';
-import styles from './footerMenu.module.css';
+import styles from './styles/footerMenu.module.css';
 import { useSendMessage } from '../../hooks/useSendMessage';
 
 const FooterMenu = () => {

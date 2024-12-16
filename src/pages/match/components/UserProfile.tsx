@@ -1,4 +1,4 @@
-import styles from './userProfile.module.css';
+import styles from './styles/userProfile.module.css';
 
 const UserProfile = ({
   profileName,

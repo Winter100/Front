@@ -1,4 +1,4 @@
-import styles from './MessageItemContainer.module.css';
+import styles from './styles/MessageItemContainer.module.css';
 
 interface MessageItemProps {
   children: React.ReactNode;

@@ -2,15 +2,16 @@ import { GrPowerReset } from 'react-icons/gr';
 import { GrClose } from 'react-icons/gr';
 import { FaHeart } from 'react-icons/fa';
 
-import styles from './anotherMenu.module.css';
+import styles from './styles/anotherMenu.module.css';
 import RoundWrapper from '../../../components/common/RoundWrapper';
 import Button from '../../../components/common/Button';
 import { handleOnDisLike, handleOnLike } from '../../../util/swipe';
 import useFindUserStore from '../../../store/useFindUserStore';
+import { getAccessToken } from '../../../util/token';
 
 const AnotherMenu = () => {
   const selectedUser = useFindUserStore((state) => state.selectedUser);
-  const token = sessionStorage.getItem('accessToken') ?? '';
+  const token = getAccessToken();
   const deleteUser = useFindUserStore((state) => state.deleteUser);
   const setNextSelectUser = useFindUserStore(
     (state) => state.setNextSelectUser

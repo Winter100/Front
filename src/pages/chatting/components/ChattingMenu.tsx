@@ -1,6 +1,6 @@
 import Input from '../../../components/common/Input';
 import InputContainer from '../../../components/common/InputContainer';
-import styles from './chattingMenu.module.css';
+import styles from './styles/chattingMenu.module.css';
 import { useSendMessage } from '../../../hooks/useSendMessage';
 
 const ChattingMenu = () => {

@@ -1,7 +1,7 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding-top: 10rem;
+  padding-top: 5rem;
   align-items: center;
 
   text-align: center;
@@ -48,9 +48,6 @@
 }
 
 .authLinksContainer {
-  /* width: 100%;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px; */
   width: 100%;
 
   display: flex;
@@ -71,8 +68,7 @@
 }
 
 .authLink:hover {
-  color: #ffc1b7; /* 글씨 색상 변경 (예: 토마토 색상) */
-  /* transform: translateY(-2px); */
+  color: #ffc1b7;
 }
 
 @media (max-width: 768px) {
