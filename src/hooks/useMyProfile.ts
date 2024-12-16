@@ -25,18 +25,6 @@ const handleGetMyProfile = async (token: string) => {
     const data: MyProfile = response.data;
 
     return data;
-    // const response = await axios.get(
-    //   `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/profiles/getProfile`,
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   }
-    // );
-
-    // const data: MyProfile = response.data;
-
-    // return data;
   } catch (e) {
     console.log(e);
   }

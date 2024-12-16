@@ -5,10 +5,10 @@ import styles from './messageList.module.css';
 import axios from 'axios';
 
 const images = [
-  { src: 'url(/public/1.jpg)' },
-  { src: 'url(/public/2.jpg)' },
-  { src: 'url(/public/3.jpg)' },
-  { src: 'url(/public/dolphin.png)' },
+  { src: 'url(/1.jpg)' },
+  { src: 'url(/2.jpg)' },
+  { src: 'url(/3.jpg)' },
+  { src: 'url(/dolphin.png)' },
 ];
 const MessageList = () => {
   const chattingRooms = useChattingStore((state) => state.chattingRooms);
@@ -28,8 +28,8 @@ const MessageList = () => {
           }
         );
         const data = response.data;
-        setChattingRooms(data);
         // console.log('나와 연결된 채팅방', data);
+        setChattingRooms(data);
       } catch (e) {
         console.log(e);
       }

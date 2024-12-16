@@ -19,16 +19,6 @@ const getPartner = async (token: string, partnerProfileId: number) => {
       }
     );
     return response.data as PartnerType;
-    // const response = await axios.get(
-    //   `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/profiles/${partnerProfileId}`,
-    //   {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   }
-    // );
-    // return response.data as PartnerType;
   } catch (e) {
     console.log(e);
   }

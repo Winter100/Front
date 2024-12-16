@@ -12,16 +12,6 @@ const getChatParticipants = async (chatRoomId: number, token: string) => {
     }
   );
   return response.data;
-  // const response = await axios.get(
-  //   `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/chat-rooms/${chatRoomId}/participants`,
-  //   {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //       'Content-Type': 'application/json',
-  //     },
-  //   }
-  // );
-  // return response.data;
 };
 
 export const useChatParticipants = (chatRoomId: number) => {
