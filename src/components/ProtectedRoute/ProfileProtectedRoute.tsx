@@ -8,8 +8,21 @@ const ProfileProtectedRoute = () => {
   const { data, isLoading } = useUserProfile();
 
   if (isLoading) return null;
+  console.log(data);
+  if (!isLogin) {
+    return <Navigate to="/login" replace />;
+  }
+  if (data && !data.gender) {
+    return <Navigate to="/signup/setting/profile" replace />;
+  }
+  if (data && !data.profileImages) {
+    return <Navigate to="/signup/setting/profileImageUploader" replace />;
+  }
+  if (data && !data.location) {
+    return <Navigate to="/signup/setting/address" replace />;
+  }
 
-  return isLogin && data?.data ? <Outlet /> : <Navigate to="/login" replace />;
+  return <Outlet />;
 };
 
 export default ProfileProtectedRoute;

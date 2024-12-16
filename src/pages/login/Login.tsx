@@ -31,14 +31,14 @@ const Login = () => {
           nav('/signup/setting/profile');
           return; // 리디렉션 후 종료
         }
-        if (!result.hasProfileLocation) {
-          toast.success('생성중이던 프로필로 이동합니다.');
-          nav('/signup/setting/address');
-          return; // 리디렉션 후 종료
-        }
         if (!result.hasProfileImage) {
           toast.success('생성중이던 프로필로 이동합니다.');
           nav('/signup/setting/profileImageUploader');
+          return; // 리디렉션 후 종료
+        }
+        if (!result.hasProfileLocation) {
+          toast.success('생성중이던 프로필로 이동합니다.');
+          nav('/signup/setting/address');
           return; // 리디렉션 후 종료
         }
 
