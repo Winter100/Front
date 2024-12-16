@@ -42,7 +42,6 @@ export const useSession = create<State & Action>((set) => {
           email,
           password,
         });
-        // console.log(response);
         if (
           response.data.token.accessToken &&
           response.data.token.refreshToken

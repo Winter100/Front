@@ -4,11 +4,15 @@ import { useUserProfile } from '../../hooks/useUserProfile';
 
 const LoginProtectedRoute = () => {
   const { isLogin } = useSession();
-  const { data } = useUserProfile();
+  const { data, isLoading } = useUserProfile();
 
-  const hasProfileData = Boolean(data?.data);
-
-  if (!isLogin || !hasProfileData) {
+  if (isLoading) return null;
+  console.log(data);
+  if (!isLogin) {
+    return <Navigate to="/login" replace />;
+  }
+  const hasProfile = data.age && data.location && data.profileImage;
+  if (!isLogin || !hasProfile) {
     return <Outlet />;
   }
 
