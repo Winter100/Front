@@ -5,6 +5,7 @@ import styles from './MyModal.module.css';
 import UserImage from './common/UserImage';
 import instance from '../api/axios';
 import { useQueryClient } from '@tanstack/react-query';
+import { getAccessToken } from '../util/token';
 
 type MyProfile = {
   profileName: string | undefined;
@@ -41,7 +42,7 @@ const MyModal = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const token = sessionStorage.getItem('accessToken');
+    const token = getAccessToken();
 
     const profileName = profileNameRef.current?.value;
     const selfIntroduction = selfIntroductionRef.current?.value;

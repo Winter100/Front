@@ -1,9 +1,10 @@
 import { useState } from 'react';
+import axios from 'axios';
 import Modal from 'react-modal';
 import Button from './common/Button';
 import styles from './Exit.module.css';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { getAccessToken } from '../util/token';
 
 const overlay = {
   backgroundColor: ' rgba(0, 0, 0, 0.7)',
@@ -29,7 +30,7 @@ const Exit = ({ chatRoomId }: { chatRoomId: string }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const token = sessionStorage.getItem('accessToken');
+    const token = getAccessToken();
 
     if (!token) {
       console.error('Access token is missing!');

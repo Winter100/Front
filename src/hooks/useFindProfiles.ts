@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { User } from '../store/useFindUserStore';
 import instance from '../api/axios';
+import { getAccessToken } from '../util/token';
 
 export const getFindProfiles = async (token: string) => {
   try {
@@ -23,7 +24,7 @@ export const getFindProfiles = async (token: string) => {
 };
 
 export const useFindProfiles = () => {
-  const token = sessionStorage.getItem('accessToken') ?? '';
+  const token = getAccessToken();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['findProfiles', token],

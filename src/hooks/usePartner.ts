@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import instance from '../api/axios';
+import { getAccessToken } from '../util/token';
 
 type PartnerType = {
   age: number;
@@ -25,7 +26,7 @@ const getPartner = async (token: string, partnerProfileId: number) => {
 };
 
 export const usePartner = (chatRoomId: number, partnerProfileId: number) => {
-  const token = sessionStorage.getItem('accessToken') ?? '';
+  const token = getAccessToken();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['partner', chatRoomId],

@@ -3,6 +3,7 @@ import { useChattingStore } from '../../../../store/useChattingStore';
 import MessagePreview from './MessagePreview';
 import styles from './messageList.module.css';
 import axios from 'axios';
+import { getAccessToken } from '../../../../util/token';
 
 const images = [
   { src: 'url(/1.jpg)' },
@@ -13,7 +14,7 @@ const images = [
 const MessageList = () => {
   const chattingRooms = useChattingStore((state) => state.chattingRooms);
   const setChattingRooms = useChattingStore((state) => state.setChattingRooms);
-  const token = sessionStorage.getItem('accessToken') ?? '';
+  const token = getAccessToken();
 
   useEffect(() => {
     const handleGetChatRooms = async () => {

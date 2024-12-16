@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import instance from '../api/axios';
+import { getAccessToken } from '../util/token';
 
 export type MyProfile = {
   age: number;
@@ -31,7 +32,7 @@ const handleGetMyProfile = async (token: string) => {
 };
 
 export const useMyProfile = () => {
-  const token = sessionStorage.getItem('accessToken') ?? '';
+  const token = getAccessToken();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['myProfile'],

@@ -1,5 +1,6 @@
-import { AxiosRequestConfig } from 'axios';
 import instance from './axios';
+import { AxiosRequestConfig } from 'axios';
+import { getAccessToken } from '../util/token';
 
 const requests = {
   //user
@@ -30,7 +31,7 @@ export const getRequest = async (endPoint: string, token: boolean = false) => {
     };
 
     if (token) {
-      const accessToken = sessionStorage.getItem('accessToken');
+      const accessToken = getAccessToken();
       config.headers!['Authorization'] = `Bearer ${accessToken}`;
     }
     const response = await instance.get(endPoint, config);
@@ -50,7 +51,7 @@ export const postRequest = async <T>(
       headers: {},
     };
     if (token) {
-      const accessToken = sessionStorage.getItem('accessToken');
+      const accessToken = getAccessToken();
       config.headers!['Authorization'] = `Bearer ${accessToken}`;
     }
     const response = await instance.post(endPoint, data, config);

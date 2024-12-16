@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import requests, { postRequest } from '../api/request';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { getAccessToken, setToken } from '../util/token';
 
 type State = {
   isLogin: boolean;
@@ -27,7 +28,7 @@ type Action = {
 
 export const useSession = create<State & Action>((set) => {
   // sessionStorage에서 토큰 확인
-  const token = sessionStorage.getItem('accessToken');
+  const token = getAccessToken();
 
   return {
     isLogin: !!token,
@@ -41,21 +42,23 @@ export const useSession = create<State & Action>((set) => {
           email,
           password,
         });
-        console.log(response);
+        // console.log(response);
         if (
           response.data.token.accessToken &&
           response.data.token.refreshToken
         ) {
           // 로그인 시 토큰을 sessionStorage에 저장
 
-          sessionStorage.setItem(
-            'accessToken',
-            response.data.token.accessToken
-          );
-          sessionStorage.setItem(
-            'refreshToken',
-            response.data.token.refreshToken
-          );
+          setToken('accessToken', response.data.token.accessToken);
+          setToken('refreshToken', response.data.token.refreshToken);
+          // sessionStorage.setItem(
+          //   'accessToken',
+          //   response.data.token.accessToken
+          // );
+          // sessionStorage.setItem(
+          //   'refreshToken',
+          //   response.data.token.refreshToken
+          // );
           set({
             hasProfile: response.data.hasProfile,
             hasProfileLocation: response.data.hasProfileLocation,
