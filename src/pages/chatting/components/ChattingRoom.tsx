@@ -9,10 +9,8 @@ import { groupedMessages } from '../../../util/groupedMessages';
 import { MessagePreviewType } from '../../../types/message';
 
 import styles from './styles/chattingRoom.module.css';
-import Message from '../../../components/common/Message';
-import OtherProfile from './OtherProfile';
-import MessageItemContainer from './MessageItemContainer';
-import DeleteBtn from './DeleteBtn';
+import OtherMessage from './OtherMessage';
+import OwnMessage from './OwnMessage';
 
 const ChattingRoom = ({
   imageUrl = '/profile.png',
@@ -38,7 +36,6 @@ const ChattingRoom = ({
   const sortedMessages = chattingMessages.sort(
     (a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))
   );
-
   const { data, hasNextPage, fetchNextPage } = useInfiniteMessages(
     roomId ?? ''
   );
@@ -57,7 +54,7 @@ const ChattingRoom = ({
         const scrollTop = container.scrollTop;
         if (scrollTop < 150) {
           if (fetchNextPage && hasNextPage) {
-            container.scrollTop = scrollTop + 400;
+            // container.scrollTop = scrollTop + 400;
             fetchNextPage();
           }
         }
@@ -91,26 +88,19 @@ const ChattingRoom = ({
             >
               <>
                 {message.profileId !== Number(myId) ? (
-                  <MessageItemContainer>
-                    <OtherProfile
-                      isViewName={false}
-                      imageUrl={imageUrl}
-                      profileName={profileName}
-                    />
-                    <Message myId={myId} {...message} />
-                    <DeleteBtn isMe={false} />
-                  </MessageItemContainer>
+                  <OtherMessage
+                    imageUrl={imageUrl}
+                    profileName={profileName}
+                    myId={myId}
+                    message={message}
+                  />
                 ) : (
-                  <MessageItemContainer>
-                    <DeleteBtn
-                      handleDelete={() =>
-                        handleDelete(Number(roomId), message.id)
-                      }
-                      isMe={true}
-                      messageType={message.messageType}
-                    />
-                    <Message myId={myId} {...message} />
-                  </MessageItemContainer>
+                  <OwnMessage
+                    handleDelete={handleDelete}
+                    myId={myId}
+                    roomId={roomId ?? ''}
+                    message={message}
+                  />
                 )}
               </>
             </div>
