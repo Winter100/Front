@@ -68,7 +68,7 @@ const Address = () => {
         { latitude, longitude },
         true
       );
-      console.log(response);
+      // console.log(response);
       if (response.status === 200) {
         nav('/match');
       }

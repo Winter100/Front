@@ -40,7 +40,7 @@ const Edit: React.FC = () => {
   };
 
   const editButtonHandler = () => {
-    console.log(profile);
+    // console.log(profile);
     nav('/profile');
   };
   return (

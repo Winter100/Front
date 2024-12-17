@@ -6,7 +6,7 @@ export const useUserProfile = () => {
   const { isLogin } = useSession();
   const fn = async () => {
     const res = await getRequest(requests.fetchGetProfiles, true);
-    console.log(res);
+    // console.log(res);
     if (res.status === 200) {
       return res.data;
     }
