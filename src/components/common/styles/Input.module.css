@@ -1,0 +1,11 @@
+.input {
+  border: none;
+  outline: none;
+  background-color: inherit;
+  width: inherit;
+  height: 95%;
+
+  margin: 0 1rem;
+  padding: 5px;
+  color: white;
+}

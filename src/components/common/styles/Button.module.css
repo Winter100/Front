@@ -1,0 +1,23 @@
+.button {
+  width: inherit;
+  height: inherit;
+  border: none;
+  background-color: inherit;
+  color: inherit;
+  border-radius: inherit;
+
+  font-size: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  transition: transform 0.3s ease-in-out;
+}
+.button:hover {
+  /*호버 효과 추가 필요함*/
+
+  transform: scale(1.2);
+  cursor: pointer;
+}

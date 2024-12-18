@@ -1,0 +1,23 @@
+.signupLayout input {
+  border: 1px solid rgb(64, 64, 64);
+  border-radius: 5px;
+  background-color: black;
+  color: white;
+}
+.signupLayout input:-webkit-autofill {
+  -webkit-box-shadow:
+    0 0 0 1000px black inset,
+    0 0 0 1px rgb(64, 64, 64) !important;
+  -webkit-text-fill-color: white !important;
+}
+
+.signupLayout input:-webkit-autofill:focus {
+  -webkit-box-shadow:
+    0 0 0 1000px black inset,
+    0 0 0 1px rgb(64, 64, 64) !important;
+  -webkit-text-fill-color: white !important;
+}
+.header {
+  margin-bottom: 10px;
+  padding: 5px 10px;
+}

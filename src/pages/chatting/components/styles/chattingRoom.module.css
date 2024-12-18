@@ -1,0 +1,61 @@
+.container {
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  font-size: 0.8rem;
+  overflow-y: auto;
+  background-color: black;
+
+  flex: 1 1 0;
+
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.container::-webkit-scrollbar {
+  width: 8px; /* 스크롤바의 너비 */
+}
+
+.container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 트랙의 배경색 */
+  border-radius: 10px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: #888; /* 스크롤바의 색상 */
+  border-radius: 10px;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 호버 시 스크롤바 색상 */
+}
+
+.container > div {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.me {
+  align-self: flex-end;
+}
+.you {
+  align-self: flex-start;
+}
+
+.date {
+  display: flex;
+  font-size: 11px;
+  align-items: flex-end;
+}
+
+.messages_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.dateTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

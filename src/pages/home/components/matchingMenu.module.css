@@ -1,0 +1,31 @@
+a {
+  display: flex;
+}
+.active {
+  color: rgb(70, 143, 253);
+}
+
+.navLinkContainer {
+  position: relative;
+  /* display: inline-block; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.unreadBadge {
+  cursor: default;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: red;
+  border-radius: 50%;
+  color: white;
+
+  padding: 2px 4px;
+  font-size: 10px;
+  text-align: center;
+}

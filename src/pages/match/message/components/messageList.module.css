@@ -1,0 +1,32 @@
+.container {
+  flex: 1 1 0;
+  overflow-y: auto;
+
+  background-color: black;
+}
+
+.container::-webkit-scrollbar {
+  width: 8px; /* 스크롤바의 너비 */
+}
+
+.container::-webkit-scrollbar-track {
+  background: #f1f1f1; /* 트랙의 배경색 */
+  border-radius: 10px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: #888; /* 스크롤바의 색상 */
+  border-radius: 10px;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+  background: #555; /* 호버 시 스크롤바 색상 */
+}
+
+.alert {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 10rem;
+  text-align: center;
+}
