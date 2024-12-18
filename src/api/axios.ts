@@ -54,7 +54,6 @@ instance.interceptors.response.use(
     ) {
       sessionStorage.removeItem('accessToken');
       sessionStorage.removeItem('refreshToken');
-      sessionStorage.removeItem('id');
       location.reload();
     }
 

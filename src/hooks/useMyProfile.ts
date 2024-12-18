@@ -40,7 +40,5 @@ export const useMyProfile = () => {
     enabled: !!token,
   });
 
-  sessionStorage.setItem('id', data?.profileId.toString() ?? '');
-
   return { data, isLoading, isError };
 };

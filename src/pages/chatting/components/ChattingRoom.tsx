@@ -11,6 +11,7 @@ import { MessagePreviewType } from '../../../types/message';
 import styles from './styles/chattingRoom.module.css';
 import OtherMessage from './OtherMessage';
 import OwnMessage from './OwnMessage';
+import { useMyProfile } from '../../../hooks/useMyProfile';
 
 const ChattingRoom = ({
   imageUrl = '/profile.png',
@@ -19,7 +20,9 @@ const ChattingRoom = ({
   imageUrl: string | undefined;
   profileName: string | undefined;
 }) => {
-  const myId = sessionStorage.getItem('id') ?? '1';
+  const { data: myProfile } = useMyProfile();
+  const myId = String(myProfile?.profileId) ?? '';
+
   const chattingMessages = useChattingStore((state) => state.chattingMessages);
   const addFirstMessages = useChattingStore((state) => state.addFirstMessages);
   const deleteChattingMessages = useChattingStore(

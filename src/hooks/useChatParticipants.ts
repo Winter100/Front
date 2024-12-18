@@ -15,9 +15,8 @@ const getChatParticipants = async (chatRoomId: number, token: string) => {
   return response.data;
 };
 
-export const useChatParticipants = (chatRoomId: number) => {
+export const useChatParticipants = (chatRoomId: number, myId: string) => {
   const token = getAccessToken();
-  const myId = sessionStorage.getItem('id') ?? '';
 
   return useQuery({
     queryKey: ['chatParticipants', chatRoomId],
