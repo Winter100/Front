@@ -32,7 +32,7 @@ const ProfileImageUploader: React.FC = () => {
         );
         setLoading(false);
         if (response.status === 200) {
-          navigate('/address');
+          navigate('/signup/setting/address');
         }
       } catch (error) {
         setLoading(false);

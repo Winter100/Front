@@ -6,16 +6,16 @@ const ProfileProtectedRoute = () => {
   // 로그인 유무 체크
   const { isLogin } = useSession();
   const { data, isLoading } = useUserProfile();
-
+  const token = sessionStorage.getItem('accessToken');
   if (isLoading) return null;
-  // console.log(data);
-  if (!isLogin) {
+  console.log(data);
+  if (!isLogin && !token) {
     return <Navigate to="/login" replace />;
   }
   if (data && !data.gender) {
     return <Navigate to="/signup/setting/profile" replace />;
   }
-  if (data && !data.profileImages) {
+  if (data && data.profileImages <= 0) {
     return <Navigate to="/signup/setting/profileImageUploader" replace />;
   }
   if (data && !data.location) {
