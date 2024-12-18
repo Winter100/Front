@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import instance from '../api/axios';
+import { getAccessToken } from '../util/token';
 
 export type MyProfile = {
   age: number;
@@ -25,33 +26,19 @@ const handleGetMyProfile = async (token: string) => {
     const data: MyProfile = response.data;
 
     return data;
-    // const response = await axios.get(
-    //   `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/profiles/getProfile`,
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   }
-    // );
-
-    // const data: MyProfile = response.data;
-
-    // return data;
   } catch (e) {
     console.log(e);
   }
 };
 
 export const useMyProfile = () => {
-  const token = sessionStorage.getItem('accessToken') ?? '';
+  const token = getAccessToken();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['myProfile'],
     queryFn: () => handleGetMyProfile(token),
     enabled: !!token,
   });
-
-  sessionStorage.setItem('id', data?.profileId.toString() ?? '');
 
   return { data, isLoading, isError };
 };

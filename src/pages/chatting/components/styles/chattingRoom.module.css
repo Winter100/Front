@@ -1,5 +1,5 @@
 .container {
-  padding: 0 2rem;
+  padding: 0 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -47,4 +47,15 @@
   display: flex;
   font-size: 11px;
   align-items: flex-end;
+}
+
+.messages_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.dateTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

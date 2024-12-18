@@ -8,7 +8,7 @@ const ProfileProtectedRoute = () => {
   const { data, isLoading } = useUserProfile();
 
   if (isLoading) return null;
-  console.log(data);
+  // console.log(data);
   if (!isLogin) {
     return <Navigate to="/login" replace />;
   }

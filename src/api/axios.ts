@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getRefreshToken, setToken } from '../util/token';
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_PROJECT_SERVER_URL as string,
@@ -25,14 +26,15 @@ instance.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = sessionStorage.getItem('refreshToken');
+        const refreshToken = getRefreshToken();
         const response = await instance.post('/api/v1/auth/refresh', {
           refreshToken,
         });
 
         const newAccessToken = response.data.accessToken;
 
-        sessionStorage.setItem('accessToken', newAccessToken);
+        // sessionStorage.setItem('accessToken', newAccessToken);
+        setToken('accessToken', newAccessToken);
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         // 실패했던 요청 재시도
         return instance(originalRequest);
@@ -44,12 +46,17 @@ instance.interceptors.response.use(
         return Promise.reject(refreshError);
       }
     }
-    // else {
-    //   sessionStorage.removeItem('accessToken');
-    //   sessionStorage.removeItem('refreshToken');
-    //   sessionStorage.removeItem('id');
-    //   location.reload();
-    // }
+
+    if (
+      error.response.status === 401 &&
+      error.response.data.message ===
+        '리프레시 토큰이 만료되었습니다. 다시 로그인해주세요.'
+    ) {
+      sessionStorage.removeItem('accessToken');
+      sessionStorage.removeItem('refreshToken');
+      location.reload();
+    }
+
     return Promise.reject(error);
   }
 );

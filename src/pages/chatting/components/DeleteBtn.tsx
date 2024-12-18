@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import { convertToKrTime } from '../../../util/convertToKrTime';
-import styles from './chatDate.module.css';
-const ChatDate = ({
-  createdAt,
+import styles from './styles/deleteBtn.module.css';
+
+const DeleteBtn = ({
   isMe,
   handleDelete,
   messageType = 'DELETE',
 }: {
-  createdAt: string;
   isMe: boolean;
   id?: string;
   handleDelete?: () => void;
@@ -32,11 +30,9 @@ const ChatDate = ({
         <button className={styles.closeBtn} onClick={handleDelete}>
           X
         </button>
-      ) : (
-        <p>{convertToKrTime(createdAt)}</p>
-      )}
+      ) : null}
     </div>
   );
 };
 
-export default ChatDate;
+export default DeleteBtn;

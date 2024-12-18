@@ -5,10 +5,11 @@ import MainSection from './MainSection';
 import FooterMenu from '../../pages/chatting/FooterMenu';
 import useChatRooms from '../../hooks/useChatRooms';
 import Spinner from '../common/Spinner';
+import { getAccessToken } from '../../util/token';
 
 const ChattingLayout = () => {
   const { id: chatRoomId } = useParams();
-  const token = sessionStorage.getItem('accessToken') ?? '';
+  const token = getAccessToken();
   const { isConnected } = useChatRooms(token, [chatRoomId ?? '']);
 
   return (

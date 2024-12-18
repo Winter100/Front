@@ -1,6 +1,6 @@
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import styles from './carousel.module.css';
+import styles from './styles/carousel.module.css';
 
 const Carousel = ({ image }: { image: string }) => {
   return (

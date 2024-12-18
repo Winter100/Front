@@ -1,12 +1,16 @@
 import { useChatParticipants } from './useChatParticipants';
+import { useMyProfile } from './useMyProfile';
 import { usePartner } from './usePartner';
 
 export const usePartnerWithParticipants = (chatRoomId: number) => {
+  const { data: myProfile } = useMyProfile();
+  const myId = myProfile?.profileId ?? '';
+
   const {
     data: partnerId,
     isLoading: isParticipantsLoading,
     isError: isParticipantsError,
-  } = useChatParticipants(chatRoomId);
+  } = useChatParticipants(chatRoomId, String(myId));
 
   const {
     data: partnerData,

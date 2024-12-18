@@ -1,17 +1,17 @@
-import Message from '../../../components/common/Message';
-import { useScroll } from '../../../hooks/useScroll';
-import styles from './chattingRoom.module.css';
-import { useChattingStore } from '../../../store/useChattingStore';
-import ChatDate from './ChatDate';
-import MessageItemContainer from './MessageItemContainer';
-import { deleteMessage } from '../../../util/websocketService';
-import { useParams } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
-
-import OtherProfile from './OtherProfile';
-import { useInfiniteMessages } from '../../../hooks/useInfiniteMessages';
 import { throttle } from 'lodash';
+import { useParams } from 'react-router-dom';
+import { useScroll } from '../../../hooks/useScroll';
+import { useInfiniteMessages } from '../../../hooks/useInfiniteMessages';
+import { useChattingStore } from '../../../store/useChattingStore';
+import { deleteMessage } from '../../../util/websocketService';
+import { groupedMessages } from '../../../util/groupedMessages';
 import { MessagePreviewType } from '../../../types/message';
+
+import styles from './styles/chattingRoom.module.css';
+import OtherMessage from './OtherMessage';
+import OwnMessage from './OwnMessage';
+import { useMyProfile } from '../../../hooks/useMyProfile';
 
 const ChattingRoom = ({
   imageUrl = '/profile.png',
@@ -20,7 +20,9 @@ const ChattingRoom = ({
   imageUrl: string | undefined;
   profileName: string | undefined;
 }) => {
-  const myId = sessionStorage.getItem('id') ?? '';
+  const { data: myProfile } = useMyProfile();
+  const myId = String(myProfile?.profileId) ?? '';
+
   const chattingMessages = useChattingStore((state) => state.chattingMessages);
   const addFirstMessages = useChattingStore((state) => state.addFirstMessages);
   const deleteChattingMessages = useChattingStore(
@@ -37,7 +39,6 @@ const ChattingRoom = ({
   const sortedMessages = chattingMessages.sort(
     (a, b) => Number(new Date(a.createdAt)) - Number(new Date(b.createdAt))
   );
-
   const { data, hasNextPage, fetchNextPage } = useInfiniteMessages(
     roomId ?? ''
   );
@@ -56,7 +57,7 @@ const ChattingRoom = ({
         const scrollTop = container.scrollTop;
         if (scrollTop < 150) {
           if (fetchNextPage && hasNextPage) {
-            container.scrollTop = scrollTop + 400;
+            // container.scrollTop = scrollTop + 400;
             fetchNextPage();
           }
         }
@@ -74,38 +75,39 @@ const ChattingRoom = ({
     };
   }, [fetchNextPage, hasNextPage]);
 
+  const result = Object.values(groupedMessages(sortedMessages));
+
   return (
     <div className={styles.container} ref={containerRef}>
-      {sortedMessages.map((message) => (
-        <div
-          key={message.id}
-          className={
-            message.profileId === Number(myId) ? styles.me : styles.you
-          }
-        >
-          <>
-            {message.profileId !== Number(myId) ? (
-              <MessageItemContainer>
-                <OtherProfile
-                  isViewName={false}
-                  imageUrl={imageUrl}
-                  profileName={profileName}
-                />
-                <Message myId={myId} {...message} />
-                <ChatDate createdAt={message.createdAt} isMe={false} />
-              </MessageItemContainer>
-            ) : (
-              <MessageItemContainer>
-                <ChatDate
-                  createdAt={message.createdAt}
-                  handleDelete={() => handleDelete(Number(roomId), message.id)}
-                  isMe={true}
-                  messageType={message.messageType}
-                />
-                <Message myId={myId} {...message} />
-              </MessageItemContainer>
-            )}
-          </>
+      {result.map((items) => (
+        <div key={items.date} className={styles.messages_container}>
+          <p className={styles.dateTitle}>{items.date}</p>
+          {items.messages.map((message) => (
+            <div
+              key={message.id}
+              className={
+                message.profileId === Number(myId) ? styles.me : styles.you
+              }
+            >
+              <>
+                {message.profileId !== Number(myId) ? (
+                  <OtherMessage
+                    imageUrl={imageUrl}
+                    profileName={profileName}
+                    myId={myId}
+                    message={message}
+                  />
+                ) : (
+                  <OwnMessage
+                    handleDelete={handleDelete}
+                    myId={myId}
+                    roomId={roomId ?? ''}
+                    message={message}
+                  />
+                )}
+              </>
+            </div>
+          ))}
         </div>
       ))}
       <div ref={scrollRef} />

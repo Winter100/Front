@@ -1,4 +1,4 @@
-import styles from './matchingProfile.module.css';
+import styles from './styles/matching.module.css';
 
 import Carousel from './components/Carousel';
 import AbsoluteBox from '../../components/common/AbsoluteBox';
@@ -8,9 +8,10 @@ import useFindUserStore from '../../store/useFindUserStore';
 import Spinner from '../../components/common/Spinner';
 import { useEffect, useState } from 'react';
 import { handleGetFindProfiles } from '../../util/swipe';
+import { getAccessToken } from '../../util/token';
 
-const MatchingProfile = () => {
-  const token = sessionStorage.getItem('accessToken') ?? '';
+const Matching = () => {
+  const token = getAccessToken();
   const userData = useFindUserStore((state) => state.userData);
   const selectedUser = useFindUserStore((state) => state.selectedUser);
   const setUserData = useFindUserStore((state) => state.setUserData);
@@ -67,4 +68,4 @@ const MatchingProfile = () => {
   );
 };
 
-export default MatchingProfile;
+export default Matching;

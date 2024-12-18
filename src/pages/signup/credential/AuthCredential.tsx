@@ -74,7 +74,7 @@ const AuthCredential = () => {
       const response = await postRequest(requests.fetchEmailCertification, {
         email,
       });
-      console.log(response.status);
+      // console.log(response.status);
       if (response.status === 200) {
         toast.success(response.data.message);
         setIsVerificationCodeReceived(!isVerificationCodeReceived);

@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { MessagePreviewType } from '../types/message';
 import instance from '../api/axios';
+import { getAccessToken } from '../util/token';
 
 export const getAllMessages = async (
   token: string,
@@ -25,23 +26,21 @@ export const getAllMessages = async (
     const data: MessagePreviewType = response.data ?? [];
     return data;
   } catch (error) {
-    console.log('123', error);
+    console.log(error);
   }
 };
 
-// 페이지와 사이즈 받기
 export const useAllMessages = (
   chatRoomId: string,
   page: number,
-  size: number
+  size: number,
+  isAccessible: boolean = false
 ) => {
-  const token = sessionStorage.getItem('accessToken') ?? '';
+  const token = getAccessToken();
   const { data, isLoading, isError } = useQuery({
     queryKey: ['getAllMessages', chatRoomId],
     queryFn: () => getAllMessages(token, chatRoomId, page, size),
-    enabled: !!token,
-    gcTime: 0,
-    staleTime: 0,
+    enabled: !!token && isAccessible,
   });
   return { data, isLoading, isError };
 };

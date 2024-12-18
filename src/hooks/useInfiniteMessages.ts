@@ -1,6 +1,7 @@
 import instance from '../api/axios';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { MessagePreviewType } from '../types/message';
+import { getAccessToken } from '../util/token';
 
 const fetchMessages = async ({
   pageParam,
@@ -9,7 +10,7 @@ const fetchMessages = async ({
   pageParam: number;
   chatRoomId: string;
 }) => {
-  const token = sessionStorage.getItem('accessToken') ?? '';
+  const token = getAccessToken();
   try {
     const response = await instance.get(
       `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/chat-messages/chat-rooms/${chatRoomId}`,

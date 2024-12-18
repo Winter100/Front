@@ -139,8 +139,6 @@ export const sendFile = (
         fileType: file.type,
       };
 
-      // console.log('Sending file message:', message);
-
       stompClient?.publish({
         destination: '/pub/chat.message',
         body: JSON.stringify(message),

@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import instance from '../api/axios';
+import { getAccessToken } from '../util/token';
 
 type PartnerType = {
   age: number;
@@ -19,23 +20,13 @@ const getPartner = async (token: string, partnerProfileId: number) => {
       }
     );
     return response.data as PartnerType;
-    // const response = await axios.get(
-    //   `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/profiles/${partnerProfileId}`,
-    //   {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   }
-    // );
-    // return response.data as PartnerType;
   } catch (e) {
     console.log(e);
   }
 };
 
 export const usePartner = (chatRoomId: number, partnerProfileId: number) => {
-  const token = sessionStorage.getItem('accessToken') ?? '';
+  const token = getAccessToken();
 
   const { data, isLoading, isError } = useQuery({
     queryKey: ['partner', chatRoomId],

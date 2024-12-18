@@ -51,7 +51,8 @@
     "msw": "^2.3.5",
     "prettier": "^3.3.3",
     "typescript": "^5.2.2",
-    "vite": "^5.3.4"
+    "vite": "^5.3.4",
+    "vite-plugin-mkcert": "^1.17.6"
   },
   "msw": {
     "workerDirectory": [

@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import instance from '../api/axios';
+import { getAccessToken } from '../util/token';
 
 const getChatParticipants = async (chatRoomId: number, token: string) => {
   const response = await instance.get(
@@ -12,21 +13,10 @@ const getChatParticipants = async (chatRoomId: number, token: string) => {
     }
   );
   return response.data;
-  // const response = await axios.get(
-  //   `${import.meta.env.VITE_PROJECT_SERVER_URL}/api/v1/chat-rooms/${chatRoomId}/participants`,
-  //   {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //       'Content-Type': 'application/json',
-  //     },
-  //   }
-  // );
-  // return response.data;
 };
 
-export const useChatParticipants = (chatRoomId: number) => {
-  const token = sessionStorage.getItem('accessToken') ?? '';
-  const myId = sessionStorage.getItem('id') ?? '';
+export const useChatParticipants = (chatRoomId: number, myId: string) => {
+  const token = getAccessToken();
 
   return useQuery({
     queryKey: ['chatParticipants', chatRoomId],
