@@ -1,11 +1,10 @@
 import styles from './my.module.css';
 import Wrapper from '../../../components/common/Wrapper';
 import RoundWrapper from '../../../components/common/RoundWrapper';
-import AbsoluteBox from '../../../components/common/AbsoluteBox';
-import UserImage from '../../../components/common/UserImage';
-import MyModal from '../../../components/MyModal';
 import { useMyProfile } from '../../../hooks/useMyProfile';
 import Spinner from '../../../components/common/Spinner';
+import Setting from './Setting';
+import EditUserImage from './EditUserImage';
 
 const My = () => {
   const { data, isLoading, isError } = useMyProfile();
@@ -30,6 +29,7 @@ const My = () => {
       </div>
     );
   }
+
   return (
     <>
       <div className={styles.container}>
@@ -43,46 +43,32 @@ const My = () => {
                 border: 'none',
               }}
             >
-              <UserImage
-                src={data?.profileImages[0] ?? '/profile.png'}
-                size="XL"
+              <EditUserImage
+                src={data?.profileImages[0]}
+                size={'XL'}
+                name={data?.profileName}
               />
             </RoundWrapper>
-            <AbsoluteBox
-              style={{
-                bottom: -3,
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: '8rem',
-                height: '2rem',
-                border: 'none',
-                borderRadius: '50px',
-              }}
-            >
-              <RoundWrapper
-                style={{
-                  width: 'inherit',
-                  height: 'inherit',
-                  borderRadius: 'inherit',
-                  color: 'white',
-                  border: 'none',
-                  backgroundColor: '#202123',
-                }}
-              >
-                <MyModal
-                  profileName={data?.profileName}
-                  selfIntroduction={data?.selfIntroduction}
-                  profileImages={data?.profileImages[0]}
-                />
-              </RoundWrapper>
-            </AbsoluteBox>
+
+            <Wrapper fontSize="2rem" flexDirection="row">
+              <p>{data?.profileName ?? ''}</p>
+              <p>{data?.age ?? ''}</p>
+            </Wrapper>
+
+            <Wrapper fontSize="1rem">
+              <p>{data?.selfIntroduction}</p>
+            </Wrapper>
           </Wrapper>
 
-          <Wrapper fontSize="2rem" flexDirection="row">
-            <p>{data?.profileName ?? ''}</p>
-            <p>{data?.age ?? ''}</p>
+          <Wrapper style={{ paddingTop: '3rem' }}>
+            <Setting
+              profileName={data?.profileName ?? ' '}
+              selfIntroduction={data?.selfIntroduction ?? ''}
+              profileImages={data?.profileImages ?? []}
+            />
           </Wrapper>
         </div>
+
         <div className={styles.bottom_container}>
           <button onClick={handleLogout} className={styles.btn}>
             로그아웃
