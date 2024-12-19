@@ -46,8 +46,14 @@ const EditUserImage = ({
 
   const handleChangeImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (!file) return;
 
+    if (!file) return;
+    const maxSize = 10 * 1024 * 1024;
+
+    if (file.size > maxSize) {
+      alert('크기가 10MB를 초과합니다. 다른 이미지를 선택해주세요');
+      return;
+    }
     const reader = new FileReader();
     reader.onload = (event) => {
       const result = event.target?.result;
