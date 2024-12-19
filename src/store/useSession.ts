@@ -6,7 +6,6 @@ import { getAccessToken, setToken } from '../util/token';
 
 type State = {
   isLogin: boolean;
-
   hasProfile: boolean;
   hasProfileLocation: boolean;
   hasProfileImage: boolean;

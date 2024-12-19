@@ -11,7 +11,6 @@ import ChattingLayout from './components/layout/ChattingLayout';
 import Chatting from './pages/chatting/Chatting';
 import Login from './pages/login/Login';
 import SignupLayout from './components/layout/SignupLayout';
-import Signup from './pages/signup/Signup';
 import AuthCredential from './pages/signup/credential/AuthCredential';
 import Profile from './pages/signup/setting/profile/Profile';
 import ProfileImageUploader from './pages/signup/setting/profileImageUploader/ProfileImageUploader';
@@ -78,7 +77,6 @@ const router = createBrowserRouter([
         path: 'signup',
         element: <SignupLayout />,
         children: [
-          { index: true, element: <Signup /> },
           { path: 'credential', element: <AuthCredential /> },
           {
             path: 'setting',

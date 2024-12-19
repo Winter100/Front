@@ -1,12 +1,16 @@
 .container {
-  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
 }
 
 .image_container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 10rem;
+  flex-direction: column;
 }
 
 .form {
@@ -15,10 +19,7 @@
 
   justify-content: center;
   align-items: center;
-  width: 250px;
-  height: 200px;
-  margin: auto;
-
+  width: 350px;
   gap: 1rem;
 }
 

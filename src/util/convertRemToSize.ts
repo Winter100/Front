@@ -10,7 +10,7 @@ export const convertRemToSize = (size: 'S' | 'M' | 'L' | 'XL' | 'MODAL') => {
       return '3.5rem';
     }
     case 'MODAL': {
-      return '7rem';
+      return '10rem';
     }
     case 'XL': {
       return '13rem';

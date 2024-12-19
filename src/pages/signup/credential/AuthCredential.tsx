@@ -6,6 +6,7 @@ import styles from './authCredential.module.css';
 import MainButton from '../../../components/ui/MainButton';
 import { useState } from 'react';
 import requests, { postRequest } from '../../../api/request';
+import Spinner from '../../../components/common/Spinner';
 
 type Inputs = {
   email: string;
@@ -17,6 +18,7 @@ type Inputs = {
 const AuthCredential = () => {
   const [isVerificationCodeReceived, setIsVerificationCodeReceived] =
     useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const nav = useNavigate();
 
   const { register, handleSubmit, watch } = useForm<Inputs>({
@@ -63,6 +65,8 @@ const AuthCredential = () => {
 
   //인증번호 요청 함수
   const getVerificationBtnHanddler = async () => {
+    setIsLoading(true);
+
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
 
     try {
@@ -70,11 +74,10 @@ const AuthCredential = () => {
         toast.error('이메일 형식이 올바르지 않습니다.');
         return null;
       }
-
       const response = await postRequest(requests.fetchEmailCertification, {
         email,
       });
-      // console.log(response.status);
+      console.log(response.status);
       if (response.status === 200) {
         toast.success(response.data.message);
         setIsVerificationCodeReceived(!isVerificationCodeReceived);
@@ -83,6 +86,8 @@ const AuthCredential = () => {
       }
     } catch (error) {
       console.error('error', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -119,8 +124,14 @@ const AuthCredential = () => {
                   type="button"
                   onClick={getVerificationBtnHanddler}
                   disabled={isVerificationCodeReceived}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: '5px',
+                  }}
                 >
-                  인증번호 받기
+                  {isLoading ? <Spinner size={25} /> : '인증번호 받기'}
                 </button>
               </div>
             </div>
