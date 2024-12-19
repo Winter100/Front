@@ -2,10 +2,9 @@ import styles from './topPreivew.module.css';
 
 const TopPreview = () => {
   const images = [
-    { src: 'url(/1.jpg)' },
-    { src: 'url(/2.jpg)' },
-    { src: 'url(/3.jpg)' },
-    { src: 'url(/dolphin.png)' },
+    { src: 'url(/ad1.png)' },
+    { src: 'url(/ad2.png)' },
+    { src: 'url(/ad3.png)' },
   ];
 
   return (
@@ -20,6 +19,7 @@ const TopPreview = () => {
           }}
         />
       ))}
+      <p className={styles.ad}>Ad</p>
     </div>
   );
 };

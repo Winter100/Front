@@ -65,7 +65,7 @@ const Login = () => {
     }
   };
   const signupHandler = () => {
-    nav('/signup');
+    nav('/signup/credential');
   };
   const kakaoLoginHandler = () => {
     window.location.href = `${requestURL}/api/v1/auth`;

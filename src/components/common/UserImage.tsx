@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { convertRemToSize } from '../../util/convertRemToSize';
 import styles from './styles/UserImage.module.css';
 import Modal from 'react-modal';
+import Button from './Button';
 
 interface UserImageProps {
   src?: string;
@@ -45,32 +46,34 @@ const UserImage = ({
           height: sizeValue,
         }}
       >
-        <button
-          onClick={() => setOpenModal((prev) => !prev)}
+        <Button
+          onClick={() => setOpenModal(true)}
           className={styles.imageButton}
         >
           <img src={src} alt="User Avatar" className={styles.image} />
-        </button>
+        </Button>
       </div>
-      <Modal
-        ariaHideApp={false}
-        isOpen={openModal}
-        onRequestClose={() => setOpenModal(false)}
-        style={{ overlay: overlayStyle, content: contentStyle }}
-        contentLabel="User Image Modal"
-      >
-        <div className={styles.modalContent}>
-          {name && <h2>{name}</h2>}
-          <img src={src} alt="User Avatar" className={styles.modalImage} />
+      {openModal && (
+        <Modal
+          ariaHideApp={false}
+          isOpen={openModal}
+          onRequestClose={() => setOpenModal(false)}
+          style={{ overlay: overlayStyle, content: contentStyle }}
+          contentLabel="User Image Modal"
+        >
+          <div className={styles.modalContent}>
+            {name && <h2>{name}</h2>}
+            <img src={src} alt="User Avatar" className={styles.modalImage} />
 
-          <div
-            onClick={() => setOpenModal(false)}
-            className={styles.btn_container}
-          >
-            <button className={styles.btn}>닫기</button>
+            <div
+              onClick={() => setOpenModal(false)}
+              className={styles.btn_container}
+            >
+              <button className={styles.btn}>닫기</button>
+            </div>
           </div>
-        </div>
-      </Modal>
+        </Modal>
+      )}
     </>
   );
 };
