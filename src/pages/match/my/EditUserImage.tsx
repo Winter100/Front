@@ -48,10 +48,10 @@ const EditUserImage = ({
     const file = e.target.files?.[0];
 
     if (!file) return;
-    const maxSize = 10 * 1024 * 1024;
+    const maxSize = 5 * 1024 * 1024;
 
     if (file.size > maxSize) {
-      alert('크기가 10MB를 초과합니다. 다른 이미지를 선택해주세요');
+      alert('크기가 5MB를 초과합니다. 다른 이미지를 선택해주세요');
       return;
     }
     const reader = new FileReader();
