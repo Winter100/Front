@@ -3,15 +3,19 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './callback.module.css';
 import requests, { postRequest } from '../../api/request';
 import { toast } from 'react-toastify';
+import { useSession } from '../../store/useSession';
 
 const Callback = () => {
   const nav = useNavigate();
   const location = useLocation();
-
+  const { kakaoLogin } = useSession();
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const code = queryParams.get('code');
 
+    if (!code) {
+      nav(-1);
+    }
     const fetchData = async (code: string) => {
       try {
         const response = await postRequest(requests.fetchKaKaoSignIn, {
@@ -22,36 +26,26 @@ const Callback = () => {
           nav('/login');
         }
 
+        if (response.status === 429) {
+          toast.error(
+            '너무 많은 요청을 보냈습니다. 잠시 후 다시 시도해주세요.'
+          );
+          nav('/login');
+        }
         if (response.status === 200) {
           const { accessToken, refreshToken } = response.data.token;
 
           if (accessToken && refreshToken) {
-            //토큰 저장
-            const tokens = { accessToken, refreshToken };
-            Object.entries(tokens).forEach(([key, value]) => {
-              sessionStorage.setItem(key, value);
-            });
+            const res = await kakaoLogin(accessToken, refreshToken);
 
-            //프로필 완성 여부 확인
-            const redirectMap = {
-              hasProfile: '/signup/setting/profile',
-              hasProfileLocation: '/signup/setting/address',
-              hasProfileImage: '/signup/setting/profileImageUploader',
-            };
-            const incompleteField = Object.entries(redirectMap).find(
-              ([key]) => !response.data[key]
-            );
-            if (incompleteField) {
-              toast.success('만들고 있던 프로필로 이동합니다');
-              nav(incompleteField[1]);
-            } else {
+            if (res.success) {
               toast.success('로그인 완료');
               nav('/match');
             }
-          } else {
-            toast.error('토큰 발급에 실패하였습니다. 다시 시도해주세요.');
-            nav('/login');
           }
+
+          toast.error('토큰 발급에 실패하였습니다. 다시 시도해주세요.');
+          nav('/login');
         }
       } catch (error) {
         console.error(error);

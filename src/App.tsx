@@ -94,14 +94,9 @@ const router = createBrowserRouter([
       },
 
       {
-        element: <LoginProtectedRoute />,
-        children: [
-          {
-            path: 'callback',
-            element: <CallbackLayout />,
-            children: [{ index: true, element: <Callback /> }],
-          },
-        ],
+        path: 'callback',
+        element: <CallbackLayout />,
+        children: [{ index: true, element: <Callback /> }],
       },
     ],
   },
