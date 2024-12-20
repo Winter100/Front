@@ -23,6 +23,10 @@ type Action = {
     hasProfileImage?: boolean;
   }>;
   logout: () => void;
+  kakaoLogin: (
+    accessToken: string,
+    refreshToken: string
+  ) => Promise<{ success: boolean }>;
 };
 
 export const useSession = create<State & Action>((set) => {
@@ -91,6 +95,17 @@ export const useSession = create<State & Action>((set) => {
       // 로그아웃 시 sessionStorage에서 토큰 제거
       sessionStorage.removeItem('accessToken');
       sessionStorage.removeItem('refreshToken');
+    },
+    kakaoLogin: async (accessToken, refreshToken) => {
+      if (accessToken && refreshToken) {
+        setToken('accessToken', accessToken);
+        setToken('refreshToken', refreshToken);
+        set({
+          isLogin: true,
+        });
+        return { success: true };
+      }
+      return { success: false };
     },
   };
 });
