@@ -41,10 +41,11 @@ const Callback = () => {
             if (res.success) {
               toast.success('로그인 완료');
               nav('/match');
+            } else {
+              toast.error('토큰 발급에 실패하였습니다. 다시 시도해주세요.');
             }
           }
 
-          toast.error('토큰 발급에 실패하였습니다. 다시 시도해주세요.');
           nav('/login');
         }
       } catch (error) {
